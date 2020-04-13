@@ -25,6 +25,7 @@
 		1A475AA92443DB23004A6ACD /* MPCFPeerDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA82443DB23004A6ACD /* MPCFPeerDisplay.swift */; };
 		1A475AAA2443DB23004A6ACD /* MPCFPeerDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA82443DB23004A6ACD /* MPCFPeerDisplay.swift */; };
 		1A475AAD2443DD9A004A6ACD /* PreviewBackground in Frameworks */ = {isa = PBXBuildFile; productRef = 1A475AAC2443DD9A004A6ACD /* PreviewBackground */; };
+		1A8504C72443E95B00EA5C60 /* OrderedDictionary in Frameworks */ = {isa = PBXBuildFile; productRef = 1A8504C62443E95B00EA5C60 /* OrderedDictionary */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A8504C72443E95B00EA5C60 /* OrderedDictionary in Frameworks */,
 				1A475AAD2443DD9A004A6ACD /* PreviewBackground in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,6 +208,7 @@
 			name = "MPCF-Reflector";
 			packageProductDependencies = (
 				1A475AAC2443DD9A004A6ACD /* PreviewBackground */,
+				1A8504C62443E95B00EA5C60 /* OrderedDictionary */,
 			);
 			productName = "MPCF-Reflector";
 			productReference = 1A475A5C2443B08A004A6ACD /* MPCF-Reflector.app */;
@@ -301,6 +304,7 @@
 			mainGroup = 1A475A532443B08A004A6ACD;
 			packageReferences = (
 				1A475AAB2443DD9A004A6ACD /* XCRemoteSwiftPackageReference "PreviewBackground" */,
+				1A8504C52443E95B00EA5C60 /* XCRemoteSwiftPackageReference "OrderedDictionary" */,
 			);
 			productRefGroup = 1A475A5D2443B08A004A6ACD /* Products */;
 			projectDirPath = "";
@@ -765,6 +769,14 @@
 				minimumVersion = 0.1.1;
 			};
 		};
+		1A8504C52443E95B00EA5C60 /* XCRemoteSwiftPackageReference "OrderedDictionary" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lukaskubanek/OrderedDictionary.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -772,6 +784,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1A475AAB2443DD9A004A6ACD /* XCRemoteSwiftPackageReference "PreviewBackground" */;
 			productName = PreviewBackground;
+		};
+		1A8504C62443E95B00EA5C60 /* OrderedDictionary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8504C52443E95B00EA5C60 /* XCRemoteSwiftPackageReference "OrderedDictionary" */;
+			productName = OrderedDictionary;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

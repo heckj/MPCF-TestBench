@@ -8,6 +8,7 @@
 
 import Foundation
 import MultipeerConnectivity
+import OrderedDictionary
 
 class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate, MCSessionDelegate {
 
@@ -18,7 +19,7 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
     var browser: MCNearbyServiceBrowser?
 
     @Published var encryptionPreferences = MCEncryptionPreference.required
-    @Published var knownPeerDictionary: [MCPeerID:Bool] = [:]
+    @Published var knownPeerDictionary: OrderedDictionary<MCPeerID, Bool> = OrderedDictionary<MCPeerID, Bool>()
     @Published var active = false {
         didSet {
             if (active) {
@@ -56,10 +57,12 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
     // MCNearbyServiceBrowserDelegate
 
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+        print("found peer \(peerID.displayName) - adding")
         knownPeerDictionary[peerID] = true
     }
 
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+        print("lost peer \(peerID.displayName) - marking disabled")
         knownPeerDictionary[peerID] = false
     }
 
