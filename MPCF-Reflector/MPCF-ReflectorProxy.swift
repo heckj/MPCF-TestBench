@@ -16,7 +16,7 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
     var peerID: MCPeerID
     var mcSession: MCSession?
     var advertiser: MCNearbyServiceAdvertiser?
-    var browser: MCNearbyServiceBrowser?
+    var browser: MCNearbyServiceBrowser
 
     @Published var encryptionPreferences = MCEncryptionPreference.required
     @Published var knownPeerDictionary: OrderedDictionary<MCPeerID, Bool> = OrderedDictionary<MCPeerID, Bool>()
@@ -34,9 +34,16 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
 
     init(_ peerID: MCPeerID) {
         self.peerID = peerID
+        self.browser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
         super.init()
+        self.browser.delegate = self
+        self.browser.startBrowsingForPeers()
     }
 
+    deinit {
+        self.browser.stopBrowsingForPeers()
+    }
+    
     func startHosting() {
         self.mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: encryptionPreferences)
         guard let session = self.mcSession else {
