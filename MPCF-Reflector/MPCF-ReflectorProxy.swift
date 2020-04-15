@@ -10,6 +10,15 @@ import Foundation
 import MultipeerConnectivity
 import OrderedDictionary
 
+struct MPCFReflectorPeerStatus: Comparable {
+    static func < (lhs: MPCFReflectorPeerStatus, rhs: MPCFReflectorPeerStatus) -> Bool {
+        lhs.peer.displayName < rhs.peer.displayName
+    }
+
+    let peer: MCPeerID
+    let connected: Bool
+}
+
 class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate, MCSessionDelegate {
 
     let serviceType = "mpcf-reflector"
@@ -18,8 +27,15 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
     var advertiser: MCNearbyServiceAdvertiser?
     var browser: MCNearbyServiceBrowser
 
+    private var internalPeerStatusDict: [MCPeerID:MPCFReflectorPeerStatus] = [:] {
+        didSet {
+            peerList = internalPeerStatusDict.values.sorted()
+        }
+    }
+    @Published var peerList: [MPCFReflectorPeerStatus] = []
+
     @Published var encryptionPreferences = MCEncryptionPreference.required
-    @Published var knownPeerDictionary: OrderedDictionary<MCPeerID, Bool> = OrderedDictionary<MCPeerID, Bool>()
+    //@Published var knownPeerDictionary: OrderedDictionary<MCPeerID, Bool> = OrderedDictionary<MCPeerID, Bool>()
     @Published var active = false {
         didSet {
             if (active) {
@@ -65,12 +81,12 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
 
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         print("found peer \(peerID.displayName) - adding")
-        knownPeerDictionary[peerID] = true
+        internalPeerStatusDict[peerID] = MPCFReflectorPeerStatus(peer: peerID, connected: true)
     }
 
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
         print("lost peer \(peerID.displayName) - marking disabled")
-        knownPeerDictionary[peerID] = false
+        internalPeerStatusDict[peerID] = MPCFReflectorPeerStatus(peer: peerID, connected: false)
     }
 
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {

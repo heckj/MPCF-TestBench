@@ -15,7 +15,10 @@ struct ContentView: View {
         VStack {
             Text("MPCF Reflector")
             Toggle(isOn: $reflector.active, label: { Text("Active") })
-            Text("Found peers: \(reflector.knownPeerDictionary.count)")
+            Text("Found peers: \(reflector.peerList.count)")
+            List(reflector.peerList, id: \.peer, rowContent: { ps in
+                MPCFPeerDisplay(peerstatus: ps)
+            })
         }
     }
 }
