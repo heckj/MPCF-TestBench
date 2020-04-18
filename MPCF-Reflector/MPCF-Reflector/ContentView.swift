@@ -16,6 +16,10 @@ struct ContentView: View {
             Text("MPCF Reflector")
             Toggle(isOn: $reflector.active, label: { Text("Active") })
             Text("Found peers: \(reflector.peerList.count)")
+            if ((reflector.currentAdvertSpan) != nil) {
+                Text("ADVERT SPAN")
+            }
+            Text("Span collection size: \(reflector.spans.count)")
             List(reflector.peerList, id: \.peer, rowContent: { ps in
                 MPCFPeerDisplay(peerstatus: ps)
             })
