@@ -50,7 +50,7 @@ struct ReflectorEnvelope: Codable {
         timestamp = Date()
     }
 
-    init(tracerID: String, size: PayloadSize) {  // _ carrier: CarrierTrack = .reliable
+    init(tracerID: String, size: PayloadSize) {
         self.tracerID = tracerID
         switch size {
         case .x1:

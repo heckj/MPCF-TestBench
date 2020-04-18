@@ -28,7 +28,6 @@
 		1A9C78F2244BA3E6003EBF9A /* PreviewBackground in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9C78F1244BA3E6003EBF9A /* PreviewBackground */; };
 		1A9C78F4244BA3E6003EBF9A /* OpenTelemetryModels in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9C78F3244BA3E6003EBF9A /* OpenTelemetryModels */; };
 		1A9C78F6244BA3F0003EBF9A /* PreviewBackground in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9C78F5244BA3F0003EBF9A /* PreviewBackground */; };
-		1A9C78F8244BA3F0003EBF9A /* OrderedDictionary in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9C78F7244BA3F0003EBF9A /* OrderedDictionary */; };
 		1A9C78FA244BA3F0003EBF9A /* OpenTelemetryModels in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9C78F9244BA3F0003EBF9A /* OpenTelemetryModels */; };
 		1A9C7902244BA5D5003EBF9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9C7901244BA5D5003EBF9A /* AppDelegate.swift */; };
 		1A9C7904244BA5D5003EBF9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9C7903244BA5D5003EBF9A /* SceneDelegate.swift */; };
@@ -41,7 +40,6 @@
 		1A9C7922244BA628003EBF9A /* ReflectorEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */; };
 		1A9C7923244BA62B003EBF9A /* MPCFPeerDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA82443DB23004A6ACD /* MPCFPeerDisplay.swift */; };
 		1A9C7925244BA654003EBF9A /* PreviewBackground in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9C7924244BA654003EBF9A /* PreviewBackground */; };
-		1A9C7927244BA654003EBF9A /* OrderedDictionary in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9C7926244BA654003EBF9A /* OrderedDictionary */; };
 		1A9C7929244BA654003EBF9A /* OpenTelemetryModels in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9C7928244BA654003EBF9A /* OpenTelemetryModels */; };
 		1A9C792A244BA68F003EBF9A /* ReflectorEnvelopeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5AA244A837100A8584E /* ReflectorEnvelopeTests.swift */; };
 /* End PBXBuildFile section */
@@ -139,7 +137,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A9C78F8244BA3F0003EBF9A /* OrderedDictionary in Frameworks */,
 				1A9C78F6244BA3F0003EBF9A /* PreviewBackground in Frameworks */,
 				1A9C78FA244BA3F0003EBF9A /* OpenTelemetryModels in Frameworks */,
 			);
@@ -156,7 +153,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A9C7927244BA654003EBF9A /* OrderedDictionary in Frameworks */,
 				1A9C7925244BA654003EBF9A /* PreviewBackground in Frameworks */,
 				1A9C7929244BA654003EBF9A /* OpenTelemetryModels in Frameworks */,
 			);
@@ -392,7 +388,6 @@
 			name = "MPCF-Reflector-mac";
 			packageProductDependencies = (
 				1A9C78F5244BA3F0003EBF9A /* PreviewBackground */,
-				1A9C78F7244BA3F0003EBF9A /* OrderedDictionary */,
 				1A9C78F9244BA3F0003EBF9A /* OpenTelemetryModels */,
 			);
 			productName = "MPCF-Reflector-mac";
@@ -424,6 +419,8 @@
 				1A9C78FB244BA5D5003EBF9A /* Sources */,
 				1A9C78FC244BA5D5003EBF9A /* Frameworks */,
 				1A9C78FD244BA5D5003EBF9A /* Resources */,
+				1A8C40BA244BACAE00B7B240 /* swift-format (apple) */,
+				1A8C40BB244BACC200B7B240 /* swift-format lint (apple) */,
 			);
 			buildRules = (
 			);
@@ -432,7 +429,6 @@
 			name = "MPCF-Reflector-ios";
 			packageProductDependencies = (
 				1A9C7924244BA654003EBF9A /* PreviewBackground */,
-				1A9C7926244BA654003EBF9A /* OrderedDictionary */,
 				1A9C7928244BA654003EBF9A /* OpenTelemetryModels */,
 			);
 			productName = "MPCF-Reflector-ios";
@@ -501,7 +497,6 @@
 			mainGroup = 1A475A532443B08A004A6ACD;
 			packageReferences = (
 				1A475AAB2443DD9A004A6ACD /* XCRemoteSwiftPackageReference "PreviewBackground" */,
-				1A8504C52443E95B00EA5C60 /* XCRemoteSwiftPackageReference "OrderedDictionary" */,
 				1A29D5A4244A81B300A8584E /* XCRemoteSwiftPackageReference "OpenTelemetryModels" */,
 			);
 			productRefGroup = 1A475A5D2443B08A004A6ACD /* Products */;
@@ -571,6 +566,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1A8C40BA244BACAE00B7B240 /* swift-format (apple) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "swift-format (apple)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n~/src/swift-format/.build/debug/swift-format --configuration ${PROJECT_DIR}/../.swift-format-config -i --recursive ${PROJECT_DIR}\n";
+		};
+		1A8C40BB244BACC200B7B240 /* swift-format lint (apple) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "swift-format lint (apple)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n~/src/swift-format/.build/debug/swift-format --configuration ${PROJECT_DIR}/../.swift-format-config --mode lint --recursive ${PROJECT_DIR} || true\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1A475A812443B7BA004A6ACD /* Sources */ = {
@@ -1144,14 +1178,6 @@
 				minimumVersion = 0.1.1;
 			};
 		};
-		1A8504C52443E95B00EA5C60 /* XCRemoteSwiftPackageReference "OrderedDictionary" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/lukaskubanek/OrderedDictionary.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.4.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1170,11 +1196,6 @@
 			package = 1A475AAB2443DD9A004A6ACD /* XCRemoteSwiftPackageReference "PreviewBackground" */;
 			productName = PreviewBackground;
 		};
-		1A9C78F7244BA3F0003EBF9A /* OrderedDictionary */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1A8504C52443E95B00EA5C60 /* XCRemoteSwiftPackageReference "OrderedDictionary" */;
-			productName = OrderedDictionary;
-		};
 		1A9C78F9244BA3F0003EBF9A /* OpenTelemetryModels */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A29D5A4244A81B300A8584E /* XCRemoteSwiftPackageReference "OpenTelemetryModels" */;
@@ -1184,11 +1205,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1A475AAB2443DD9A004A6ACD /* XCRemoteSwiftPackageReference "PreviewBackground" */;
 			productName = PreviewBackground;
-		};
-		1A9C7926244BA654003EBF9A /* OrderedDictionary */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1A8504C52443E95B00EA5C60 /* XCRemoteSwiftPackageReference "OrderedDictionary" */;
-			productName = OrderedDictionary;
 		};
 		1A9C7928244BA654003EBF9A /* OpenTelemetryModels */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -11,15 +11,6 @@
         }
       },
       {
-        "package": "OrderedDictionary",
-        "repositoryURL": "https://github.com/lukaskubanek/OrderedDictionary.git",
-        "state": {
-          "branch": null,
-          "revision": "acb62df76052bef95a918d26f12bf4996b8587ea",
-          "version": "2.4.0"
-        }
-      },
-      {
         "package": "PreviewBackground",
         "repositoryURL": "https://github.com/heckj/PreviewBackground",
         "state": {
