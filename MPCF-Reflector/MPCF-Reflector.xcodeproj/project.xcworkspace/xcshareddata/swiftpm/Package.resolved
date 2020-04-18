@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "OrderedDictionary",
+        "repositoryURL": "https://github.com/lukaskubanek/OrderedDictionary.git",
+        "state": {
+          "branch": null,
+          "revision": "acb62df76052bef95a918d26f12bf4996b8587ea",
+          "version": "2.4.0"
+        }
+      },
+      {
+        "package": "PreviewBackground",
+        "repositoryURL": "https://github.com/heckj/PreviewBackground",
+        "state": {
+          "branch": null,
+          "revision": "7cac594fc4ab8820f3455bcf47cc44263f051a00",
+          "version": "0.1.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
