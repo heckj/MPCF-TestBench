@@ -33,9 +33,8 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
         }
     }
     @Published var peerList: [MPCFReflectorPeerStatus] = []
-
     @Published var encryptionPreferences = MCEncryptionPreference.required
-    //@Published var knownPeerDictionary: OrderedDictionary<MCPeerID, Bool> = OrderedDictionary<MCPeerID, Bool>()
+
     @Published var active = false {
         didSet {
             if (active) {
@@ -124,6 +123,15 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
 
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         print("received data")
+        // I think I want to pop open the data, determine:
+        // reliable vs. unreliable transport
+        // get a sequence number or identifier of some kind to send back as well
+        do {
+            try session.send(data, toPeers: [peerID], with: .reliable)
+        } catch {
+            print("Unexpected error: \(error).")
+        }
+
     }
 
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -135,7 +143,16 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
     }
 
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+        // localURL is a temporarily file with the resource in it
         print("finished receiving resource: \(resourceName)")
+        if let tempResourceURL = localURL {
+            session.sendResource(at: tempResourceURL, withName: resourceName, toPeer: peerID) { (Error) -> Void in
+                if let error = Error {
+                    print("Unexpected error: \(error).")
+                }
+            }
+        }
+
     }
 
 }
