@@ -14,7 +14,7 @@ import MultipeerConnectivity
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     var window: NSWindow!
-    let peerID = MCPeerID(displayName: Host().name ?? "some mac")
+    let peerID = MCPeerID(displayName: Host.current().name ?? "some mac")
     var reflector: MPCFReflectorProxy?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
