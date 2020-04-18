@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A29D5A6244A81B300A8584E /* OpenTelemetryModels in Frameworks */ = {isa = PBXBuildFile; productRef = 1A29D5A5244A81B300A8584E /* OpenTelemetryModels */; };
+		1A29D5A8244A826B00A8584E /* ReflectorEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */; };
+		1A29D5A9244A826B00A8584E /* ReflectorEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */; };
+		1A29D5AB244A837100A8584E /* ReflectorEnvelopeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5AA244A837100A8584E /* ReflectorEnvelopeTests.swift */; };
+		1A29D5AC244A83DB00A8584E /* ReflectorEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */; };
+		1A29D5AD244A83DC00A8584E /* ReflectorEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */; };
+		1A29D5AE244A83DF00A8584E /* MPCF-ReflectorProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA52443B8C6004A6ACD /* MPCF-ReflectorProxy.swift */; };
+		1A29D5AF244A83E100A8584E /* MPCF-ReflectorProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA52443B8C6004A6ACD /* MPCF-ReflectorProxy.swift */; };
 		1A475A602443B08A004A6ACD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475A5F2443B08A004A6ACD /* AppDelegate.swift */; };
 		1A475A622443B08A004A6ACD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475A612443B08A004A6ACD /* SceneDelegate.swift */; };
 		1A475A642443B08A004A6ACD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475A632443B08A004A6ACD /* ContentView.swift */; };
@@ -46,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectorEnvelope.swift; sourceTree = "<group>"; };
+		1A29D5AA244A837100A8584E /* ReflectorEnvelopeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectorEnvelopeTests.swift; sourceTree = "<group>"; };
 		1A475A5C2443B08A004A6ACD /* MPCF-Reflector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MPCF-Reflector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A475A5F2443B08A004A6ACD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A475A612443B08A004A6ACD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +88,7 @@
 			files = (
 				1A8504C72443E95B00EA5C60 /* OrderedDictionary in Frameworks */,
 				1A475AAD2443DD9A004A6ACD /* PreviewBackground in Frameworks */,
+				1A29D5A6244A81B300A8584E /* OpenTelemetryModels in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				1A475AA52443B8C6004A6ACD /* MPCF-ReflectorProxy.swift */,
+				1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */,
 				1A475A5E2443B08A004A6ACD /* MPCF-Reflector */,
 				1A475A752443B08B004A6ACD /* MPCF-ReflectorTests */,
 				1A475A862443B7BB004A6ACD /* MPCF-Reflector-tvOS */,
@@ -155,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				1A475A762443B08B004A6ACD /* MPCF_ReflectorTests.swift */,
+				1A29D5AA244A837100A8584E /* ReflectorEnvelopeTests.swift */,
 				1A475A782443B08B004A6ACD /* Info.plist */,
 			);
 			path = "MPCF-ReflectorTests";
@@ -209,6 +222,7 @@
 			packageProductDependencies = (
 				1A475AAC2443DD9A004A6ACD /* PreviewBackground */,
 				1A8504C62443E95B00EA5C60 /* OrderedDictionary */,
+				1A29D5A5244A81B300A8584E /* OpenTelemetryModels */,
 			);
 			productName = "MPCF-Reflector";
 			productReference = 1A475A5C2443B08A004A6ACD /* MPCF-Reflector.app */;
@@ -305,6 +319,7 @@
 			packageReferences = (
 				1A475AAB2443DD9A004A6ACD /* XCRemoteSwiftPackageReference "PreviewBackground" */,
 				1A8504C52443E95B00EA5C60 /* XCRemoteSwiftPackageReference "OrderedDictionary" */,
+				1A29D5A4244A81B300A8584E /* XCRemoteSwiftPackageReference "OpenTelemetryModels" */,
 			);
 			productRefGroup = 1A475A5D2443B08A004A6ACD /* Products */;
 			projectDirPath = "";
@@ -365,6 +380,7 @@
 				1A475A642443B08A004A6ACD /* ContentView.swift in Sources */,
 				1A475AA62443B8C6004A6ACD /* MPCF-ReflectorProxy.swift in Sources */,
 				1A475AA92443DB23004A6ACD /* MPCFPeerDisplay.swift in Sources */,
+				1A29D5A8244A826B00A8584E /* ReflectorEnvelope.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,7 +388,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A29D5AB244A837100A8584E /* ReflectorEnvelopeTests.swift in Sources */,
+				1A29D5AC244A83DB00A8584E /* ReflectorEnvelope.swift in Sources */,
 				1A475A772443B08B004A6ACD /* MPCF_ReflectorTests.swift in Sources */,
+				1A29D5AE244A83DF00A8584E /* MPCF-ReflectorProxy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,6 +401,7 @@
 			files = (
 				1A475AAA2443DB23004A6ACD /* MPCFPeerDisplay.swift in Sources */,
 				1A475A8A2443B7BB004A6ACD /* ContentView.swift in Sources */,
+				1A29D5A9244A826B00A8584E /* ReflectorEnvelope.swift in Sources */,
 				1A475AA72443B8C6004A6ACD /* MPCF-ReflectorProxy.swift in Sources */,
 				1A475A882443B7BB004A6ACD /* AppDelegate.swift in Sources */,
 			);
@@ -391,6 +411,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A29D5AD244A83DC00A8584E /* ReflectorEnvelope.swift in Sources */,
+				1A29D5AF244A83E100A8584E /* MPCF-ReflectorProxy.swift in Sources */,
 				1A475A9D2443B7BB004A6ACD /* MPCF_Reflector_tvOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -761,6 +783,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1A29D5A4244A81B300A8584E /* XCRemoteSwiftPackageReference "OpenTelemetryModels" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/heckj/OpenTelemetryModels";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		1A475AAB2443DD9A004A6ACD /* XCRemoteSwiftPackageReference "PreviewBackground" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/heckj/PreviewBackground";
@@ -780,6 +810,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1A29D5A5244A81B300A8584E /* OpenTelemetryModels */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A29D5A4244A81B300A8584E /* XCRemoteSwiftPackageReference "OpenTelemetryModels" */;
+			productName = OpenTelemetryModels;
+		};
 		1A475AAC2443DD9A004A6ACD /* PreviewBackground */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A475AAB2443DD9A004A6ACD /* XCRemoteSwiftPackageReference "PreviewBackground" */;
