@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import MPCF_Reflector
+@testable import MPCF_Reflector_mac
 
 class ReflectorEnvelopeTests: XCTestCase {
 
