@@ -11,20 +11,27 @@ import XCTest
 
 class ReflectorEnvelopeTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    override func setUp() {
+        ReflectorEnvelope.resetSequence()
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func testEnvelopeInitializer() throws {
+        let first = ReflectorEnvelope(tracerID: "new", payload: Data());
+        let second = ReflectorEnvelope(tracerID: "new", payload: Data());
+
+        XCTAssertEqual(first.sequenceNumber, 0)
+        XCTAssertEqual(second.sequenceNumber, 1)
+
     }
 
     func testEnvelopeEncode() throws {
-        let envelope = ReflectorEnvelope(sequenceNumber: 1, tracerID: "x", timestamp: Date(), payload: Data())
+        let envelope = ReflectorEnvelope(tracerID: "x", size: .x1k)
 
         let jsonEncoded = try JSONEncoder().encode(envelope)
         let plistEncoded = try PropertyListEncoder().encode(envelope)
-        XCTAssertGreaterThan(plistEncoded.count, jsonEncoded.count)
+        print("jsonEncoded size is \(jsonEncoded.count)") // 1447
+        print("plistEncoded size is \(plistEncoded.count)") // 1150
+        XCTAssertGreaterThan(jsonEncoded.count, plistEncoded.count)
     }
 
     func testJSONEncoderPerformance() throws {
