@@ -51,7 +51,9 @@ struct SpanHelper {
     // helpers for creating a local event with a more swifty-interface, and KV attributes
 }
 
-class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate, MCSessionDelegate {
+class MPCFReflectorProxy: NSObject, ObservableObject, MCNearbyServiceAdvertiserDelegate,
+    MCNearbyServiceBrowserDelegate, MCSessionDelegate
+{
 
     let serviceType = "mpcf-reflector"
     var peerID: MCPeerID
@@ -59,9 +61,9 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
     var advertiser: MCNearbyServiceAdvertiser?
     var browser: MCNearbyServiceBrowser
     @Published var currentAdvertSpan: OpenTelemetry.Span?
-    private var sessionSpans: [MCPeerID:OpenTelemetry.Span] = [:]
+    private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
 
-    private var internalPeerStatusDict: [MCPeerID:MPCFReflectorPeerStatus] = [:] {
+    private var internalPeerStatusDict: [MCPeerID: MPCFReflectorPeerStatus] = [:] {
         didSet {
             peerList = internalPeerStatusDict.values.sorted()
         }
@@ -73,7 +75,7 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
     @Published var spans: [OpenTelemetry.Span] = []
     @Published var active = false {
         didSet {
-            if (active) {
+            if active {
                 print("Toggled active, starting")
                 self.startHosting()
             } else {
@@ -94,16 +96,18 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
     deinit {
         self.browser.stopBrowsingForPeers()
     }
-    
+
     func startHosting() {
-        self.mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: encryptionPreferences)
+        self.mcSession = MCSession(
+            peer: peerID, securityIdentity: nil, encryptionPreference: encryptionPreferences)
         guard let session = self.mcSession else {
             return
         }
         session.delegate = self
-        advertiser = MCNearbyServiceAdvertiser(peer: peerID,
-                                               discoveryInfo: nil,
-                                               serviceType: serviceType)
+        advertiser = MCNearbyServiceAdvertiser(
+            peer: peerID,
+            discoveryInfo: nil,
+            serviceType: serviceType)
         advertiser?.delegate = self
         // create a new Span to reference the advertising - this will also be the parent
         // span to any events or sessions... I hope
@@ -131,7 +135,10 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
 
     // MCNearbyServiceBrowserDelegate
 
-    func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+    func browser(
+        _ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID,
+        withDiscoveryInfo info: [String: String]?
+    ) {
         print("found peer \(peerID.displayName) - adding")
         if var currentAdvertSpan = currentAdvertSpan {
             // if we have an avertising span, let's append some events related to the browser on it.
@@ -144,7 +151,7 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
             newEvent.attributes.append(newattribute)
             // grab all the info and convert it into things here too...
             if let info = info {
-                for (key,value) in info {
+                for (key, value) in info {
                     var newkv = Opentelemetry_Proto_Common_V1_AttributeKeyValue()
                     newkv.key = key
                     newkv.stringValue = value
@@ -180,7 +187,10 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
 
     // MCNearbyServiceAdvertiserDelegate
 
-    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
+    func advertiser(
+        _ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID,
+        withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void
+    ) {
         print("received invitation from ", peerID)
         if var currentAdvertSpan = currentAdvertSpan {
             // if we have an avertising span, let's append some events related to the browser on it.
@@ -197,7 +207,9 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
         invitationHandler(true, self.mcSession)
     }
 
-    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
+    func advertiser(
+        _ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error
+    ) {
         print("failed to advertise: ", error)
     }
 
@@ -281,21 +293,31 @@ class MPCFReflectorProxy : NSObject, ObservableObject, MCNearbyServiceAdvertiser
 
     }
 
-    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+    func session(
+        _ session: MCSession, didReceive stream: InputStream, withName streamName: String,
+        fromPeer peerID: MCPeerID
+    ) {
         print("received stream")
     }
 
-    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+    func session(
+        _ session: MCSession, didStartReceivingResourceWithName resourceName: String,
+        fromPeer peerID: MCPeerID, with progress: Progress
+    ) {
         print("starting receiving resource: \(resourceName)")
         // TODO: create a resource span and link it to the session span...
     }
 
-    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+    func session(
+        _ session: MCSession, didFinishReceivingResourceWithName resourceName: String,
+        fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?
+    ) {
         // localURL is a temporarily file with the resource in it
         print("finished receiving resource: \(resourceName)")
         // TODO: complete a resource span and store it away, clearing the in-progress span
         if let tempResourceURL = localURL {
-            session.sendResource(at: tempResourceURL, withName: resourceName, toPeer: peerID) { (Error) -> Void in
+            session.sendResource(at: tempResourceURL, withName: resourceName, toPeer: peerID) {
+                (Error) -> Void in
                 if let error = Error {
                     print("Unexpected error: \(error).")
                 }

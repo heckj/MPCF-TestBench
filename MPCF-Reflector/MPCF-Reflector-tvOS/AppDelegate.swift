@@ -6,9 +6,9 @@
 //  Copyright © 2020 JFH Consulting. All rights reserved.
 //
 
-import UIKit
 import MultipeerConnectivity
 import SwiftUI
+import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,10 +18,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let peerID = MCPeerID(displayName: UIDevice.current.name)
     var reflector: MPCFReflectorProxy?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
 
         reflector = MPCFReflectorProxy(peerID)
-        
+
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()
 
@@ -50,6 +53,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
-
 }
-

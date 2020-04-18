@@ -22,7 +22,7 @@ struct ReflectorEnvelope: Codable {
         case x2k = 2048
         case x4k = 4096
         case x10k = 10240
-        case x1M = 1048576
+        case x1M = 1_048_576
     }
 
     static private var internalSequenceNum: UInt = 0
@@ -30,7 +30,7 @@ struct ReflectorEnvelope: Codable {
     private static func incrementSequence() {
         ReflectorEnvelope.internalSequenceNum += 1
     }
-    
+
     public static func resetSequence() {
         ReflectorEnvelope.internalSequenceNum = 0
     }
@@ -50,7 +50,7 @@ struct ReflectorEnvelope: Codable {
         timestamp = Date()
     }
 
-    init(tracerID: String, size: PayloadSize) { // _ carrier: CarrierTrack = .reliable
+    init(tracerID: String, size: PayloadSize) {  // _ carrier: CarrierTrack = .reliable
         self.tracerID = tracerID
         switch size {
         case .x1:

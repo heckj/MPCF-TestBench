@@ -7,6 +7,7 @@
 //
 
 import XCTest
+
 @testable import MPCF_Reflector_mac
 
 class ReflectorEnvelopeTests: XCTestCase {
@@ -16,8 +17,8 @@ class ReflectorEnvelopeTests: XCTestCase {
     }
 
     func testEnvelopeInitializer() throws {
-        let first = ReflectorEnvelope(tracerID: "new", payload: Data());
-        let second = ReflectorEnvelope(tracerID: "new", payload: Data());
+        let first = ReflectorEnvelope(tracerID: "new", payload: Data())
+        let second = ReflectorEnvelope(tracerID: "new", payload: Data())
 
         XCTAssertEqual(first.sequenceNumber, 0)
         XCTAssertEqual(second.sequenceNumber, 1)
@@ -29,15 +30,16 @@ class ReflectorEnvelopeTests: XCTestCase {
 
         let jsonEncoded = try JSONEncoder().encode(envelope)
         let plistEncoded = try PropertyListEncoder().encode(envelope)
-        print("jsonEncoded size is \(jsonEncoded.count)") // 1447
-        print("plistEncoded size is \(plistEncoded.count)") // 1150
+        print("jsonEncoded size is \(jsonEncoded.count)")  // 1447
+        print("plistEncoded size is \(plistEncoded.count)")  // 1150
         XCTAssertGreaterThan(jsonEncoded.count, plistEncoded.count)
     }
 
     func testJSONEncoderPerformance() throws {
         var bucket: [ReflectorEnvelope] = []
         for num in 1...1000 {
-            let envelope = ReflectorEnvelope(sequenceNumber: UInt(num), tracerID: "x", timestamp: Date(), payload: Data())
+            let envelope = ReflectorEnvelope(
+                sequenceNumber: UInt(num), tracerID: "x", timestamp: Date(), payload: Data())
             bucket.append(envelope)
         }
 
@@ -53,7 +55,8 @@ class ReflectorEnvelopeTests: XCTestCase {
     func testPlistEncoderPerformance() throws {
         var bucket: [ReflectorEnvelope] = []
         for num in 1...1000 {
-            let envelope = ReflectorEnvelope(sequenceNumber: UInt(num), tracerID: "x", timestamp: Date(), payload: Data())
+            let envelope = ReflectorEnvelope(
+                sequenceNumber: UInt(num), tracerID: "x", timestamp: Date(), payload: Data())
             bucket.append(envelope)
         }
 

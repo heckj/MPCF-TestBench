@@ -6,9 +6,9 @@
 //  Copyright © 2020 JFH Consulting. All rights reserved.
 //
 
-import SwiftUI
 import MultipeerConnectivity
 import PreviewBackground
+import SwiftUI
 
 struct MPCFPeerDisplay: View {
     let peerstatus: MPCFReflectorPeerStatus
@@ -21,27 +21,31 @@ struct MPCFPeerDisplay: View {
         HStack {
             Circle()
                 .fill(colorFromStatus())
-            .frame(width: 8, height: 8, alignment: .center)
+                .frame(width: 8, height: 8, alignment: .center)
             Text(peerstatus.peer.displayName)
         }
     }
 }
 
 #if DEBUG
-struct MPCFPeerDisplay_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
-                PreviewBackground {
-                    VStack {
-                        MPCFPeerDisplay(peerstatus: MPCFReflectorPeerStatus(peer: MCPeerID(displayName: "livePeer"), connected: true))
-                        MPCFPeerDisplay(peerstatus: MPCFReflectorPeerStatus(peer: MCPeerID(displayName: "deadPeer"), connected: false))
+    struct MPCFPeerDisplay_Previews: PreviewProvider {
+        static var previews: some View {
+            Group {
+                ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
+                    PreviewBackground {
+                        VStack {
+                            MPCFPeerDisplay(
+                                peerstatus: MPCFReflectorPeerStatus(
+                                    peer: MCPeerID(displayName: "livePeer"), connected: true))
+                            MPCFPeerDisplay(
+                                peerstatus: MPCFReflectorPeerStatus(
+                                    peer: MCPeerID(displayName: "deadPeer"), connected: false))
+                        }
                     }
+                    .environment(\.colorScheme, colorScheme)
+                    .previewDisplayName("\(colorScheme)")
                 }
-                .environment(\.colorScheme, colorScheme)
-                .previewDisplayName("\(colorScheme)")
             }
         }
     }
-}
 #endif

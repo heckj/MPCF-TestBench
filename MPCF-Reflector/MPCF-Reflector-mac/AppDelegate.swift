@@ -7,8 +7,8 @@
 //
 
 import Cocoa
-import SwiftUI
 import MultipeerConnectivity
+import SwiftUI
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -37,6 +37,4 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-
 }
-
