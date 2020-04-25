@@ -104,22 +104,16 @@ class MPCFReflectorProxy: NSObject, ObservableObject, MCNearbyServiceAdvertiserD
         print("found peer \(peerID.displayName) - adding")
         if var currentAdvertSpan = currentAdvertSpan {
             // if we have an avertising span, let's append some events related to the browser on it.
-            var event = OpenTelemetry.Span.newEvent("foundPeer")
-            // this is still kind of awkward...
-            var newattribute = Opentelemetry_Proto_Common_V1_AttributeKeyValue()
-            newattribute.key = "peerID"
-            newattribute.stringValue = peerID.displayName
-            event.attributes.append(newattribute)
+            var attrList: [OpenTelemetry.Attribute] = [
+                OpenTelemetry.Attribute("peerID", peerID.displayName)
+            ]
             // grab all the info and convert it into things here too...
             if let info = info {
                 for (key, value) in info {
-                    var newkv = Opentelemetry_Proto_Common_V1_AttributeKeyValue()
-                    newkv.key = key
-                    newkv.stringValue = value
-                    event.attributes.append(newkv)
+                    attrList.append(OpenTelemetry.Attribute(key, value))
                 }
             }
-            currentAdvertSpan.events.append(event)
+            currentAdvertSpan.addEvent(OpenTelemetry.Event("foundPeer", attr: attrList))
         }
         // add to the local peer list as well
         internalPeerStatusDict[peerID] = MPCFReflectorPeerStatus(peer: peerID, connected: true)
@@ -129,12 +123,9 @@ class MPCFReflectorProxy: NSObject, ObservableObject, MCNearbyServiceAdvertiserD
         print("lost peer \(peerID.displayName) - marking disabled")
         if var currentAdvertSpan = currentAdvertSpan {
             // if we have an avertising span, let's append some events related to the browser on it.
-            var event = OpenTelemetry.Span.newEvent("lostPeer")
-            var newattribute = Opentelemetry_Proto_Common_V1_AttributeKeyValue()
-            newattribute.key = "peerID"
-            newattribute.stringValue = peerID.displayName
-            event.attributes.append(newattribute)
-            currentAdvertSpan.events.append(event)
+            currentAdvertSpan.addEvent(
+                OpenTelemetry.Event(
+                    "lostPeer", attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
         }
         // update the local peer list with the loss info
         internalPeerStatusDict[peerID] = MPCFReflectorPeerStatus(peer: peerID, connected: false)
@@ -153,12 +144,10 @@ class MPCFReflectorProxy: NSObject, ObservableObject, MCNearbyServiceAdvertiserD
         print("received invitation from ", peerID)
         if var currentAdvertSpan = currentAdvertSpan {
             // if we have an avertising span, let's append some events related to the browser on it.
-            var event = OpenTelemetry.Span.newEvent("didReceiveInvitationFromPeer")
-            var newattribute = Opentelemetry_Proto_Common_V1_AttributeKeyValue()
-            newattribute.key = "peerID"
-            newattribute.stringValue = peerID.displayName
-            event.attributes.append(newattribute)
-            currentAdvertSpan.events.append(event)
+            currentAdvertSpan.addEvent(
+                OpenTelemetry.Event(
+                    "didReceiveInvitationFromPeer",
+                    attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
         }
         // accept all invitations with the default session that we built
         invitationHandler(true, self.mcSession)
@@ -178,12 +167,10 @@ class MPCFReflectorProxy: NSObject, ObservableObject, MCNearbyServiceAdvertiserD
             print("Connected: \(peerID.displayName)")
             // event in the session span?
             if var sessionSpan = sessionSpans[peerID] {
-                var event = OpenTelemetry.Span.newEvent("sessionConnected")
-                var newattribute = Opentelemetry_Proto_Common_V1_AttributeKeyValue()
-                newattribute.key = "peerID"
-                newattribute.stringValue = peerID.displayName
-                event.attributes.append(newattribute)
-                sessionSpan.events.append(event)
+                sessionSpan.addEvent(
+                    OpenTelemetry.Event(
+                        "sessionConnected",
+                        attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
                 // not sure if this is needed - I think we may have made a local copy here...
                 // so this updates the local collection of spans with our updated version
                 sessionSpans[peerID] = sessionSpan
@@ -195,7 +182,7 @@ class MPCFReflectorProxy: NSObject, ObservableObject, MCNearbyServiceAdvertiserD
             if let currentAdvertSpan = currentAdvertSpan {
                 var sessionSpan = currentAdvertSpan.createChildSpan(name: "MPCFsession")
                 // add an attribute of the current peer
-                sessionSpan.addTag(tag: "peerID", value: peerID.displayName)
+                sessionSpan.setTag("peerID", peerID.displayName)
                 // add it into our collection, referenced by Peer
                 sessionSpans[peerID] = sessionSpan
             }
@@ -218,12 +205,10 @@ class MPCFReflectorProxy: NSObject, ObservableObject, MCNearbyServiceAdvertiserD
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         print("received data")
         if var sessionSpan = sessionSpans[peerID] {
-            var event = OpenTelemetry.Span.newEvent("didReceiveData")
-            var newattribute = Opentelemetry_Proto_Common_V1_AttributeKeyValue()
-            newattribute.key = "peerID"
-            newattribute.stringValue = peerID.displayName
-            event.attributes.append(newattribute)
-            sessionSpan.events.append(event)
+            sessionSpan.addEvent(
+                OpenTelemetry.Event(
+                    "didReceiveData", attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)])
+            )
             // not sure if this is needed - I think we may have made a local copy here...
             // so this updates the local collection of spans with our updated version
             sessionSpans[peerID] = sessionSpan

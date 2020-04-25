@@ -5,9 +5,9 @@
         "package": "OpenTelemetryModels",
         "repositoryURL": "https://github.com/heckj/OpenTelemetryModels",
         "state": {
-          "branch": "master",
-          "revision": "25718416e105c1be08624ed9f67562a86e242171",
-          "version": null
+          "branch": null,
+          "revision": "fdee147ab93c8b29eae7b020512a8fddf6b22689",
+          "version": "0.3.0"
         }
       },
       {
