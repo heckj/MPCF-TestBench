@@ -13,7 +13,7 @@ import SwiftUI
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var window: NSWindow!
+    var window: NSWindow
     let peerID = MCPeerID(displayName: Host.current().name ?? "some mac")
     var reflector: MPCFReflectorProxy?
 

@@ -8,12 +8,14 @@
 
 import Foundation
 
+/// A codable envelope for sample data to be transmitted and recorded for responses while testing.
 struct ReflectorEnvelope: Codable {
     let sequenceNumber: UInt
     let tracerID: String
     let timestamp: Date
     let payload: Data
 
+    /// sizing for payloads.
     enum PayloadSize: UInt {
         case x1 = 1
         case x10 = 10
@@ -27,10 +29,12 @@ struct ReflectorEnvelope: Codable {
 
     static private var internalSequenceNum: UInt = 0
 
+    /// increments the sequence number for tracking repeated iterations of the same envelope.
     private static func incrementSequence() {
         ReflectorEnvelope.internalSequenceNum += 1
     }
 
+    /// resets the sequence numbers - primarily for testing purposes.
     public static func resetSequence() {
         ReflectorEnvelope.internalSequenceNum = 0
     }
