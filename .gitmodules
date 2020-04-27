@@ -1,0 +1,3 @@
+[submodule "MPCF-Reflector/swift-corelibs-xctest"]
+	path = MPCF-Reflector/swift-corelibs-xctest
+	url = git@github.com:heckj/swift-corelibs-xctest.git

@@ -66,8 +66,16 @@
 		1AB3ED0624564920006BB25D /* PreviewBackground in Frameworks */ = {isa = PBXBuildFile; productRef = 1AB3ED0524564920006BB25D /* PreviewBackground */; };
 		1AB3ED0824564925006BB25D /* OpenTelemetryModels in Frameworks */ = {isa = PBXBuildFile; productRef = 1AB3ED0724564925006BB25D /* OpenTelemetryModels */; };
 		1AB3ED0A24564928006BB25D /* Future in Frameworks */ = {isa = PBXBuildFile; productRef = 1AB3ED0924564928006BB25D /* Future */; };
-		1AB3ED1124564B4B006BB25D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AB3ED1024564B4B006BB25D /* XCTest.framework */; };
-		1AB3ED1224564B4B006BB25D /* XCTest.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1AB3ED1024564B4B006BB25D /* XCTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1AB3ED1424564D40006BB25D /* MPCFPeerDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA82443DB23004A6ACD /* MPCFPeerDisplay.swift */; };
+		1AB3ED1524564D43006BB25D /* MPCFPeerDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA82443DB23004A6ACD /* MPCFPeerDisplay.swift */; };
+		1AB3ED1624564D49006BB25D /* ReflectorEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */; };
+		1AB3ED1724564D4A006BB25D /* ReflectorEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */; };
+		1AB3ED1824564D4D006BB25D /* MPCF-ReflectorProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA52443B8C6004A6ACD /* MPCF-ReflectorProxy.swift */; };
+		1AB3ED1924564D4E006BB25D /* MPCF-ReflectorProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA52443B8C6004A6ACD /* MPCF-ReflectorProxy.swift */; };
+		1AB3ED3324565CBD006BB25D /* XCTestStandalone in Frameworks */ = {isa = PBXBuildFile; productRef = 1AB3ED3224565CBD006BB25D /* XCTestStandalone */; };
+		1AB3ED3424565CBD006BB25D /* XCTestStandalone in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1AB3ED3224565CBD006BB25D /* XCTestStandalone */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		1AB3ED3724565CC4006BB25D /* XCTestStandalone in Frameworks */ = {isa = PBXBuildFile; productRef = 1AB3ED3624565CC4006BB25D /* XCTestStandalone */; };
+		1AB3ED3824565CC4006BB25D /* XCTestStandalone in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1AB3ED3624565CC4006BB25D /* XCTestStandalone */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,13 +124,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		1AB3ED0F245649B8006BB25D /* Embed Frameworks */ = {
+		1AB3ED3524565CBD006BB25D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				1AB3ED1224564B4B006BB25D /* XCTest.framework in Embed Frameworks */,
+				1AB3ED3424565CBD006BB25D /* XCTestStandalone in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AB3ED3924565CC4006BB25D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1AB3ED3824565CC4006BB25D /* XCTestStandalone in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,6 +221,7 @@
 		1AB3ECFC245648F2006BB25D /* MPCF_TestRunner_macTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCF_TestRunner_macTests.swift; sourceTree = "<group>"; };
 		1AB3ECFE245648F2006BB25D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AB3ED1024564B4B006BB25D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		1AB3ED3124565C88006BB25D /* swift-corelibs-xctest */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "swift-corelibs-xctest"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,10 +280,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AB3ED3324565CBD006BB25D /* XCTestStandalone in Frameworks */,
 				1AB3ECDB2456486B006BB25D /* OpenTelemetryModels in Frameworks */,
 				1AB3ECDD24564870006BB25D /* Future in Frameworks */,
 				1AB3ECD924564868006BB25D /* PreviewBackground in Frameworks */,
-				1AB3ED1124564B4B006BB25D /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +305,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AB3ED3724565CC4006BB25D /* XCTestStandalone in Frameworks */,
 				1AB3ED0824564925006BB25D /* OpenTelemetryModels in Frameworks */,
 				1AB3ED0A24564928006BB25D /* Future in Frameworks */,
 				1AB3ED0624564920006BB25D /* PreviewBackground in Frameworks */,
@@ -307,6 +328,7 @@
 				1A475AA52443B8C6004A6ACD /* MPCF-ReflectorProxy.swift */,
 				1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */,
 				1A475AA82443DB23004A6ACD /* MPCFPeerDisplay.swift */,
+				1AB3ED3124565C88006BB25D /* swift-corelibs-xctest */,
 				1A475A5E2443B08A004A6ACD /* MPCF-Reflector */,
 				1A475A752443B08B004A6ACD /* MPCF-ReflectorTests */,
 				1A475A862443B7BB004A6ACD /* MPCF-Reflector-tvOS */,
@@ -679,7 +701,7 @@
 				1AB3ECA424564851006BB25D /* Sources */,
 				1AB3ECA524564851006BB25D /* Frameworks */,
 				1AB3ECA624564851006BB25D /* Resources */,
-				1AB3ED0F245649B8006BB25D /* Embed Frameworks */,
+				1AB3ED3524565CBD006BB25D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -690,6 +712,7 @@
 				1AB3ECD824564868006BB25D /* PreviewBackground */,
 				1AB3ECDA2456486B006BB25D /* OpenTelemetryModels */,
 				1AB3ECDC24564870006BB25D /* Future */,
+				1AB3ED3224565CBD006BB25D /* XCTestStandalone */,
 			);
 			productName = "MPCF-TestRunner-ios";
 			productReference = 1AB3ECA824564851006BB25D /* MPCF-TestRunner-ios.app */;
@@ -738,6 +761,7 @@
 				1AB3ECDE245648F1006BB25D /* Sources */,
 				1AB3ECDF245648F1006BB25D /* Frameworks */,
 				1AB3ECE0245648F1006BB25D /* Resources */,
+				1AB3ED3924565CC4006BB25D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -748,6 +772,7 @@
 				1AB3ED0524564920006BB25D /* PreviewBackground */,
 				1AB3ED0724564925006BB25D /* OpenTelemetryModels */,
 				1AB3ED0924564928006BB25D /* Future */,
+				1AB3ED3624565CC4006BB25D /* XCTestStandalone */,
 			);
 			productName = "MPCF-TestRunner-mac";
 			productReference = 1AB3ECE2245648F1006BB25D /* MPCF-TestRunner-mac.app */;
@@ -1056,8 +1081,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AB3ED1424564D40006BB25D /* MPCFPeerDisplay.swift in Sources */,
+				1AB3ED1824564D4D006BB25D /* MPCF-ReflectorProxy.swift in Sources */,
 				1AB3ECAB24564851006BB25D /* AppDelegate.swift in Sources */,
 				1AB3ECAD24564851006BB25D /* SceneDelegate.swift in Sources */,
+				1AB3ED1624564D49006BB25D /* ReflectorEnvelope.swift in Sources */,
 				1AB3ECAF24564851006BB25D /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1082,8 +1110,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AB3ED1524564D43006BB25D /* MPCFPeerDisplay.swift in Sources */,
+				1AB3ED1924564D4E006BB25D /* MPCF-ReflectorProxy.swift in Sources */,
 				1AB3ECE7245648F1006BB25D /* Document.swift in Sources */,
 				1AB3ECE5245648F1006BB25D /* AppDelegate.swift in Sources */,
+				1AB3ED1724564D4A006BB25D /* ReflectorEnvelope.swift in Sources */,
 				1AB3ECE9245648F1006BB25D /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1972,6 +2003,14 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1A5CCDAB2456096000B0D964 /* XCRemoteSwiftPackageReference "Future" */;
 			productName = Future;
+		};
+		1AB3ED3224565CBD006BB25D /* XCTestStandalone */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XCTestStandalone;
+		};
+		1AB3ED3624565CC4006BB25D /* XCTestStandalone */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = XCTestStandalone;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
