@@ -25,10 +25,6 @@ class Document: NSDocument {
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()
 
-//        let suite = XCTestSuite(name: "example")
-//        for test in suite.tests {
-//            test.run()
-//        }
 
         // Create the window and set the content view.
         let window = NSWindow(
