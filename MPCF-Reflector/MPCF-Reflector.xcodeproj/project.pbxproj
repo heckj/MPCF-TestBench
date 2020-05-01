@@ -76,6 +76,8 @@
 		1AB3ED3424565CBD006BB25D /* XCTestStandalone in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1AB3ED3224565CBD006BB25D /* XCTestStandalone */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1AB3ED3724565CC4006BB25D /* XCTestStandalone in Frameworks */ = {isa = PBXBuildFile; productRef = 1AB3ED3624565CC4006BB25D /* XCTestStandalone */; };
 		1AB3ED3824565CC4006BB25D /* XCTestStandalone in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1AB3ED3624565CC4006BB25D /* XCTestStandalone */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		1AC80F5D245BA6120005E029 /* MPCFAutoReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */; };
+		1AC80F5E245BA6140005E029 /* MPCFAutoReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */; };
 		1AE49E2F245B69B300DB9EE8 /* MPCFAutoReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */; };
 		1AE49E30245B69B300DB9EE8 /* MPCFAutoReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */; };
 		1AE49E31245B69B300DB9EE8 /* MPCFAutoReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */; };
@@ -1113,6 +1115,7 @@
 				1AB3ED1824564D4D006BB25D /* MPCFProxy.swift in Sources */,
 				1AB3ECAB24564851006BB25D /* AppDelegate.swift in Sources */,
 				1AB3ECAD24564851006BB25D /* SceneDelegate.swift in Sources */,
+				1AC80F5D245BA6120005E029 /* MPCFAutoReflector.swift in Sources */,
 				1AE49E3C245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */,
 				1AB3ED1624564D49006BB25D /* ReflectorEnvelope.swift in Sources */,
 				1AB3ECAF24564851006BB25D /* ContentView.swift in Sources */,
@@ -1144,6 +1147,7 @@
 				1AB3ED1924564D4E006BB25D /* MPCFProxy.swift in Sources */,
 				1AB3ECE7245648F1006BB25D /* Document.swift in Sources */,
 				1AB3ECE5245648F1006BB25D /* AppDelegate.swift in Sources */,
+				1AC80F5E245BA6140005E029 /* MPCFAutoReflector.swift in Sources */,
 				1AE49E3D245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */,
 				1AB3ED1724564D4A006BB25D /* ReflectorEnvelope.swift in Sources */,
 				1AB3ECE9245648F1006BB25D /* ContentView.swift in Sources */,

@@ -8,7 +8,7 @@
 
 import Cocoa
 import SwiftUI
-import XCTestStandalone
+//import XCTestStandalone
 
 class Document: NSDocument {
 
@@ -25,10 +25,10 @@ class Document: NSDocument {
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()
 
-        let suite = XCTestSuite(name: "example")
-        for test in suite.tests {
-            test.run()
-        }
+//        let suite = XCTestSuite(name: "example")
+//        for test in suite.tests {
+//            test.run()
+//        }
 
         // Create the window and set the content view.
         let window = NSWindow(
