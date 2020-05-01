@@ -13,13 +13,15 @@ import SwiftUI
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var window: NSWindow
+    // @IBOutlet var window: NSWindow! <- storyboard setup mechanism
+    // SwiftUI template uses: var window: NSWindow!
+    var window: NSWindow?
     let peerID = MCPeerID(displayName: Host.current().name ?? "some mac")
-    var reflector: MPCFReflectorProxy?
+    var reflector: MPCFProxy?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
-        reflector = MPCFReflectorProxy(peerID)
+        reflector = MPCFProxy(peerID)
         let contentView = ContentView()
 
         // Create the window and set the content view. 
@@ -27,6 +29,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
             styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
             backing: .buffered, defer: false)
+        guard let window = window else {
+            return
+        }
         window.center()
         window.setFrameAutosaveName("Main Window")
         window.contentView = NSHostingView(rootView: contentView)

@@ -1,8 +1,8 @@
 //
-//  MPCF-ReflectorProxy.swift
+//  AutoReflector.swift
 //  MPCF-Reflector
 //
-//  Created by Joseph Heck on 4/12/20.
+//  Created by Joseph Heck on 4/30/20.
 //  Copyright © 2020 JFH Consulting. All rights reserved.
 //
 
@@ -10,132 +10,35 @@ import Foundation
 import MultipeerConnectivity
 import OpenTelemetryModels
 
-struct MPCFReflectorPeerStatus: Comparable {
-    static func < (lhs: MPCFReflectorPeerStatus, rhs: MPCFReflectorPeerStatus) -> Bool {
-        lhs.peer.displayName < rhs.peer.displayName
-    }
-
-    let peer: MCPeerID
-    let connected: Bool
-}
-
-class MPCFReflectorProxy: NSObject, ObservableObject, MCNearbyServiceAdvertiserDelegate,
-    MCNearbyServiceBrowserDelegate, MCSessionDelegate
-{
-
-    let serviceType = "mpcf-reflector"
-    var peerID: MCPeerID
+/// Handles the automatic reactions to Multipeer traffic - accepting invitations and responding to any data sent.
+class MPCFAutoReflector: NSObject, MPCFProxyResponder {
+    
+    var currentAdvertSpan: OpenTelemetry.Span?
     var mcSession: MCSession?
-    var advertiser: MCNearbyServiceAdvertiser?
-    var browser: MCNearbyServiceBrowser
-    @Published var currentAdvertSpan: OpenTelemetry.Span?
+    
+    private var spanCollector: OTSimpleSpanCollector?
     private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
-
-    private var internalPeerStatusDict: [MCPeerID: MPCFReflectorPeerStatus] = [:] {
-        didSet {
-            peerList = internalPeerStatusDict.values.sorted()
-        }
-    }
-    @Published var peerList: [MPCFReflectorPeerStatus] = []
-    @Published var encryptionPreferences = MCEncryptionPreference.required
-
-    // place to stash all the completed spans...
-    @Published var spans: [OpenTelemetry.Span] = []
-    @Published var active = false {
-        didSet {
-            if active {
-                print("Toggled active, starting")
-                self.startHosting()
-            } else {
-                print("Toggled inactive, stopping")
-                self.stopHosting()
-            }
-        }
-    }
-
-    init(_ peerID: MCPeerID) {
-        self.peerID = peerID
-        self.browser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
+    // missing properties/vars that I need:
+    // currentAdvertSpan - handed in from above I think
+    // self.mcSession - need a session object to hand back with the invitation response
+    // self.sessionSpans - collecting of spans, indexed by peerID
+    //  -- we look up and add events to existing spans, as well as activating and removing spans
+    // self.spans - the set of completed spans
+    
+    // seems like session, and any spans related to it, are best managed within
+    // this class, and we should have a way to "submit back" collected spans when
+    // we've put data into them. Maybe broken out into it's own class that we pass into
+    // this...
+    
+    init(_ collector: OTSimpleSpanCollector? = nil) {
         super.init()
-        self.browser.delegate = self
-        self.browser.startBrowsingForPeers()
+        self.spanCollector = collector
     }
 
     deinit {
-        self.browser.stopBrowsingForPeers()
     }
 
-    func startHosting() {
-        self.mcSession = MCSession(
-            peer: peerID, securityIdentity: nil, encryptionPreference: encryptionPreferences)
-        guard let session = self.mcSession else {
-            return
-        }
-        session.delegate = self
-        advertiser = MCNearbyServiceAdvertiser(
-            peer: peerID,
-            discoveryInfo: nil,
-            serviceType: serviceType)
-        advertiser?.delegate = self
-        // create a new Span to reference the advertising - this will also be the parent
-        // span to any events or sessions... I hope
-        currentAdvertSpan = OpenTelemetry.Span.start(name: "ReflectorServiceAdvertiser")
-        advertiser?.startAdvertisingPeer()
-    }
-
-    func stopHosting() {
-        advertiser?.stopAdvertisingPeer()
-        // if we have an advertising span, mark it with an end time and add it to our
-        // span collection to report/share later.
-        guard var currentSpan = currentAdvertSpan else {
-            return
-        }
-        currentSpan.finish()
-        spans.append(currentSpan)
-        currentAdvertSpan = nil
-    }
-
-    // MCNearbyServiceBrowserDelegate
-
-    func browser(
-        _ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID,
-        withDiscoveryInfo info: [String: String]?
-    ) {
-        print("found peer \(peerID.displayName) - adding")
-        if var currentAdvertSpan = currentAdvertSpan {
-            // if we have an avertising span, let's append some events related to the browser on it.
-            var attrList: [OpenTelemetry.Attribute] = [
-                OpenTelemetry.Attribute("peerID", peerID.displayName)
-            ]
-            // grab all the info and convert it into things here too...
-            if let info = info {
-                for (key, value) in info {
-                    attrList.append(OpenTelemetry.Attribute(key, value))
-                }
-            }
-            currentAdvertSpan.addEvent(OpenTelemetry.Event("foundPeer", attr: attrList))
-        }
-        // add to the local peer list as well
-        internalPeerStatusDict[peerID] = MPCFReflectorPeerStatus(peer: peerID, connected: true)
-    }
-
-    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        print("lost peer \(peerID.displayName) - marking disabled")
-        if var currentAdvertSpan = currentAdvertSpan {
-            // if we have an avertising span, let's append some events related to the browser on it.
-            currentAdvertSpan.addEvent(
-                OpenTelemetry.Event(
-                    "lostPeer", attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
-        }
-        // update the local peer list with the loss info
-        internalPeerStatusDict[peerID] = MPCFReflectorPeerStatus(peer: peerID, connected: false)
-    }
-
-    func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
-        print("failed to browse for peers: ", error)
-    }
-
-    // MCNearbyServiceAdvertiserDelegate
+    // MARK: MCNearbyServiceAdvertiserDelegate
 
     func advertiser(
         _ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID,
@@ -159,7 +62,7 @@ class MPCFReflectorProxy: NSObject, ObservableObject, MCNearbyServiceAdvertiserD
         print("failed to advertise: ", error)
     }
 
-    // MCSessionDelegate methods
+    // MARK: MCSessionDelegate methods
 
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
@@ -192,7 +95,7 @@ class MPCFReflectorProxy: NSObject, ObservableObject, MCNearbyServiceAdvertiserD
             // and this is the end of a span... I think
             if var sessionSpan = sessionSpans[peerID] {
                 sessionSpan.finish()
-                spans.append(sessionSpan)
+                spanCollector?.collectSpan(sessionSpan)
             }
             // after we "record" it - we kill the current span reference in the dictionary by peer
             sessionSpans.removeValue(forKey: peerID)
@@ -256,5 +159,4 @@ class MPCFReflectorProxy: NSObject, ObservableObject, MCNearbyServiceAdvertiserD
         }
 
     }
-
 }
