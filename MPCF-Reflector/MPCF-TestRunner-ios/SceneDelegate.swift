@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  MPCF-Reflector
+//  MPCF-TestRunner-ios
 //
-//  Created by Joseph Heck on 4/12/20.
+//  Created by Joseph Heck on 4/26/20.
 //  Copyright © 2020 JFH Consulting. All rights reserved.
 //
 
@@ -21,10 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
         // Create the SwiftUI view that provides the window contents.
-        let contentView = ContentView(reflector: appDelegate.reflector)
+        let contentView = ContentView()
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

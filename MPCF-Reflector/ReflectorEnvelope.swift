@@ -7,14 +7,55 @@
 //
 
 import Foundation
+import MultipeerConnectivity
 
-struct ReflectorEnvelope: Codable {
+// local, codable mirror to import MultipeerConnectivity.MCSessionSendDataMode
+enum TransportMode: UInt, Codable {
+    case unreliable = 0
+    case reliable = 1
+}
+
+struct TransmissionIdentifier: Identifiable, Hashable, Codable {
+    let id = UUID()
     let sequenceNumber: UInt
-    let tracerID: String
-    let timestamp: Date
+    let transport: TransportMode
+    let traceName: String
+    var sendDataMode: MCSessionSendDataMode {
+        switch transport {
+        case .unreliable:
+            return MCSessionSendDataMode.unreliable
+        case .reliable:
+            return MCSessionSendDataMode.reliable
+        }
+    }
+
+    init(traceName: String, transport: TransportMode = .reliable) {
+        self.transport = transport
+        self.traceName = traceName
+        sequenceNumber = TransmissionIdentifier.nextSequenceNumber()
+    }
+
+    static private var internalSequenceNum: UInt = 0
+    /// increments the sequence number for tracking repeated iterations of the same envelope.
+    private static func nextSequenceNumber() -> UInt {
+        TransmissionIdentifier.internalSequenceNum += 1
+        return internalSequenceNum
+    }
+
+    /// resets the sequence numbers - primarily for testing purposes.
+    public static func resetSequence() {
+        TransmissionIdentifier.internalSequenceNum = 0
+    }
+}
+
+/// A codable envelope for sample data to be transmitted and recorded for responses while testing.
+struct ReflectorEnvelope: Codable {
+
+    let id: TransmissionIdentifier
     let payload: Data
 
-    enum PayloadSize: UInt {
+    /// sizing for payloads.
+    enum PayloadSize: UInt, Codable {
         case x1 = 1
         case x10 = 10
         case x100 = 100
@@ -22,36 +63,16 @@ struct ReflectorEnvelope: Codable {
         case x2k = 2048
         case x4k = 4096
         case x10k = 10240
-        case x1M = 1048576
+        case x1M = 1_048_576
     }
 
-    static private var internalSequenceNum: UInt = 0
-
-    private static func incrementSequence() {
-        ReflectorEnvelope.internalSequenceNum += 1
-    }
-    
-    public static func resetSequence() {
-        ReflectorEnvelope.internalSequenceNum = 0
-    }
-
-    init(sequenceNumber: UInt, tracerID: String, timestamp: Date, payload: Data) {
+    init(id: TransmissionIdentifier, payload: Data) {
         self.payload = payload
-        self.tracerID = tracerID
-        self.sequenceNumber = sequenceNumber
-        self.timestamp = timestamp
+        self.id = id
     }
 
-    init(tracerID: String, payload: Data) {
-        self.payload = payload
-        self.tracerID = tracerID
-        sequenceNumber = ReflectorEnvelope.internalSequenceNum
-        ReflectorEnvelope.incrementSequence()
-        timestamp = Date()
-    }
-
-    init(tracerID: String, size: PayloadSize) { // _ carrier: CarrierTrack = .reliable
-        self.tracerID = tracerID
+    init(id: TransmissionIdentifier, size: PayloadSize) {
+        self.id = id
         switch size {
         case .x1:
             self.payload = Data(count: Int(PayloadSize.x1.rawValue))
@@ -70,8 +91,5 @@ struct ReflectorEnvelope: Codable {
         case .x1M:
             self.payload = Data(count: Int(PayloadSize.x1M.rawValue))
         }
-        sequenceNumber = ReflectorEnvelope.internalSequenceNum
-        ReflectorEnvelope.incrementSequence()
-        timestamp = Date()
     }
 }

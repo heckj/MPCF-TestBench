@@ -1,16 +1,16 @@
 //
-//  MPCF_Reflector_tvOSTests.swift
-//  MPCF-Reflector-tvOSTests
+//  MPCF_Reflector_macTests.swift
+//  MPCF-Reflector-macTests
 //
-//  Created by Joseph Heck on 4/12/20.
+//  Created by Joseph Heck on 4/18/20.
 //  Copyright © 2020 JFH Consulting. All rights reserved.
 //
 
 import XCTest
 
-@testable import MPCF_Reflector_tvOS
+@testable import MPCF_Reflector_mac
 
-class MPCF_Reflector_tvOSTests: XCTestCase {
+class MPCF_Reflector_macTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
