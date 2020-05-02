@@ -87,6 +87,9 @@
 		1AE49E3B245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */; };
 		1AE49E3C245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */; };
 		1AE49E3D245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */; };
+		1AE51441245E27A5009C2AF1 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
+		1AE51442245E27A6009C2AF1 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
+		1AE51443245E27A7009C2AF1 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
 		1AF76EAA245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
 		1AF76EAB245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
 /* End PBXBuildFile section */
@@ -339,13 +342,8 @@
 			isa = PBXGroup;
 			children = (
 				1A61A192245E212C00EDECA7 /* README.md */,
-				1A475AA52443B8C6004A6ACD /* MPCFProxy.swift */,
-				1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */,
-				1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */,
-				1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */,
-				1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */,
-				1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */,
-				1A475AA82443DB23004A6ACD /* MPCFPeerDisplay.swift */,
+				1AE51440245E2771009C2AF1 /* Common */,
+				1AE51444245E27B6009C2AF1 /* SwiftUIComponents */,
 				1A475A5E2443B08A004A6ACD /* MPCF-Reflector */,
 				1A475A752443B08B004A6ACD /* MPCF-ReflectorTests */,
 				1A475A862443B7BB004A6ACD /* MPCF-Reflector-tvOS */,
@@ -584,6 +582,27 @@
 				1AB3ECFE245648F2006BB25D /* Info.plist */,
 			);
 			path = "MPCF-TestRunner-macTests";
+			sourceTree = "<group>";
+		};
+		1AE51440245E2771009C2AF1 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				1A475AA52443B8C6004A6ACD /* MPCFProxy.swift */,
+				1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */,
+				1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */,
+				1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */,
+				1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */,
+				1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		1AE51444245E27B6009C2AF1 /* SwiftUIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				1A475AA82443DB23004A6ACD /* MPCFPeerDisplay.swift */,
+			);
+			path = SwiftUIComponents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1040,6 +1059,7 @@
 				1A475AA72443B8C6004A6ACD /* MPCFProxy.swift in Sources */,
 				1AE49E39245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */,
 				1A475A882443B7BB004A6ACD /* AppDelegate.swift in Sources */,
+				1AE51443245E27A7009C2AF1 /* MPCFTestRunnerModel.swift in Sources */,
 				1AE49E2F245B69B300DB9EE8 /* MPCFAutoReflector.swift in Sources */,
 				1AE49E33245B6FA900DB9EE8 /* MPCFProxyResponder.swift in Sources */,
 			);
@@ -1063,6 +1083,7 @@
 				1A9C78EF244BA3A4003EBF9A /* ReflectorEnvelope.swift in Sources */,
 				1AE49E3A245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */,
 				1A9C78EE244BA397003EBF9A /* MPCFProxy.swift in Sources */,
+				1AE51442245E27A6009C2AF1 /* MPCFTestRunnerModel.swift in Sources */,
 				1AE49E30245B69B300DB9EE8 /* MPCFAutoReflector.swift in Sources */,
 				1AE49E34245B6FA900DB9EE8 /* MPCFProxyResponder.swift in Sources */,
 			);
@@ -1086,6 +1107,7 @@
 				1A9C7904244BA5D5003EBF9A /* SceneDelegate.swift in Sources */,
 				1A9C7923244BA62B003EBF9A /* MPCFPeerDisplay.swift in Sources */,
 				1A9C7906244BA5D5003EBF9A /* ContentView.swift in Sources */,
+				1AE51441245E27A5009C2AF1 /* MPCFTestRunnerModel.swift in Sources */,
 				1AE49E3B245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */,
 				1AE49E35245B6FA900DB9EE8 /* MPCFProxyResponder.swift in Sources */,
 				1A9C7922244BA628003EBF9A /* ReflectorEnvelope.swift in Sources */,
