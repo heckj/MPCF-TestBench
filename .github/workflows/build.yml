@@ -13,7 +13,7 @@ jobs:
           - { scheme: 'MPCF-TestRunner-mac', destination: 'platform=macOS' }
           - { scheme: 'MPCF-Reflector-ios', destination: 'platform=iOS Simulator,OS=13.4.1,name=iPhone 8' }
           - { scheme: 'MPCF-TestRunner-ios', destination: 'platform=iOS Simulator,OS=13.4.1,name=iPhone 8' }
-          - { scheme: 'MPCF-Reflector-tvOS', destination: 'platform=tvOS Simulator,OS=13.4.1,name=Apple TV' }
+          - { scheme: 'MPCF-Reflector-tvOS', destination: 'platform=tvOS Simulator,OS=13.4,name=Apple TV' }
 
     steps:
     - name: Checkout Project

@@ -710,7 +710,6 @@
 				1A9C78C8244BA32E003EBF9A /* Sources */,
 				1A9C78C9244BA32E003EBF9A /* Frameworks */,
 				1A9C78CA244BA32E003EBF9A /* Resources */,
-				1AE5144D245E2CC9009C2AF1 /* swift format */,
 				1AE51451245E2D1D009C2AF1 /* swift format --lint */,
 			);
 			buildRules = (
@@ -1156,24 +1155,6 @@
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswift format --configuration ${PROJECT_DIR}/../.swift-format-config -i --recursive ${PROJECT_DIR}\n";
 		};
 		1AE5144C245E2CA8009C2AF1 /* swift format */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "swift format";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswift format --configuration ${PROJECT_DIR}/../.swift-format-config -i --recursive ${PROJECT_DIR}\n";
-		};
-		1AE5144D245E2CC9009C2AF1 /* swift format */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
