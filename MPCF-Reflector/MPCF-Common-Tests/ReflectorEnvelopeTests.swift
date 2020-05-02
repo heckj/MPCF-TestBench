@@ -8,25 +8,10 @@
 
 import XCTest
 
-@testable import MPCF_Reflector_mac
-
 class ReflectorEnvelopeTests: XCTestCase {
 
-    override func setUp() {
-        ReflectorEnvelope.resetSequence()
-    }
-
-    func testEnvelopeInitializer() throws {
-        let first = ReflectorEnvelope(tracerID: "new", payload: Data())
-        let second = ReflectorEnvelope(tracerID: "new", payload: Data())
-
-        XCTAssertEqual(first.sequenceNumber, 0)
-        XCTAssertEqual(second.sequenceNumber, 1)
-
-    }
-
     func testEnvelopeEncode() throws {
-        let envelope = ReflectorEnvelope(tracerID: "x", size: .x1k)
+        let envelope = ReflectorEnvelope(id: TransmissionIdentifier(traceName: "X"), size: .x1k)
 
         let jsonEncoded = try JSONEncoder().encode(envelope)
         let plistEncoded = try PropertyListEncoder().encode(envelope)
@@ -37,9 +22,9 @@ class ReflectorEnvelopeTests: XCTestCase {
 
     func testJSONEncoderPerformance() throws {
         var bucket: [ReflectorEnvelope] = []
-        for num in 1...1000 {
+        for _ in 1...1000 {
             let envelope = ReflectorEnvelope(
-                sequenceNumber: UInt(num), tracerID: "x", timestamp: Date(), payload: Data())
+                id: TransmissionIdentifier(traceName: "X"), payload: Data())
             bucket.append(envelope)
         }
 
@@ -54,9 +39,9 @@ class ReflectorEnvelopeTests: XCTestCase {
 
     func testPlistEncoderPerformance() throws {
         var bucket: [ReflectorEnvelope] = []
-        for num in 1...1000 {
+        for _ in 1...1000 {
             let envelope = ReflectorEnvelope(
-                sequenceNumber: UInt(num), tracerID: "x", timestamp: Date(), payload: Data())
+                id: TransmissionIdentifier(traceName: "X"), payload: Data())
             bucket.append(envelope)
         }
 

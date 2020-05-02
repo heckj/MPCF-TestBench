@@ -1,16 +1,14 @@
 //
-//  MPCF_TestRunner_macTests.swift
-//  MPCF-TestRunner-macTests
+//  MPCF_Common_Tests.swift
+//  MPCF-Common-Tests
 //
-//  Created by Joseph Heck on 4/26/20.
+//  Created by Joseph Heck on 5/2/20.
 //  Copyright © 2020 JFH Consulting. All rights reserved.
 //
 
 import XCTest
 
-@testable import MPCF_TestRunner_mac
-
-class MPCF_TestRunner_macTests: XCTestCase {
+class MPCF_Common_Tests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -27,7 +25,7 @@ class MPCF_TestRunner_macTests: XCTestCase {
     //
     //    func testPerformanceExample() throws {
     //        // This is an example of a performance test case.
-    //        self.measure {
+    //        measure {
     //            // Put the code you want to measure the time of here.
     //        }
     //    }

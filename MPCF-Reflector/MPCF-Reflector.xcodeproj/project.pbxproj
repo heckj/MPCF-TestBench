@@ -44,7 +44,6 @@
 		1A9C7923244BA62B003EBF9A /* MPCFPeerDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA82443DB23004A6ACD /* MPCFPeerDisplay.swift */; };
 		1A9C7925244BA654003EBF9A /* PreviewBackground in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9C7924244BA654003EBF9A /* PreviewBackground */; };
 		1A9C7929244BA654003EBF9A /* OpenTelemetryModels in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9C7928244BA654003EBF9A /* OpenTelemetryModels */; };
-		1A9C792A244BA68F003EBF9A /* ReflectorEnvelopeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5AA244A837100A8584E /* ReflectorEnvelopeTests.swift */; };
 		1AB3ECAB24564851006BB25D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3ECAA24564851006BB25D /* AppDelegate.swift */; };
 		1AB3ECAD24564851006BB25D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3ECAC24564851006BB25D /* SceneDelegate.swift */; };
 		1AB3ECAF24564851006BB25D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB3ECAE24564851006BB25D /* ContentView.swift */; };
@@ -90,6 +89,26 @@
 		1AE51441245E27A5009C2AF1 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
 		1AE51442245E27A6009C2AF1 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
 		1AE51443245E27A7009C2AF1 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
+		1AE51446245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51445245E2A8C009C2AF1 /* MPCFProxyDisplay.swift */; };
+		1AE51447245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51445245E2A8C009C2AF1 /* MPCFProxyDisplay.swift */; };
+		1AE51448245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51445245E2A8C009C2AF1 /* MPCFProxyDisplay.swift */; };
+		1AE51449245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51445245E2A8C009C2AF1 /* MPCFProxyDisplay.swift */; };
+		1AE5144A245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51445245E2A8C009C2AF1 /* MPCFProxyDisplay.swift */; };
+		1AE5145A245E2F64009C2AF1 /* MPCF_Common_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51459245E2F64009C2AF1 /* MPCF_Common_Tests.swift */; };
+		1AE51461245E2F70009C2AF1 /* ReflectorEnvelopeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5AA244A837100A8584E /* ReflectorEnvelopeTests.swift */; };
+		1AE51463245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */; };
+		1AE51464245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */; };
+		1AE51465245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */; };
+		1AE51466245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */; };
+		1AE51467245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */; };
+		1AE51469245E309F009C2AF1 /* TransmissionIdentifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51468245E309F009C2AF1 /* TransmissionIdentifierTests.swift */; };
+		1AE5146A245E3118009C2AF1 /* MPCFProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA52443B8C6004A6ACD /* MPCFProxy.swift */; };
+		1AE5146B245E3118009C2AF1 /* MPCFProxyResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */; };
+		1AE5146C245E3118009C2AF1 /* OTSimpleSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */; };
+		1AE5146D245E3118009C2AF1 /* MPCFAutoReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */; };
+		1AE5146E245E3118009C2AF1 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
+		1AE5146F245E3118009C2AF1 /* ReflectorEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */; };
+		1AE51470245E3118009C2AF1 /* TransmissionIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */; };
 		1AF76EAA245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
 		1AF76EAB245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
 /* End PBXBuildFile section */
@@ -136,6 +155,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1AB3ECE1245648F1006BB25D;
 			remoteInfo = "MPCF-TestRunner-mac";
+		};
+		1AE5145C245E2F64009C2AF1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A475A542443B08A004A6ACD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A9C78CB244BA32E003EBF9A;
+			remoteInfo = "MPCF-Reflector-mac";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -239,6 +265,12 @@
 		1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFAutoReflector.swift; sourceTree = "<group>"; };
 		1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFProxyResponder.swift; sourceTree = "<group>"; };
 		1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTSimpleSpanCollector.swift; sourceTree = "<group>"; };
+		1AE51445245E2A8C009C2AF1 /* MPCFProxyDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFProxyDisplay.swift; sourceTree = "<group>"; };
+		1AE51457245E2F64009C2AF1 /* MPCF-Common-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MPCF-Common-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AE51459245E2F64009C2AF1 /* MPCF_Common_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCF_Common_Tests.swift; sourceTree = "<group>"; };
+		1AE5145B245E2F64009C2AF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransmissionIdentifier.swift; sourceTree = "<group>"; };
+		1AE51468245E309F009C2AF1 /* TransmissionIdentifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransmissionIdentifierTests.swift; sourceTree = "<group>"; };
 		1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFTestRunnerModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -335,6 +367,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1AE51454245E2F64009C2AF1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -344,6 +383,7 @@
 				1A61A192245E212C00EDECA7 /* README.md */,
 				1AE51440245E2771009C2AF1 /* Common */,
 				1AE51444245E27B6009C2AF1 /* SwiftUIComponents */,
+				1AE51458245E2F64009C2AF1 /* MPCF-Common-Tests */,
 				1A475A5E2443B08A004A6ACD /* MPCF-Reflector */,
 				1A475A752443B08B004A6ACD /* MPCF-ReflectorTests */,
 				1A475A862443B7BB004A6ACD /* MPCF-Reflector-tvOS */,
@@ -376,6 +416,7 @@
 				1AB3ECC824564852006BB25D /* MPCF-TestRunner-iosUITests.xctest */,
 				1AB3ECE2245648F1006BB25D /* MPCF-TestRunner-mac.app */,
 				1AB3ECF8245648F2006BB25D /* MPCF-TestRunner-macTests.xctest */,
+				1AE51457245E2F64009C2AF1 /* MPCF-Common-Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -467,7 +508,6 @@
 			isa = PBXGroup;
 			children = (
 				1A9C78E4244BA330003EBF9A /* MPCF_Reflector_macTests.swift */,
-				1A29D5AA244A837100A8584E /* ReflectorEnvelopeTests.swift */,
 				1A9C78E6244BA330003EBF9A /* Info.plist */,
 			);
 			path = "MPCF-Reflector-macTests";
@@ -593,6 +633,7 @@
 				1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */,
 				1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */,
 				1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */,
+				1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -601,8 +642,20 @@
 			isa = PBXGroup;
 			children = (
 				1A475AA82443DB23004A6ACD /* MPCFPeerDisplay.swift */,
+				1AE51445245E2A8C009C2AF1 /* MPCFProxyDisplay.swift */,
 			);
 			path = SwiftUIComponents;
+			sourceTree = "<group>";
+		};
+		1AE51458245E2F64009C2AF1 /* MPCF-Common-Tests */ = {
+			isa = PBXGroup;
+			children = (
+				1A29D5AA244A837100A8584E /* ReflectorEnvelopeTests.swift */,
+				1AE51468245E309F009C2AF1 /* TransmissionIdentifierTests.swift */,
+				1AE51459245E2F64009C2AF1 /* MPCF_Common_Tests.swift */,
+				1AE5145B245E2F64009C2AF1 /* Info.plist */,
+			);
+			path = "MPCF-Common-Tests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -615,6 +668,8 @@
 				1A475A812443B7BA004A6ACD /* Sources */,
 				1A475A822443B7BA004A6ACD /* Frameworks */,
 				1A475A832443B7BA004A6ACD /* Resources */,
+				1AE5144E245E2CD2009C2AF1 /* swift format */,
+				1AE51452245E2D27009C2AF1 /* swift format --lint */,
 			);
 			buildRules = (
 			);
@@ -655,6 +710,8 @@
 				1A9C78C8244BA32E003EBF9A /* Sources */,
 				1A9C78C9244BA32E003EBF9A /* Frameworks */,
 				1A9C78CA244BA32E003EBF9A /* Resources */,
+				1AE5144D245E2CC9009C2AF1 /* swift format */,
+				1AE51451245E2D1D009C2AF1 /* swift format --lint */,
 			);
 			buildRules = (
 			);
@@ -695,8 +752,8 @@
 				1A9C78FB244BA5D5003EBF9A /* Sources */,
 				1A9C78FC244BA5D5003EBF9A /* Frameworks */,
 				1A9C78FD244BA5D5003EBF9A /* Resources */,
-				1A8C40BA244BACAE00B7B240 /* swift-format (apple) */,
-				1A8C40BB244BACC200B7B240 /* swift-format lint (apple) */,
+				1A8C40BA244BACAE00B7B240 /* swift format */,
+				1A8C40BB244BACC200B7B240 /* swift format --lint  */,
 			);
 			buildRules = (
 			);
@@ -738,6 +795,8 @@
 				1AB3ECA524564851006BB25D /* Frameworks */,
 				1AB3ECA624564851006BB25D /* Resources */,
 				1AB3ED3524565CBD006BB25D /* Embed Frameworks */,
+				1AE5144B245E2C79009C2AF1 /* swift format */,
+				1AE5144F245E2CF7009C2AF1 /* swift format --lint */,
 			);
 			buildRules = (
 			);
@@ -797,6 +856,8 @@
 				1AB3ECDF245648F1006BB25D /* Frameworks */,
 				1AB3ECE0245648F1006BB25D /* Resources */,
 				1AB3ED3924565CC4006BB25D /* Embed Frameworks */,
+				1AE5144C245E2CA8009C2AF1 /* swift format */,
+				1AE51450245E2D0C009C2AF1 /* swift format --lint */,
 			);
 			buildRules = (
 			);
@@ -830,13 +891,31 @@
 			productReference = 1AB3ECF8245648F2006BB25D /* MPCF-TestRunner-macTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		1AE51456245E2F64009C2AF1 /* MPCF-Common-Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AE5145E245E2F64009C2AF1 /* Build configuration list for PBXNativeTarget "MPCF-Common-Tests" */;
+			buildPhases = (
+				1AE51453245E2F64009C2AF1 /* Sources */,
+				1AE51454245E2F64009C2AF1 /* Frameworks */,
+				1AE51455245E2F64009C2AF1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1AE5145D245E2F64009C2AF1 /* PBXTargetDependency */,
+			);
+			name = "MPCF-Common-Tests";
+			productName = "MPCF-Common-Tests";
+			productReference = 1AE51457245E2F64009C2AF1 /* MPCF-Common-Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		1A475A542443B08A004A6ACD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1140;
+				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "JFH Consulting";
 				TargetAttributes = {
@@ -879,6 +958,10 @@
 						CreatedOnToolsVersion = 11.4.1;
 						TestTargetID = 1AB3ECE1245648F1006BB25D;
 					};
+					1AE51456245E2F64009C2AF1 = {
+						CreatedOnToolsVersion = 11.5;
+						TestTargetID = 1A9C78CB244BA32E003EBF9A;
+					};
 				};
 			};
 			buildConfigurationList = 1A475A572443B08A004A6ACD /* Build configuration list for PBXProject "MPCF-Reflector" */;
@@ -910,6 +993,7 @@
 				1AB3ECC724564852006BB25D /* MPCF-TestRunner-iosUITests */,
 				1AB3ECE1245648F1006BB25D /* MPCF-TestRunner-mac */,
 				1AB3ECF7245648F2006BB25D /* MPCF-TestRunner-macTests */,
+				1AE51456245E2F64009C2AF1 /* MPCF-Common-Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -1007,10 +1091,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1AE51455245E2F64009C2AF1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1A8C40BA244BACAE00B7B240 /* swift-format (apple) */ = {
+		1A8C40BA244BACAE00B7B240 /* swift format */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1019,16 +1110,16 @@
 			);
 			inputPaths = (
 			);
-			name = "swift-format (apple)";
+			name = "swift format";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n~/src/swift-format/.build/debug/swift-format --configuration ${PROJECT_DIR}/../.swift-format-config -i --recursive ${PROJECT_DIR}\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswift format --configuration ${PROJECT_DIR}/../.swift-format-config -i --recursive ${PROJECT_DIR}\n";
 		};
-		1A8C40BB244BACC200B7B240 /* swift-format lint (apple) */ = {
+		1A8C40BB244BACC200B7B240 /* swift format --lint  */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1037,14 +1128,158 @@
 			);
 			inputPaths = (
 			);
-			name = "swift-format lint (apple)";
+			name = "swift format --lint ";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n~/src/swift-format/.build/debug/swift-format --configuration ${PROJECT_DIR}/../.swift-format-config --mode lint --recursive ${PROJECT_DIR} || true\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswift format --configuration ${PROJECT_DIR}/../.swift-format-config --mode lint --recursive ${PROJECT_DIR} || true\n";
+		};
+		1AE5144B245E2C79009C2AF1 /* swift format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "swift format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswift format --configuration ${PROJECT_DIR}/../.swift-format-config -i --recursive ${PROJECT_DIR}\n";
+		};
+		1AE5144C245E2CA8009C2AF1 /* swift format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "swift format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswift format --configuration ${PROJECT_DIR}/../.swift-format-config -i --recursive ${PROJECT_DIR}\n";
+		};
+		1AE5144D245E2CC9009C2AF1 /* swift format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "swift format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswift format --configuration ${PROJECT_DIR}/../.swift-format-config -i --recursive ${PROJECT_DIR}\n";
+		};
+		1AE5144E245E2CD2009C2AF1 /* swift format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "swift format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswift format --configuration ${PROJECT_DIR}/../.swift-format-config -i --recursive ${PROJECT_DIR}\n";
+		};
+		1AE5144F245E2CF7009C2AF1 /* swift format --lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "swift format --lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswift format --configuration ${PROJECT_DIR}/../.swift-format-config --mode lint --recursive ${PROJECT_DIR} || true\n";
+		};
+		1AE51450245E2D0C009C2AF1 /* swift format --lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "swift format --lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswift format --configuration ${PROJECT_DIR}/../.swift-format-config --mode lint --recursive ${PROJECT_DIR} || true\n";
+		};
+		1AE51451245E2D1D009C2AF1 /* swift format --lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "swift format --lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswift format --configuration ${PROJECT_DIR}/../.swift-format-config --mode lint --recursive ${PROJECT_DIR} || true\n";
+		};
+		1AE51452245E2D27009C2AF1 /* swift format --lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "swift format --lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswift format --configuration ${PROJECT_DIR}/../.swift-format-config --mode lint --recursive ${PROJECT_DIR} || true\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1055,8 +1290,10 @@
 			files = (
 				1A475AAA2443DB23004A6ACD /* MPCFPeerDisplay.swift in Sources */,
 				1A475A8A2443B7BB004A6ACD /* ContentView.swift in Sources */,
+				1AE51463245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1A29D5A9244A826B00A8584E /* ReflectorEnvelope.swift in Sources */,
 				1A475AA72443B8C6004A6ACD /* MPCFProxy.swift in Sources */,
+				1AE51446245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */,
 				1AE49E39245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */,
 				1A475A882443B7BB004A6ACD /* AppDelegate.swift in Sources */,
 				1AE51443245E27A7009C2AF1 /* MPCFTestRunnerModel.swift in Sources */,
@@ -1079,8 +1316,10 @@
 			files = (
 				1A9C78D1244BA32E003EBF9A /* ContentView.swift in Sources */,
 				1A9C78CF244BA32E003EBF9A /* AppDelegate.swift in Sources */,
+				1AE51464245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1A9C78ED244BA384003EBF9A /* MPCFPeerDisplay.swift in Sources */,
 				1A9C78EF244BA3A4003EBF9A /* ReflectorEnvelope.swift in Sources */,
+				1AE51447245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */,
 				1AE49E3A245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */,
 				1A9C78EE244BA397003EBF9A /* MPCFProxy.swift in Sources */,
 				1AE51442245E27A6009C2AF1 /* MPCFTestRunnerModel.swift in Sources */,
@@ -1093,7 +1332,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A9C792A244BA68F003EBF9A /* ReflectorEnvelopeTests.swift in Sources */,
 				1A9C78E5244BA330003EBF9A /* MPCF_Reflector_macTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1102,8 +1340,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AE51465245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1AE49E31245B69B300DB9EE8 /* MPCFAutoReflector.swift in Sources */,
 				1A9C7902244BA5D5003EBF9A /* AppDelegate.swift in Sources */,
+				1AE51448245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */,
 				1A9C7904244BA5D5003EBF9A /* SceneDelegate.swift in Sources */,
 				1A9C7923244BA62B003EBF9A /* MPCFPeerDisplay.swift in Sources */,
 				1A9C7906244BA5D5003EBF9A /* ContentView.swift in Sources */,
@@ -1127,8 +1367,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AE51466245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1AB3ED1424564D40006BB25D /* MPCFPeerDisplay.swift in Sources */,
 				1AB3ED1824564D4D006BB25D /* MPCFProxy.swift in Sources */,
+				1AE51449245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */,
 				1AB3ECAB24564851006BB25D /* AppDelegate.swift in Sources */,
 				1AB3ECAD24564851006BB25D /* SceneDelegate.swift in Sources */,
 				1AC80F5D245BA6120005E029 /* MPCFAutoReflector.swift in Sources */,
@@ -1160,8 +1402,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AE51467245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1AB3ED1524564D43006BB25D /* MPCFPeerDisplay.swift in Sources */,
 				1AB3ED1924564D4E006BB25D /* MPCFProxy.swift in Sources */,
+				1AE5144A245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */,
 				1AB3ECE7245648F1006BB25D /* Document.swift in Sources */,
 				1AB3ECE5245648F1006BB25D /* AppDelegate.swift in Sources */,
 				1AC80F5E245BA6140005E029 /* MPCFAutoReflector.swift in Sources */,
@@ -1178,6 +1422,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AB3ECFD245648F2006BB25D /* MPCF_TestRunner_macTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AE51453245E2F64009C2AF1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AE5146D245E3118009C2AF1 /* MPCFAutoReflector.swift in Sources */,
+				1AE5146F245E3118009C2AF1 /* ReflectorEnvelope.swift in Sources */,
+				1AE51461245E2F70009C2AF1 /* ReflectorEnvelopeTests.swift in Sources */,
+				1AE5145A245E2F64009C2AF1 /* MPCF_Common_Tests.swift in Sources */,
+				1AE51470245E3118009C2AF1 /* TransmissionIdentifier.swift in Sources */,
+				1AE5146C245E3118009C2AF1 /* OTSimpleSpanCollector.swift in Sources */,
+				1AE5146A245E3118009C2AF1 /* MPCFProxy.swift in Sources */,
+				1AE5146E245E3118009C2AF1 /* MPCFTestRunnerModel.swift in Sources */,
+				1AE51469245E309F009C2AF1 /* TransmissionIdentifierTests.swift in Sources */,
+				1AE5146B245E3118009C2AF1 /* MPCFProxyResponder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1213,6 +1474,11 @@
 			isa = PBXTargetDependency;
 			target = 1AB3ECE1245648F1006BB25D /* MPCF-TestRunner-mac */;
 			targetProxy = 1AB3ECF9245648F2006BB25D /* PBXContainerItemProxy */;
+		};
+		1AE5145D245E2F64009C2AF1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A9C78CB244BA32E003EBF9A /* MPCF-Reflector-mac */;
+			targetProxy = 1AE5145C245E2F64009C2AF1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1848,6 +2114,48 @@
 			};
 			name = Release;
 		};
+		1AE5145F245E2F64009C2AF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "MPCF-Common-Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rhonabwy.MPCF-Common-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MPCF-Reflector-mac.app/Contents/MacOS/MPCF-Reflector-mac";
+			};
+			name = Debug;
+		};
+		1AE51460245E2F64009C2AF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "MPCF-Common-Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rhonabwy.MPCF-Common-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MPCF-Reflector-mac.app/Contents/MacOS/MPCF-Reflector-mac";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1955,6 +2263,15 @@
 			buildConfigurations = (
 				1AB3ED03245648F2006BB25D /* Debug */,
 				1AB3ED04245648F2006BB25D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1AE5145E245E2F64009C2AF1 /* Build configuration list for PBXNativeTarget "MPCF-Common-Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AE5145F245E2F64009C2AF1 /* Debug */,
+				1AE51460245E2F64009C2AF1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
