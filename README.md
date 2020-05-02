@@ -1,16 +1,21 @@
 # MPCF-TestBench
 
+[![Actions Status](https://github.com/{owner}/{repo}/workflows/{workflow_name}/badge.svg)](https://github.com/{owner}/{repo}/actions)
+[![license](https://img.shields.io/badge/license-mit-brightgreen.svg)](https://en.wikipedia.org/wiki/MIT_License)
+![swift-5.2](https://img.shields.io/badge/Swift-5.2-orange.svg "Swift 5.2")
+![@heckj](https://img.shields.io/badge/twitter-@heckj-blue.svg?style=flat "Twitter: @heckj")
+
 I was curious how "fast" [MultipeerConnectivity](http://developer.apple.com/documentation/multipeerconnectivity/) operates.
 
-MultipeerConnectivity does a lot of "magic" in a really nice way: peer to peer advertising, 
+MultipeerConnectivity does a lot of "magic" in a really nice way: peer to peer advertising,
 supporting delegated connects, and transfer of data. And it operates seamlessly over multiple transports - bluetooth
 and wifi, focusing on connecting "nearby" peers - while hiding a lot of that detail away.
 
-There are some really interesting wrappers over the top of it as well, such as [MultipeerKit](https://multipeerkit.rambo.codes) ([github repo](https://github.com/insidegui/MultipeerKit)). 
+There are some really interesting wrappers over the top of it as well, such as [MultipeerKit](https://multipeerkit.rambo.codes) ([github repo](https://github.com/insidegui/MultipeerKit)).
 This repository, with it's workspace and targets, is how I'm answering that question.
 
-I found other repositories that worked MultipeerConnectivity to create benchmarks, but most of them are 
-dated and didn't directly compile. This is written with Swift 5, simple UI with SwiftUI, and has targets 
+I found other repositories that worked MultipeerConnectivity to create benchmarks, but most of them are
+dated and didn't directly compile. This is written with Swift 5, simple UI with SwiftUI, and has targets
 building for macOS, iOS, and tvOS.
 
 There are two sides to this "benchmark generator app": a reflector and a test runner.
@@ -20,7 +25,7 @@ There are two sides to this "benchmark generator app": a reflector and a test ru
 
 It's up to you - running the benchmark - to configure your devices appropriately if you want to see differences in transport modes.
 
-Because MultipeerConnectivity works over bluetooth or wifi, and seamlessly across both - and iOS doesn't provide 
+Because MultipeerConnectivity works over bluetooth or wifi, and seamlessly across both - and iOS doesn't provide
 mechanisms to control what's on and off, I'm leaving that to the user setup if that's a dimension you want to gather
 measurements against.
 
@@ -40,7 +45,7 @@ Test Runner
 ### Development setup
 
     brew bundle
-    
+
 investigating the workspace:
 
     xcodebuild -list -workspace MPCF-TestBench.xcworkspace
