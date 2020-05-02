@@ -15,8 +15,10 @@ class OTSimpleSpanCollector: NSObject {
 
     private var spanBucket: Set<OpenTelemetry.Span> = Set()
 
-    func collectSpan(_ span: OpenTelemetry.Span) -> Void {
-        spanBucket.insert(span)
+    func collectSpan(_ span: OpenTelemetry.Span?) -> Void {
+        if let span = span {
+            spanBucket.insert(span)
+        }
     }
     
 }

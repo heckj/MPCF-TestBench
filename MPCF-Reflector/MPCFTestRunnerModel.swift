@@ -11,16 +11,87 @@ import MultipeerConnectivity
 import OpenTelemetryModels
 
 /// Handles the automatic reactions to Multipeer traffic - accepting invitations and responding to any data sent.
-class MPCFTestRunnerModel: NSObject, MPCFProxyResponder {
-    var currentAdvertSpan: OpenTelemetry.Span?
-    var session: MCSession?
+class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
+    internal var currentAdvertSpan: OpenTelemetry.Span?
+    internal var session: MCSession?
 
     private var spanCollector: OTSimpleSpanCollector
     private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
+
+    // local temp collection to track spans between starting and finishing recv resource
     private var dataSpans: [MCPeerID: OpenTelemetry.Span] = [:]
+
+    // local lookup that matches spans with explicit transmissions to a reflector
+    private var transmissionSpans: [TransmissionIdentifier: OpenTelemetry.Span] = [:]
+
+    private let encoder = JSONEncoder()
+    private let decoder = JSONDecoder()
+
+    // MARK: Initializers
 
     init(spanCollector: OTSimpleSpanCollector) {
         self.spanCollector = spanCollector
+    }
+
+    // MARK: State based intializers & SwiftUI exported data views
+
+    @Published var targetPeer: MCPeerID?
+    @Published var numberOfTransmissionsToSend: Int = 0 { // 1, 10, 100
+        didSet {
+            // compare to the count we have - if we need more
+            if (numberOfTransmissionsToSend < xmitLedger.count) {
+                // initialize the data, send it, and record it
+                // in our manifest against future responses
+                for _ in 0...(xmitLedger.count-numberOfTransmissionsToSend) {
+                    sendAndRecordTransmission()
+                }
+            }
+        }
+    }
+    @Published var numberOfTransmissionsRecvd: Int = 0
+
+
+    // collection of information about data transmissions
+    // Bool? gives you a tri-state, nil, true, and false
+    // nil == error on send
+    // true/false == transmission has been sent, if we received a response
+    private var xmitLedger: [TransmissionIdentifier:Bool?] = [:]
+    @Published var transmissionsSent: [TransmissionIdentifier] = []
+
+    private func sendAndRecordTransmission() {
+        guard let targetPeer = targetPeer, let session = session else {
+            // do nothing to send data if there's no target identified
+            // or not session defined
+            return
+        }
+        let xmitId = TransmissionIdentifier(traceName: "xmit")
+        let envelope = ReflectorEnvelope(id: xmitId, size: .x1k)
+        var xmitSpan: OpenTelemetry.Span?
+        do {
+
+            xmitSpan = sessionSpans[targetPeer]?.createChildSpan(name: "data xmit")
+
+            // encode, and wrap it in a span
+            var encodespan = xmitSpan?.createChildSpan(name: "encode")
+            let rawdata = try encoder.encode(envelope)
+            encodespan?.finish()
+            spanCollector.collectSpan(encodespan)
+
+            // send, and wrap it in a span
+            var sessionSendSpan = xmitSpan?.createChildSpan(name: "session.send")
+            try session.send(rawdata, toPeers: [targetPeer], with: .reliable)
+            sessionSendSpan?.finish()
+            spanCollector.collectSpan(sessionSendSpan)
+
+            // record that we sent it, and the span to close it later...
+            transmissionSpans[xmitId] = xmitSpan
+            xmitLedger[xmitId] = false
+            transmissionsSent.append(xmitId)
+        } catch {
+            // TODO: perhaps share notifications of any errors on sending..
+            print("Error attempting to encode and send data: ", error)
+            xmitLedger[xmitId] = nil
+        }
     }
 
     // MARK: MCNearbyServiceAdvertiserDelegate
@@ -87,19 +158,55 @@ class MPCFTestRunnerModel: NSObject, MPCFProxyResponder {
     }
 
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        // when we're receiving data, it's generally because we've had it reflected back to
+        // us from a corresponding reflector. This is the point at which we can mark a signal
+        // as complete from having been sent "there and back".
+        do {
+            let foo = try decoder.decode(ReflectorEnvelope.self, from: data)
+            let xmitId = foo.id
+            xmitLedger[xmitId] = true
+            if var xmitSpan = transmissionSpans[xmitId] {
+                xmitSpan.finish()
+                spanCollector.collectSpan(xmitSpan)
+            }
+        } catch {
+            print("Error while working with received data: ", error)
+        }
 
     }
 
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
 
+        // DO NOTHING - no stream receipt support
     }
 
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
 
+        print("starting receiving resource: \(resourceName)")
+        // event in the session span?
+        if let sessionSpan = sessionSpans[peerID] {
+            var recvDataSpan = sessionSpan.createChildSpan(name: "MPCF-recv-resource")
+            // add an attribute of the current peer
+            recvDataSpan.setTag("peerID", peerID.displayName)
+            // add it into our collection, referenced by Peer
+            dataSpans[peerID] = recvDataSpan
+        }
     }
 
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
-        
+
+        // localURL is a temporarily file with the resource in it
+        print("finished receiving resource: \(resourceName)")
+
+        if var recvDataSpan = dataSpans[peerID] {
+            // complete the span
+            recvDataSpan.finish()
+            // send it on the collector
+            spanCollector.collectSpan(recvDataSpan)
+            // clear it from our temp collection
+            dataSpans[peerID] = nil
+        }
+
     }
 
 

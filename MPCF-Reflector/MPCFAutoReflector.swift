@@ -113,8 +113,6 @@ class MPCFAutoReflector: NSObject, MPCFProxyResponder {
                 OpenTelemetry.Event(
                     "didReceiveData", attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)])
             )
-            // not sure if this is needed - I think we may have made a local copy here...
-            // so this updates the local collection of spans with our updated version
             sessionSpans[peerID] = sessionSpan
         }
         // I think I want to pop open the data, determine:
@@ -132,6 +130,7 @@ class MPCFAutoReflector: NSObject, MPCFProxyResponder {
         _ session: MCSession, didReceive stream: InputStream, withName streamName: String,
         fromPeer peerID: MCPeerID
     ) {
+        // DO NOTHING - no stream receipt support
         print("received stream")
     }
 
