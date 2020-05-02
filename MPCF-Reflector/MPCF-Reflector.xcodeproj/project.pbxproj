@@ -183,6 +183,7 @@
 		1A475A9E2443B7BB004A6ACD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A475AA52443B8C6004A6ACD /* MPCFProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFProxy.swift; sourceTree = "<group>"; };
 		1A475AA82443DB23004A6ACD /* MPCFPeerDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFPeerDisplay.swift; sourceTree = "<group>"; };
+		1A61A192245E212C00EDECA7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		1A9C78CC244BA32E003EBF9A /* MPCF-Reflector-mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MPCF-Reflector-mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A9C78CE244BA32E003EBF9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A9C78D0244BA32E003EBF9A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -337,6 +338,7 @@
 		1A475A532443B08A004A6ACD = {
 			isa = PBXGroup;
 			children = (
+				1A61A192245E212C00EDECA7 /* README.md */,
 				1A475AA52443B8C6004A6ACD /* MPCFProxy.swift */,
 				1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */,
 				1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */,
