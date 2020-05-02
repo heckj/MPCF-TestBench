@@ -15,6 +15,6 @@ import OpenTelemetryModels
 protocol MPCFProxyResponder: MCNearbyServiceAdvertiserDelegate, MCSessionDelegate {
     
     var currentAdvertSpan: OpenTelemetry.Span? { get set }
-    var mcSession: MCSession? { get set }
+    var session: MCSession? { get set }
     
 }

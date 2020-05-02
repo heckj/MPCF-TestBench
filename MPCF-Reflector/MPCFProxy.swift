@@ -29,6 +29,7 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate
     var peerID: MCPeerID
     var advertiser: MCNearbyServiceAdvertiser?
     var browser: MCNearbyServiceBrowser
+    var session: MCSession
     
     var proxyResponder: MPCFProxyResponder?
     var spanCollector: OTSimpleSpanCollector?
@@ -39,7 +40,7 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate
         }
     }
     @Published var peerList: [MPCFReflectorPeerStatus] = []
-    @Published var encryptionPreferences = MCEncryptionPreference.required
+    @Published var encryptionPreferences: MCEncryptionPreference
 
     // place to stash all the completed spans...
     //@Published var spans: [OpenTelemetry.Span] = []
@@ -55,9 +56,16 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate
         }
     }
 
-    init(_ peerID: MCPeerID, collector: OTSimpleSpanCollector? = nil, reflectorconfig: Bool = true) {
+    init(_ peerID: MCPeerID,
+         collector: OTSimpleSpanCollector? = nil,
+         encrypt: MCEncryptionPreference = .required,
+         reflectorconfig: Bool = true) {
         self.peerID = peerID
         self.spanCollector = collector
+        self.encryptionPreferences = encrypt
+        self.session = MCSession(peer: peerID,
+                                 securityIdentity: nil,
+                                 encryptionPreference: encrypt)
         self.browser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
         super.init()
         if (reflectorconfig) {
@@ -73,12 +81,10 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate
     
     /// I could pass the session and advertising delegate in through here...
     func startHosting() {
-        proxyResponder?.mcSession = MCSession(
-            peer: peerID, securityIdentity: nil, encryptionPreference: encryptionPreferences)
-        guard let session = proxyResponder?.mcSession else {
-            return
+        if let responder = proxyResponder {
+            responder.session = self.session
+            session.delegate = proxyResponder
         }
-        session.delegate = proxyResponder
         advertiser = MCNearbyServiceAdvertiser(
             peer: peerID,
             discoveryInfo: nil,
@@ -141,4 +147,15 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
         print("failed to browse for peers: ", error)
     }
+
+    func startSession(with peerID: MCPeerID) {
+        // if we have an avertising span, let's append some events related to the browser on it.
+        proxyResponder?.currentAdvertSpan?.addEvent(OpenTelemetry.Event(
+            "invitePeer",
+            attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
+
+        // to initiate an invite, you use the following on the MCNearbyServiceBrowser:
+        self.browser.invitePeer(peerID, to: session, withContext: nil, timeout: 5.0)
+    }
+
 }

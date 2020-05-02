@@ -14,10 +14,11 @@ import OpenTelemetryModels
 class MPCFAutoReflector: NSObject, MPCFProxyResponder {
     
     var currentAdvertSpan: OpenTelemetry.Span?
-    var mcSession: MCSession?
+    var session: MCSession?
     
     private var spanCollector: OTSimpleSpanCollector?
     private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
+    private var dataSpans: [MCPeerID: OpenTelemetry.Span] = [:]
     // missing properties/vars that I need:
     // currentAdvertSpan - handed in from above I think
     // self.mcSession - need a session object to hand back with the invitation response
@@ -53,7 +54,7 @@ class MPCFAutoReflector: NSObject, MPCFProxyResponder {
                     attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
         }
         // accept all invitations with the default session that we built
-        invitationHandler(true, self.mcSession)
+        invitationHandler(true, self.session)
     }
 
     func advertiser(
@@ -139,7 +140,14 @@ class MPCFAutoReflector: NSObject, MPCFProxyResponder {
         fromPeer peerID: MCPeerID, with progress: Progress
     ) {
         print("starting receiving resource: \(resourceName)")
-        // TODO: create a resource span and link it to the session span...
+        // event in the session span?
+        if let sessionSpan = sessionSpans[peerID] {
+            var recvDataSpan = sessionSpan.createChildSpan(name: "MPCF-recv-resource")
+            // add an attribute of the current peer
+            recvDataSpan.setTag("peerID", peerID.displayName)
+            // add it into our collection, referenced by Peer
+            dataSpans[peerID] = recvDataSpan
+        }
     }
 
     func session(
@@ -148,7 +156,18 @@ class MPCFAutoReflector: NSObject, MPCFProxyResponder {
     ) {
         // localURL is a temporarily file with the resource in it
         print("finished receiving resource: \(resourceName)")
-        // TODO: complete a resource span and store it away, clearing the in-progress span
+
+        if var recvDataSpan = dataSpans[peerID] {
+            // complete the span
+            recvDataSpan.finish()
+            // send it on the collector
+            spanCollector?.collectSpan(recvDataSpan)
+            // clear it from our temp collection
+            dataSpans[peerID] = nil
+        }
+
+        // since we're the reflector, turn around the send the data immediately back
+        // to where it's coming from.
         if let tempResourceURL = localURL {
             session.sendResource(at: tempResourceURL, withName: resourceName, toPeer: peerID) {
                 (Error) -> Void in

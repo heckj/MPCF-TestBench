@@ -8,7 +8,6 @@
 
 import SwiftUI
 import UIKit
-import XCTestStandalone
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
