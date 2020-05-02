@@ -20,14 +20,12 @@ struct TransmissionIdentifier: Identifiable, Hashable, Codable {
     let sequenceNumber: UInt
     let transport: TransportMode
     let traceName: String
-    var sendDataMode : MCSessionSendDataMode {
-        get {
-            switch transport {
-            case .unreliable:
-                return MCSessionSendDataMode.unreliable
-            case .reliable:
-                return MCSessionSendDataMode.reliable
-            }
+    var sendDataMode: MCSessionSendDataMode {
+        switch transport {
+        case .unreliable:
+            return MCSessionSendDataMode.unreliable
+        case .reliable:
+            return MCSessionSendDataMode.reliable
         }
     }
 

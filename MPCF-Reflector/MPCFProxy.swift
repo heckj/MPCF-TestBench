@@ -19,20 +19,21 @@ struct MPCFReflectorPeerStatus: Comparable {
     let connected: Bool
 }
 
-/// The rough moral equivalent of the Transceiver concept in MultiPeerKit's mechanism - send and receive data,
-/// object of responsibility. I'm additionally making it an Observable object to be able to expose the information about
+/// The rough moral equivalent of the Transceiver concept in MultiPeerKit's mechanism.
+///
+/// Send and receive data, object of responsibility.
+/// I'm additionally making it an Observable object to be able to expose the information about
 /// it's state via SwiftUI.
-class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate
-{
+class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
 
     let serviceType = "mpcf-reflector"
     var peerID: MCPeerID
     var advertiser: MCNearbyServiceAdvertiser?
     var browser: MCNearbyServiceBrowser
     var session: MCSession
-    
+
     var proxyResponder: MPCFProxyResponder?
-    var spanCollector: OTSimpleSpanCollector?
+    var spanCollector: OTSimpleSpanCollector
 
     private var internalPeerStatusDict: [MCPeerID: MPCFReflectorPeerStatus] = [:] {
         didSet {
@@ -56,19 +57,26 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate
         }
     }
 
-    init(_ peerID: MCPeerID,
-         collector: OTSimpleSpanCollector? = nil,
-         encrypt: MCEncryptionPreference = .required,
-         reflectorconfig: Bool = true) {
+    init(
+        _ peerID: MCPeerID,
+        collector: OTSimpleSpanCollector? = nil,
+        encrypt: MCEncryptionPreference = .required,
+        reflectorconfig: Bool = true
+    ) {
         self.peerID = peerID
-        self.spanCollector = collector
+        if let collector = collector {
+            self.spanCollector = collector
+        } else {
+            self.spanCollector = OTSimpleSpanCollector()
+        }
         self.encryptionPreferences = encrypt
-        self.session = MCSession(peer: peerID,
-                                 securityIdentity: nil,
-                                 encryptionPreference: encrypt)
+        self.session = MCSession(
+            peer: peerID,
+            securityIdentity: nil,
+            encryptionPreference: encrypt)
         self.browser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
         super.init()
-        if (reflectorconfig) {
+        if reflectorconfig {
             proxyResponder = MPCFAutoReflector(collector)
         }
         self.browser.delegate = self
@@ -78,7 +86,7 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate
     deinit {
         self.browser.stopBrowsingForPeers()
     }
-    
+
     /// I could pass the session and advertising delegate in through here...
     func startHosting() {
         if let responder = proxyResponder {
@@ -92,7 +100,8 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate
         advertiser?.delegate = proxyResponder
         // create a new Span to reference the advertising - this will also be the parent
         // span to any events or sessions... I hope
-        proxyResponder?.currentAdvertSpan = OpenTelemetry.Span.start(name: "ReflectorServiceAdvertiser")
+        proxyResponder?.currentAdvertSpan = OpenTelemetry.Span.start(
+            name: "ReflectorServiceAdvertiser")
         advertiser?.startAdvertisingPeer()
     }
 
@@ -104,7 +113,7 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate
             return
         }
         currentSpan.finish()
-        spanCollector?.collectSpan(currentSpan)
+        spanCollector.collectSpan(currentSpan)
         proxyResponder?.currentAdvertSpan = nil
     }
 
@@ -150,9 +159,10 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate
 
     func startSession(with peerID: MCPeerID) {
         // if we have an avertising span, let's append some events related to the browser on it.
-        proxyResponder?.currentAdvertSpan?.addEvent(OpenTelemetry.Event(
-            "invitePeer",
-            attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
+        proxyResponder?.currentAdvertSpan?.addEvent(
+            OpenTelemetry.Event(
+                "invitePeer",
+                attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
 
         // to initiate an invite, you use the following on the MCNearbyServiceBrowser:
         self.browser.invitePeer(peerID, to: session, withContext: nil, timeout: 5.0)

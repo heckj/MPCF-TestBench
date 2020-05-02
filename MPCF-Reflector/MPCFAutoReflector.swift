@@ -12,10 +12,10 @@ import OpenTelemetryModels
 
 /// Handles the automatic reactions to Multipeer traffic - accepting invitations and responding to any data sent.
 class MPCFAutoReflector: NSObject, MPCFProxyResponder {
-    
+
     var currentAdvertSpan: OpenTelemetry.Span?
     var session: MCSession?
-    
+
     private var spanCollector: OTSimpleSpanCollector?
     private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
     private var dataSpans: [MCPeerID: OpenTelemetry.Span] = [:]
@@ -25,12 +25,12 @@ class MPCFAutoReflector: NSObject, MPCFProxyResponder {
     // self.sessionSpans - collecting of spans, indexed by peerID
     //  -- we look up and add events to existing spans, as well as activating and removing spans
     // self.spans - the set of completed spans
-    
+
     // seems like session, and any spans related to it, are best managed within
     // this class, and we should have a way to "submit back" collected spans when
     // we've put data into them. Maybe broken out into it's own class that we pass into
     // this...
-    
+
     init(_ collector: OTSimpleSpanCollector? = nil) {
         super.init()
         self.spanCollector = collector

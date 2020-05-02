@@ -12,9 +12,9 @@ import XCTest
 
 class MPCF_TestRunner_iosTests: XCTestCase {
 
-    override func setUpWithError() throws { }
+    override func setUpWithError() throws {}
 
-    override func tearDownWithError() throws { }
+    override func tearDownWithError() throws {}
 
     func testNothingStub() throws {
         XCTAssertTrue(true)

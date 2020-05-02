@@ -8,6 +8,7 @@
 
 import Cocoa
 import SwiftUI
+
 //import XCTestStandalone
 
 class Document: NSDocument {
@@ -24,7 +25,6 @@ class Document: NSDocument {
     override func makeWindowControllers() {
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()
-
 
         // Create the window and set the content view.
         let window = NSWindow(
@@ -50,6 +50,4 @@ class Document: NSDocument {
         throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
     }
 
-
 }
-

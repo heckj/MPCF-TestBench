@@ -36,13 +36,13 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     // MARK: State based intializers & SwiftUI exported data views
 
     @Published var targetPeer: MCPeerID?
-    @Published var numberOfTransmissionsToSend: Int = 0 { // 1, 10, 100
+    @Published var numberOfTransmissionsToSend: Int = 0 {  // 1, 10, 100
         didSet {
             // compare to the count we have - if we need more
-            if (numberOfTransmissionsToSend < xmitLedger.count) {
+            if numberOfTransmissionsToSend < xmitLedger.count {
                 // initialize the data, send it, and record it
                 // in our manifest against future responses
-                for _ in 0...(xmitLedger.count-numberOfTransmissionsToSend) {
+                for _ in 0...(xmitLedger.count - numberOfTransmissionsToSend) {
                     sendAndRecordTransmission()
                 }
             }
@@ -50,12 +50,11 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     }
     @Published var numberOfTransmissionsRecvd: Int = 0
 
-
     // collection of information about data transmissions
     // Bool? gives you a tri-state, nil, true, and false
     // nil == error on send
     // true/false == transmission has been sent, if we received a response
-    private var xmitLedger: [TransmissionIdentifier:Bool?] = [:]
+    private var xmitLedger: [TransmissionIdentifier: Bool?] = [:]
     @Published var transmissionsSent: [TransmissionIdentifier] = []
 
     private func sendAndRecordTransmission() {
@@ -96,7 +95,10 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
     // MARK: MCNearbyServiceAdvertiserDelegate
 
-    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
+    func advertiser(
+        _ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID,
+        withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void
+    ) {
         // we received an invitation - which we can respond with an MCSession and affirmation to join
 
         print("received invitation from ", peerID)
@@ -175,12 +177,18 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
     }
 
-    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+    func session(
+        _ session: MCSession, didReceive stream: InputStream, withName streamName: String,
+        fromPeer peerID: MCPeerID
+    ) {
 
         // DO NOTHING - no stream receipt support
     }
 
-    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+    func session(
+        _ session: MCSession, didStartReceivingResourceWithName resourceName: String,
+        fromPeer peerID: MCPeerID, with progress: Progress
+    ) {
 
         print("starting receiving resource: \(resourceName)")
         // event in the session span?
@@ -193,7 +201,10 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         }
     }
 
-    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+    func session(
+        _ session: MCSession, didFinishReceivingResourceWithName resourceName: String,
+        fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?
+    ) {
 
         // localURL is a temporarily file with the resource in it
         print("finished receiving resource: \(resourceName)")
@@ -208,6 +219,5 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         }
 
     }
-
 
 }
