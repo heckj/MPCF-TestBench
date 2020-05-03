@@ -11,9 +11,21 @@ import PreviewBackground
 import SwiftUI
 
 struct MPCFProxyDisplay: View {
-    let proxy: MPCFProxy
+    @ObservedObject var proxy: MPCFProxy
+    // proxy has a .peerList -> MCPeerStatus
+    // .encryptionPreferences
+    // proxy.active is Bool
+    // $proxy
     var body: some View {
-        Text("yo")
+        VStack {
+            Text("I am: \(proxy.peerID.displayName)")
+            Spacer()
+            List(proxy.peerList, id: \.peer) { peerstatus in
+                MPCFPeerDisplay(peerstatus: peerstatus)
+            }
+            Spacer()
+            Toggle(isOn: $proxy.active, label: { Text("enable") })
+        }
     }
 }
 #if DEBUG
