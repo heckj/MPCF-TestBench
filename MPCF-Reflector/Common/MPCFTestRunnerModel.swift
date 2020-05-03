@@ -37,19 +37,23 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     // MARK: State based intializers & SwiftUI exported data views
 
     @Published var targetPeer: MCPeerID?
-    @Published var numberOfTransmissionsToSend: Int = 0 {  // 1, 10, 100
+
+    // kind of stupid that this is a Double, but that's what using a slider
+    // in SwiftUI appears to require, so changing here
+    @Published var numberOfTransmissionsToSend: Double = 0 {  // 1, 10, 100
         didSet {
             // compare to the count we have - if we need more
-            if numberOfTransmissionsToSend < xmitLedger.count {
+            if Int(numberOfTransmissionsToSend) < xmitLedger.count {
                 // initialize the data, send it, and record it
                 // in our manifest against future responses
-                for _ in 0...(xmitLedger.count - numberOfTransmissionsToSend) {
+                for _ in 0...(xmitLedger.count - Int(numberOfTransmissionsToSend)) {
                     sendAndRecordTransmission()
                 }
             }
         }
     }
     @Published var numberOfTransmissionsRecvd: Int = 0
+    @Published var transmissionDelay: Double = 0
 
     // collection of information about data transmissions
     // Bool? gives you a tri-state, nil, true, and false

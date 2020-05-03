@@ -39,7 +39,10 @@ struct MPCFProxyDisplay: View {
             }
 
             VStack(alignment: .leading) {
-                MPCFSessionDisplay(session: proxy.session, sessionState: proxy.proxyResponder?.sessionState ?? .notConnected)
+                MPCFSessionDisplay(
+                    session: proxy.session,
+                    sessionState: proxy.proxyResponder?.sessionState ?? .notConnected
+                )
                 Text("Known Peers").font(.title)
                 List(proxy.peerList, id: \.peer) { peerstatus in
                     MPCFPeerStatusDisplay(peerstatus: peerstatus)
