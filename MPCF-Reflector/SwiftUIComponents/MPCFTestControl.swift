@@ -54,7 +54,6 @@ struct MPCFTestControl: View {
                         }
                     }
                     .environment(\.colorScheme, colorScheme)
-                    .environmentObject(MPCFFakes(true))
                     .previewDisplayName("\(colorScheme)")
                 }
             }

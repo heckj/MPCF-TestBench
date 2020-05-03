@@ -10,7 +10,16 @@ import Foundation
 import MultipeerConnectivity
 
 // local, codable mirror to import MultipeerConnectivity.MCSessionSendDataMode
-enum TransportMode: UInt, Codable {
+enum TransportMode: UInt, Codable, CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .reliable:
+            return "reliable"
+        case .unreliable:
+            return "unreliable"
+        }
+    }
+
     case unreliable = 0
     case reliable = 1
 }

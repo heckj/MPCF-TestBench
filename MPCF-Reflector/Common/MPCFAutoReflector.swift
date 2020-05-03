@@ -11,11 +11,17 @@ import MultipeerConnectivity
 import OpenTelemetryModels
 
 /// Handles the automatic reactions to Multipeer traffic - accepting invitations and responding to any data sent.
-class MPCFAutoReflector: NSObject, MPCFProxyResponder {
+class MPCFAutoReflector: NSObject, ObservableObject, MPCFProxyResponder {
 
     var currentAdvertSpan: OpenTelemetry.Span?
     var session: MCSession?
     var sessionState: MPCFSessionState = .notConnected
+
+    @Published var numberOfTransmissionsRecvd: Int = 0
+    @Published var numberOfResourcesRecvd: Int = 0
+    @Published var transmissions: [TransmissionIdentifier] = []
+
+    private let decoder = JSONDecoder()
 
     private var spanCollector: OTSimpleSpanCollector?
     private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
@@ -109,6 +115,7 @@ class MPCFAutoReflector: NSObject, MPCFProxyResponder {
 
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         print("received data")
+        numberOfTransmissionsRecvd += 1
         if var sessionSpan = sessionSpans[peerID] {
             sessionSpan.addEvent(
                 OpenTelemetry.Event(
@@ -116,11 +123,18 @@ class MPCFAutoReflector: NSObject, MPCFProxyResponder {
             )
             sessionSpans[peerID] = sessionSpan
         }
-        // I think I want to pop open the data, determine:
-        // reliable vs. unreliable transport
-        // get a sequence number or identifier of some kind to send back as well
         do {
-            try session.send(data, toPeers: [peerID], with: .reliable)
+            let xmit = try decoder.decode(ReflectorEnvelope.self, from: data)
+            transmissions.append(xmit.id)
+            switch xmit.id.sendDataMode {
+            case .reliable:
+                try session.send(data, toPeers: [peerID], with: .reliable)
+            case .unreliable:
+                try session.send(data, toPeers: [peerID], with: .unreliable)
+            @unknown default:
+                try session.send(data, toPeers: [peerID], with: .reliable)
+            }
+
         } catch {
             print("Unexpected error: \(error).")
         }
@@ -156,7 +170,7 @@ class MPCFAutoReflector: NSObject, MPCFProxyResponder {
     ) {
         // localURL is a temporarily file with the resource in it
         print("finished receiving resource: \(resourceName)")
-
+        numberOfResourcesRecvd += 1
         if var recvDataSpan = dataSpans[peerID] {
             // complete the span
             recvDataSpan.finish()

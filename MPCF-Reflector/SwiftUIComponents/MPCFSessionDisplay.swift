@@ -17,7 +17,6 @@ struct MPCFSessionDisplay: View {
     /// Exposes the colorscheme in this view so we can make
     /// choices based on it.
     @Environment(\.colorScheme) public var colorSchemeMode
-    @EnvironmentObject var fakes: MPCFFakes
 
     /// Creates the "inverse" of .primary so that I can display constrasting
     /// colors with overlays, but still respect the dark/light mode construction.
@@ -39,12 +38,8 @@ struct MPCFSessionDisplay: View {
     }
 
     private func connectedPeerStrings() -> [String] {
-        if fakes.fakeData {
-            return fakes.fakePeerNames
-        } else {
-            return session.connectedPeers.map {
-                $0.displayName
-            }
+        return session.connectedPeers.map {
+            $0.displayName
         }
     }
 
@@ -94,7 +89,6 @@ struct MPCFSessionDisplay: View {
                         }
                     }
                     .environment(\.colorScheme, colorScheme)
-                    .environmentObject(MPCFFakes(true))
                     .previewDisplayName("\(colorScheme)")
                 }
             }

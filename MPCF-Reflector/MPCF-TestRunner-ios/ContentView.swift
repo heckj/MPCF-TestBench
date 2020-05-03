@@ -6,16 +6,40 @@
 //  Copyright © 2020 JFH Consulting. All rights reserved.
 //
 
+import MultipeerConnectivity
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var proxy: MPCFProxy
     var body: some View {
-        Text("Hello, World!")
+        VStack {
+            MPCFProxyDisplay(proxy: proxy)
+            Text("Span collection size: \(proxy.spanCollector.spanBucket.count)")
+            MPCFTestControl(testRunnerModel: proxy.proxyResponder)
+        }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+#if DEBUG
+    private func proxyWithRunner() -> MPCFProxy {
+        let collector = OTSimpleSpanCollector()
+        let runner = MPCFTestRunnerModel(spanCollector: collector)
+        runner.targetPeer = MCPeerID(displayName: "livePeer")
+
+        let me = MPCFProxy(
+            MCPeerID(displayName: "me"),
+            collector: OTSimpleSpanCollector(),
+            encrypt: .required,
+            reflectorconfig: false
+        )
+        me.proxyResponder = runner
+        return me
+
     }
-}
+
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView(proxy: proxyWithRunner())
+        }
+    }
+#endif
