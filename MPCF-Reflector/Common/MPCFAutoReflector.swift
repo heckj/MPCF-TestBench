@@ -15,6 +15,7 @@ class MPCFAutoReflector: NSObject, MPCFProxyResponder {
 
     var currentAdvertSpan: OpenTelemetry.Span?
     var session: MCSession?
+    var sessionState: MPCFSessionState = .notConnected
 
     private var spanCollector: OTSimpleSpanCollector?
     private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]

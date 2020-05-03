@@ -18,26 +18,34 @@ struct MPCFProxyDisplay: View {
     // $proxy
     var body: some View {
         VStack {
-            Text(proxy.peerID.displayName).font(.largeTitle)
-
             VStack {
-                if (proxy.active) {
-                    Text("Deactivate").foregroundColor(.red)
-                } else {
-                    Text("Activate").foregroundColor(.green)
-                }
+                Text(proxy.peerID.displayName).font(.largeTitle)
 
-                Toggle("active", isOn: $proxy.active).labelsHidden()
-            }.padding()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15)
-                        .stroke(lineWidth: 2)
-                        .foregroundColor(proxy.active ? .green : .gray)
-                )
+                VStack {
+                    if proxy.active {
+                        Text("Deactivate").foregroundColor(.red)
+                    } else {
+                        Text("Activate").foregroundColor(.green)
+                    }
 
-            List(proxy.peerList, id: \.peer) { peerstatus in
-                MPCFPeerDisplay(peerstatus: peerstatus)
+                    Toggle("active", isOn: $proxy.active).labelsHidden()
+                }.padding()
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(lineWidth: 2)
+                            .foregroundColor(proxy.active ? .green : .gray)
+                    )
+
             }
+
+            VStack(alignment: .leading) {
+                MPCFSessionDisplay(session: proxy.session, sessionState: proxy.proxyResponder?.sessionState ?? .notConnected)
+                Text("Known Peers").font(.title)
+                List(proxy.peerList, id: \.peer) { peerstatus in
+                    MPCFPeerStatusDisplay(peerstatus: peerstatus)
+                }
+            }
+
         }
     }
 }
@@ -51,7 +59,7 @@ struct MPCFProxyDisplay: View {
         x.peerList.append(
             MPCFReflectorPeerStatus(peer: MCPeerID(displayName: "second"), connected: false)
         )
-//        x.active = true
+        // x.active = true
         return x
     }
 
@@ -66,6 +74,7 @@ struct MPCFProxyDisplay: View {
                         }
                     }
                     .environment(\.colorScheme, colorScheme)
+                    .environmentObject(MPCFFakes(true))
                     .previewDisplayName("\(colorScheme)")
                 }
             }

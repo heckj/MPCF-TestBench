@@ -14,6 +14,7 @@ import OpenTelemetryModels
 class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     internal var currentAdvertSpan: OpenTelemetry.Span?
     internal var session: MCSession?
+    internal var sessionState: MPCFSessionState = .notConnected
 
     private var spanCollector: OTSimpleSpanCollector
     private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
@@ -121,6 +122,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
         switch state {
         case MCSessionState.connected:
+            sessionState = .connected
             print("Connected: \(peerID.displayName)")
             // event in the session span?
             if var sessionSpan = sessionSpans[peerID] {
@@ -134,6 +136,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             }
 
         case MCSessionState.connecting:
+            sessionState = .connecting
             print("Connecting: \(peerID.displayName)")
             // i think this is the start of the span - but it might be when we recv invitation above...
             if let currentAdvertSpan = currentAdvertSpan {
@@ -145,6 +148,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             }
 
         case MCSessionState.notConnected:
+            sessionState = .notConnected
             print("Not Connected: \(peerID.displayName)")
             // and this is the end of a span... I think
             if var sessionSpan = sessionSpans[peerID] {
