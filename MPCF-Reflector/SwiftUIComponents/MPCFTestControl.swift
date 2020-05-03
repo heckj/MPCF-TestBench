@@ -18,18 +18,18 @@ struct MPCFTestControl: View {
             Text("Number of transmissions to send").font(.headline)
             Slider(
                 value: $testRunnerModel.numberOfTransmissionsToSend,
-                in: 0...20,
+                in: 0...100,
                 minimumValueLabel: Text("0"),
-                maximumValueLabel: Text("20"),
+                maximumValueLabel: Text("100"),
                 label: { EmptyView() }
             )
             Divider()
             Text("Delay between transmissions (in ms)").font(.headline)
             Slider(
                 value: $testRunnerModel.transmissionDelay,
-                in: 0...200,
+                in: 0...2000,
                 minimumValueLabel: Text("0"),
-                maximumValueLabel: Text("200"),
+                maximumValueLabel: Text("2000"),
                 label: { EmptyView() }
             )
         }

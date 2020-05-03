@@ -11,6 +11,13 @@ import PreviewBackground
 import SwiftUI
 
 struct MPCFTestStatus: View {
+
+    private let df = DateFormatter()
+    private func stringFromDate(_ date: Date) -> String {
+        df.dateFormat = "y-MM-dd H:m:ss.SSSS"
+        return df.string(from: date)
+    }
+
     @ObservedObject var testRunnerModel: MPCFTestRunnerModel
     var body: some View {
         VStack(alignment: .leading) {
@@ -30,12 +37,24 @@ struct MPCFTestStatus: View {
             HStack {
                 Text("Received").font(.headline)
                 ProgressBar(
-                    value: Double(testRunnerModel.transmissionsSent.count),
-                    maxValue: Double(testRunnerModel.numberOfTransmissionsRecvd)
+                    value: Double(testRunnerModel.numberOfTransmissionsRecvd),
+                    maxValue:
+                        Double(testRunnerModel.transmissionsSent.count)
+
                 )
             }
             Divider()
-
+            List(testRunnerModel.reportsReceived, id: \.self) {
+                xmitreport in
+                Text("\(xmitreport.bandwidth, specifier: "%.2f") bytes/sec at \(self.stringFromDate(xmitreport.end))").font(.caption)
+            }
+            Divider()
+            Text("Summary")
+            HStack {
+                Text("Average: \(testRunnerModel.summary.average, specifier: "%.2f")")
+                Text("StdDev: \(testRunnerModel.summary.stddev, specifier: "%.2f")")
+                Text("Max: \(testRunnerModel.summary.max, specifier: "%.2f")")
+            }
         }
 
     }
@@ -46,7 +65,22 @@ struct MPCFTestStatus: View {
         let me = MPCFTestRunnerModel(spanCollector: OTSimpleSpanCollector())
         me.targetPeer = MCPeerID(displayName: "livePeer")
         me.numberOfTransmissionsToSend = 100
-        me.numberOfTransmissionsRecvd = 69
+        // record that we've sent 35
+        for _ in 1...35 {
+            me.transmissionsSent.append(TransmissionIdentifier(traceName: "x"))
+        }
+        // record that we've received 20
+        me.numberOfTransmissionsRecvd = 20
+        for _ in 1...20 {
+            me.reportsReceived.append(
+                RoundTripXmitReport(
+                    start: Date(),
+                    end: Date() + TimeInterval(1),
+                    dataSize: 4321
+                )
+            )
+        }
+
         return me
     }
 

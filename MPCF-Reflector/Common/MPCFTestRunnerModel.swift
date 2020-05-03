@@ -56,11 +56,12 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     @Published var transmissionDelay: Double = 0
 
     // collection of information about data transmissions
-    // Bool? gives you a tri-state, nil, true, and false
-    // nil == error on send
-    // true/false == transmission has been sent, if we received a response
-    private var xmitLedger: [TransmissionIdentifier: Bool?] = [:]
+    private var xmitLedger: [TransmissionIdentifier: RoundTripXmitReport?] = [:]
     @Published var transmissionsSent: [TransmissionIdentifier] = []
+    @Published var reportsReceived: [RoundTripXmitReport] = []
+    var summary: XmitSummary {
+        XmitSummary(reportsReceived)
+    }
 
     private func sendAndRecordTransmission() {
         guard let targetPeer = targetPeer, let session = session else {
@@ -89,7 +90,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
             // record that we sent it, and the span to close it later...
             transmissionSpans[xmitId] = xmitSpan
-            xmitLedger[xmitId] = false
+            xmitLedger[xmitId] = nil
             transmissionsSent.append(xmitId)
         } catch {
             // TODO: perhaps share notifications of any errors on sending..
@@ -172,17 +173,25 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         // us from a corresponding reflector. This is the point at which we can mark a signal
         // as complete from having been sent "there and back".
         do {
+            let transmissionFinished = Date()
             let foo = try decoder.decode(ReflectorEnvelope.self, from: data)
             let xmitId = foo.id
-            xmitLedger[xmitId] = true
             if var xmitSpan = transmissionSpans[xmitId] {
-                xmitSpan.finish()
+                let report = RoundTripXmitReport(
+                    start: xmitSpan.startDate(),
+                    end: transmissionFinished,
+                    dataSize: data.count
+                )
+                xmitLedger[xmitId] = report
+                reportsReceived.append(report)
+                xmitSpan.finish(end: transmissionFinished)
                 spanCollector.collectSpan(xmitSpan)
+                transmissionSpans[xmitId] = nil
+                numberOfTransmissionsRecvd += 1
             }
         } catch {
             print("Error while working with received data: ", error)
         }
-
     }
 
     func session(
