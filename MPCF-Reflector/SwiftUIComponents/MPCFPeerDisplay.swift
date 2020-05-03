@@ -22,7 +22,7 @@ struct MPCFPeerDisplay: View {
             Circle()
                 .fill(colorFromStatus())
                 .frame(width: 8, height: 8, alignment: .center)
-            Text(peerstatus.peer.displayName)
+            Text(peerstatus.peer.displayName).font(.body)
         }
     }
 }

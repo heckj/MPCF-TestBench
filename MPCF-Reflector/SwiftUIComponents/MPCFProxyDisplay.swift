@@ -18,25 +18,51 @@ struct MPCFProxyDisplay: View {
     // $proxy
     var body: some View {
         VStack {
-            Text("I am: \(proxy.peerID.displayName)")
-            Spacer()
+            Text(proxy.peerID.displayName).font(.largeTitle)
+
+            VStack {
+                if (proxy.active) {
+                    Text("Deactivate").foregroundColor(.red)
+                } else {
+                    Text("Activate").foregroundColor(.green)
+                }
+
+                Toggle("active", isOn: $proxy.active).labelsHidden()
+            }.padding()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(lineWidth: 2)
+                        .foregroundColor(proxy.active ? .green : .gray)
+                )
+
             List(proxy.peerList, id: \.peer) { peerstatus in
                 MPCFPeerDisplay(peerstatus: peerstatus)
             }
-            Spacer()
-            Toggle(isOn: $proxy.active, label: { Text("enable") })
         }
     }
 }
 #if DEBUG
+    private func proxyWithTwoPeers() -> MPCFProxy {
+        let x = MPCFProxy(MCPeerID(displayName: "livePeer"))
+        x.peerList.append(
+            MPCFReflectorPeerStatus(peer: MCPeerID(displayName: "first"), connected: true)
+        )
+
+        x.peerList.append(
+            MPCFReflectorPeerStatus(peer: MCPeerID(displayName: "second"), connected: false)
+        )
+//        x.active = true
+        return x
+    }
+
     struct MPCFProxyDisplay_Previews: PreviewProvider {
         static var previews: some View {
             Group {
                 ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
                     PreviewBackground {
-                        VStack {
+                        VStack(alignment: .leading) {
                             MPCFProxyDisplay(
-                                proxy: MPCFProxy(MCPeerID(displayName: "livePeer")))
+                                proxy: proxyWithTwoPeers())
                         }
                     }
                     .environment(\.colorScheme, colorScheme)
