@@ -15,23 +15,48 @@ struct MPCFTestControl: View {
     var body: some View {
         VStack(alignment: .leading) {
 
-            Text("Number of transmissions to send").font(.headline)
-            Slider(
-                value: $testRunnerModel.numberOfTransmissionsToSend,
-                in: 0...100,
-                minimumValueLabel: Text("0"),
-                maximumValueLabel: Text("100"),
-                label: { EmptyView() }
-            )
+            HStack {
+                Text("Send").font(.body)
+                Text("\(testRunnerModel.numberOfTransmissionsToSend, specifier: "%.0f")")
+                Slider(
+                    value: $testRunnerModel.numberOfTransmissionsToSend,
+                    in: 1...1000,
+                    minimumValueLabel: Text(""),
+                    maximumValueLabel: Text("1000"),
+                    label: { EmptyView() }
+                )
+            }
             Divider()
-            Text("Delay between transmissions (in ms)").font(.headline)
-            Slider(
-                value: $testRunnerModel.transmissionDelay,
-                in: 0...2000,
-                minimumValueLabel: Text("0"),
-                maximumValueLabel: Text("2000"),
-                label: { EmptyView() }
-            )
+            HStack {
+                Text("Delay").font(.body)
+                Text("\(testRunnerModel.transmissionDelay, specifier: "%.2f")")
+                Slider(
+                    value: $testRunnerModel.transmissionDelay,
+                    in: 0...2,
+                    step: 0.5,
+                    minimumValueLabel: Text(""),
+                    maximumValueLabel: Text("2"),
+                    label: { EmptyView() }
+                )
+            }
+            VStack {
+                Divider()
+                HStack {
+                    if testRunnerModel.active {
+                        Text("Deactivate Test").foregroundColor(.red)
+                    } else {
+                        Text("Activate Test").foregroundColor(.green)
+                    }
+
+                    Toggle("active", isOn: $testRunnerModel.active).labelsHidden()
+                }.padding()
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(lineWidth: 2)
+                            .foregroundColor(testRunnerModel.active ? .green : .gray)
+                    )
+            }
+
         }
 
     }

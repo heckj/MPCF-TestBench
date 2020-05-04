@@ -21,11 +21,11 @@ struct MPCFProxyDisplay: View {
             VStack {
                 Text(proxy.peerID.displayName).font(.largeTitle)
 
-                VStack {
+                HStack {
                     if proxy.active {
-                        Text("Deactivate").foregroundColor(.red)
+                        Text("Deactivate Multipeer").foregroundColor(.red)
                     } else {
-                        Text("Activate").foregroundColor(.green)
+                        Text("Activate Multipeer").foregroundColor(.green)
                     }
 
                     Toggle("active", isOn: $proxy.active).labelsHidden()
@@ -35,20 +35,11 @@ struct MPCFProxyDisplay: View {
                             .stroke(lineWidth: 2)
                             .foregroundColor(proxy.active ? .green : .gray)
                     )
-
-            }
-
-            VStack(alignment: .leading) {
                 MPCFSessionDisplay(
                     session: proxy.session,
                     sessionState: proxy.proxyResponder?.sessionState ?? .notConnected
                 )
-                Text("Known Peers").font(.title)
-                List(proxy.peerList, id: \.peer) { peerstatus in
-                    MPCFPeerStatusDisplay(peerstatus: peerstatus)
-                }
             }
-
         }
     }
 }

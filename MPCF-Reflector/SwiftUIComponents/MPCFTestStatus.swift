@@ -39,14 +39,15 @@ struct MPCFTestStatus: View {
                 ProgressBar(
                     value: Double(testRunnerModel.numberOfTransmissionsRecvd),
                     maxValue:
-                        Double(testRunnerModel.transmissionsSent.count)
-
+                        testRunnerModel.numberOfTransmissionsToSend
                 )
             }
             Divider()
             List(testRunnerModel.reportsReceived, id: \.self) {
                 xmitreport in
-                Text("\(xmitreport.bandwidth, specifier: "%.2f") bytes/sec at \(self.stringFromDate(xmitreport.end))").font(.caption)
+                Text("\(xmitreport.bandwidth, specifier: "%.2f") bytes/sec ")
+                    + Text("at \(self.stringFromDate(xmitreport.end))")
+                    .font(.caption)
             }
             Divider()
             Text("Summary")

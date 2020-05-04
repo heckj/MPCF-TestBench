@@ -70,6 +70,12 @@ struct XmitSummary {
         count = rawValues.count
         average = rawValues.avg()
         stddev = rawValues.std()
-        median = rawValues[rawValues.count / 2]
+        if rawValues.count < 1 {
+            median = 0
+        } else if rawValues.count == 1 {
+            self.median = self.rawValues[0]
+        } else {
+            self.median = rawValues[rawValues.count / 2]
+        }
     }
 }

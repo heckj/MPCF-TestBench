@@ -15,6 +15,8 @@ struct ContentView: View {
         VStack {
             MPCFProxyDisplay(proxy: proxy)
             Divider()
+            MPCFProxyPeerDisplay(proxy: proxy)
+            Divider()
             Text("Span collection size: \(proxy.spanCollector.spanBucket.count)")
             Divider()
             MPCFReflectorStatus(reflector: proxy.proxyResponder as! MPCFAutoReflector)

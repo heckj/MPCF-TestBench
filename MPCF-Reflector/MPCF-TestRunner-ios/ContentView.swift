@@ -12,10 +12,36 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var proxy: MPCFProxy
     var body: some View {
-        VStack {
-            MPCFProxyDisplay(proxy: proxy)
-            Text("Span collection size: \(proxy.spanCollector.spanBucket.count)")
-            MPCFTestControl(testRunnerModel: proxy.proxyResponder)
+        NavigationView {
+            VStack {
+                MPCFProxyDisplay(proxy: proxy)
+                Divider()
+                Text("Span collection size: \(proxy.spanCollector.spanBucket.count)")
+                MPCFTestControl(testRunnerModel: proxy.proxyResponder as! MPCFTestRunnerModel)
+                Divider()
+                VStack(alignment: .leading) {
+                    Text("Known Peers").font(.body)
+                    List(proxy.peerList, id: \.peer) { peerstatus in
+                        HStack {
+                            MPCFPeerStatusDisplay(peerstatus: peerstatus)
+                                .onTapGesture {
+                                    let runner = self.proxy.proxyResponder as! MPCFTestRunnerModel
+                                    self.proxy.startSession(with: peerstatus.peer)
+                                    runner.targetPeer = peerstatus.peer
+                                }
+
+                            NavigationLink(
+                                destination: TestRunnerView(
+                                    testrunner: self.proxy.proxyResponder as! MPCFTestRunnerModel),
+                                label: { Text("go") }
+                            )
+
+                        }
+                    }
+                }
+                Divider()
+                //MPCFTestStatus(testRunnerModel: proxy.proxyResponder as! MPCFTestRunnerModel)
+            }
         }
     }
 }
