@@ -27,6 +27,12 @@ struct MPCFReflectorStatus: View {
                     Text(String(describing: xmit.transport)).font(.caption)
                 }
             }
+            Divider()
+            HStack {
+                ForEach(reflector.errorList, id: \.self) {
+                    Text($0).font(.caption)
+                }
+            }
         }
 
     }

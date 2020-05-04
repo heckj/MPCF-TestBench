@@ -18,7 +18,6 @@ struct MPCFProxyPeerDisplay: View {
             List(proxy.peerList, id: \.peer) { peerstatus in
                 MPCFPeerStatusDisplay(peerstatus: peerstatus)
             }
-
             HStack {
                 ForEach(proxy.errorList, id: \.self) { err in
                     Text("\(err)").font(.caption)

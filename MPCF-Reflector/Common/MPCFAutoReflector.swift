@@ -21,22 +21,13 @@ class MPCFAutoReflector: NSObject, ObservableObject, MPCFProxyResponder {
     @Published var numberOfResourcesRecvd: Int = 0
     @Published var transmissions: [TransmissionIdentifier] = []
 
+    @Published var errorList: [String] = []
+
     private let decoder = JSONDecoder()
 
     private var spanCollector: OTSimpleSpanCollector?
     private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
     private var dataSpans: [MCPeerID: OpenTelemetry.Span] = [:]
-    // missing properties/vars that I need:
-    // currentAdvertSpan - handed in from above I think
-    // self.mcSession - need a session object to hand back with the invitation response
-    // self.sessionSpans - collecting of spans, indexed by peerID
-    //  -- we look up and add events to existing spans, as well as activating and removing spans
-    // self.spans - the set of completed spans
-
-    // seems like session, and any spans related to it, are best managed within
-    // this class, and we should have a way to "submit back" collected spans when
-    // we've put data into them. Maybe broken out into it's own class that we pass into
-    // this...
 
     init(_ collector: OTSimpleSpanCollector? = nil) {
         super.init()
@@ -68,6 +59,9 @@ class MPCFAutoReflector: NSObject, ObservableObject, MPCFProxyResponder {
         _ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error
     ) {
         print("failed to advertise: ", error)
+        DispatchQueue.main.async {
+            self.errorList.append(error.localizedDescription)
+        }
     }
 
     // MARK: MCSessionDelegate methods
@@ -144,15 +138,21 @@ class MPCFAutoReflector: NSObject, ObservableObject, MPCFProxyResponder {
             }
             switch xmit.id.sendDataMode {
             case .reliable:
+                print("reflecting .reliable \(data.count) bytes back to \(peerID.displayName)")
                 try session.send(data, toPeers: [peerID], with: .reliable)
             case .unreliable:
+                print("reflecting .unreliable \(data.count) bytes back to \(peerID.displayName)")
                 try session.send(data, toPeers: [peerID], with: .unreliable)
             @unknown default:
                 try session.send(data, toPeers: [peerID], with: .reliable)
+                print("reflecting .reliable \(data.count) bytes back to \(peerID.displayName)")
             }
-
+            print("data sent, reflection complete")
         } catch {
             print("Unexpected error: \(error).")
+            DispatchQueue.main.async {
+                self.errorList.append(error.localizedDescription)
+            }
         }
 
     }
@@ -203,6 +203,9 @@ class MPCFAutoReflector: NSObject, ObservableObject, MPCFProxyResponder {
                 (Error) -> Void in
                 if let error = Error {
                     print("Unexpected error: \(error).")
+                    DispatchQueue.main.async {
+                        self.errorList.append(error.localizedDescription)
+                    }
                 }
             }
         }
