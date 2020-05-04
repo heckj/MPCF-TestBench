@@ -42,6 +42,7 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
     }
     @Published var peerList: [MPCFReflectorPeerStatus] = []
     @Published var encryptionPreferences: MCEncryptionPreference
+    @Published var errorList: [String] = []
 
     // place to stash all the completed spans...
     //@Published var spans: [OpenTelemetry.Span] = []
@@ -60,7 +61,7 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
     init(
         _ peerID: MCPeerID,
         collector: OTSimpleSpanCollector? = nil,
-        encrypt: MCEncryptionPreference = .required,
+        encrypt: MCEncryptionPreference = .optional,
         reflectorconfig: Bool = true
     ) {
         self.peerID = peerID
@@ -155,9 +156,11 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
 
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
         print("failed to browse for peers: ", error)
+        errorList.append(error.localizedDescription)
     }
 
     func startSession(with peerID: MCPeerID) {
+        print("inviting multipeer connection with ", peerID.displayName)
         // if we have an avertising span, let's append some events related to the browser on it.
         proxyResponder?.currentAdvertSpan?.addEvent(
             OpenTelemetry.Event(

@@ -72,6 +72,16 @@ class MPCFAutoReflector: NSObject, ObservableObject, MPCFProxyResponder {
 
     // MARK: MCSessionDelegate methods
 
+    func session(
+        _ session: MCSession,
+        didReceiveCertificate certificate: [Any]?,
+        fromPeer peerID: MCPeerID,
+        certificateHandler: @escaping (Bool) -> Void
+    ) {
+        print("from \(peerID.displayName) received certificate: ", certificate as Any)
+        certificateHandler(true)
+    }
+
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
         case MCSessionState.connected:
@@ -106,7 +116,9 @@ class MPCFAutoReflector: NSObject, ObservableObject, MPCFProxyResponder {
                 spanCollector?.collectSpan(sessionSpan)
             }
             // after we "record" it - we kill the current span reference in the dictionary by peer
-            sessionSpans.removeValue(forKey: peerID)
+            DispatchQueue.main.async {
+                self.sessionSpans.removeValue(forKey: peerID)
+            }
 
         @unknown default:
             fatalError("unsupported MCSessionState result")
@@ -115,7 +127,9 @@ class MPCFAutoReflector: NSObject, ObservableObject, MPCFProxyResponder {
 
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         print("received data")
-        numberOfTransmissionsRecvd += 1
+        DispatchQueue.main.async {
+            self.numberOfTransmissionsRecvd += 1
+        }
         if var sessionSpan = sessionSpans[peerID] {
             sessionSpan.addEvent(
                 OpenTelemetry.Event(
@@ -125,7 +139,9 @@ class MPCFAutoReflector: NSObject, ObservableObject, MPCFProxyResponder {
         }
         do {
             let xmit = try decoder.decode(ReflectorEnvelope.self, from: data)
-            transmissions.append(xmit.id)
+            DispatchQueue.main.async {
+                self.transmissions.append(xmit.id)
+            }
             switch xmit.id.sendDataMode {
             case .reliable:
                 try session.send(data, toPeers: [peerID], with: .reliable)

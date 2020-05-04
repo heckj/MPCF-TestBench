@@ -27,7 +27,6 @@ struct MPCFProxyDisplay: View {
                     } else {
                         Text("Activate Multipeer").foregroundColor(.green)
                     }
-
                     Toggle("active", isOn: $proxy.active).labelsHidden()
                 }.padding()
                     .overlay(
