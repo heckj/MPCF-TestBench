@@ -14,7 +14,16 @@ import OpenTelemetryModels
 class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     internal var currentAdvertSpan: OpenTelemetry.Span?
     @Published var session: MCSession?
-    internal var sessionState: MPCFSessionState = .notConnected
+
+    // mechanisms for reflecting the internal session state to UI
+    @Published var sessionState: MPCFSessionState = .notConnected
+    @Published var connectedPeers: [MCPeerID] = []
+    @Published var errorList: [String] = []
+
+    @Published var numberOfTransmissionsSent: Int = 0
+    @Published var numberOfTransmissionsRecvd: Int = 0
+    @Published var numberOfResourcesRecvd: Int = 0
+    @Published var transmissions: [TransmissionIdentifier] = []
 
     private var spanCollector: OTSimpleSpanCollector
     private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
@@ -35,9 +44,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     }
 
     // MARK: State based intializers & SwiftUI exported data views
-
     @Published var targetPeer: MCPeerID?
-    @Published var errorList: [String] = []
 
     @Published var active = false {
         didSet {
@@ -63,12 +70,20 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     // kind of stupid that this is a Double, but that's what using a slider
     // in SwiftUI appears to require, so changing here
     @Published var numberOfTransmissionsToSend: Double = 1  // 1, 10, 100
-    @Published var numberOfTransmissionsRecvd: Int = 0
     @Published var transmissionDelay: Double = 0  // in seconds
 
     // collection of information about data transmissions
-    private var xmitLedger: [TransmissionIdentifier: RoundTripXmitReport?] = [:]
-    @Published var transmissionsSent: [TransmissionIdentifier] = []
+    private var xmitLedger: [TransmissionIdentifier: RoundTripXmitReport?] = [:] {
+        didSet {
+            transmissions = xmitLedger.keys.sorted()
+            numberOfTransmissionsSent = xmitLedger.count
+            numberOfTransmissionsRecvd =
+                xmitLedger.compactMap {
+                    $0.value
+                }.count
+        }
+    }
+
     @Published var reportsReceived: [RoundTripXmitReport] = []
     var summary: XmitSummary {
         XmitSummary(reportsReceived)
@@ -102,7 +117,6 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             // record that we sent it, and the span to close it later...
             transmissionSpans[xmitId] = xmitSpan
             xmitLedger[xmitId] = nil
-            transmissionsSent.append(xmitId)
         } catch {
             // TODO: perhaps share notifications of any errors on sending..
             print("Error attempting to encode and send data: ", error)
@@ -138,6 +152,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         switch state {
         case MCSessionState.connected:
             sessionState = .connected
+            connectedPeers = session.connectedPeers
             print("Connected: \(peerID.displayName)")
             print("to peers: ", session.connectedPeers)
             // event in the session span?
@@ -153,6 +168,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
         case MCSessionState.connecting:
             sessionState = .connecting
+            connectedPeers = session.connectedPeers
             print("Connecting: \(peerID.displayName)")
             // i think this is the start of the span - but it might be when we recv invitation above...
             if let currentAdvertSpan = currentAdvertSpan {
@@ -165,6 +181,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
         case MCSessionState.notConnected:
             sessionState = .notConnected
+            connectedPeers = session.connectedPeers
             print("Not Connected: \(peerID.displayName)")
             // and this is the end of a span... I think
             if var sessionSpan = sessionSpans[peerID] {
@@ -209,6 +226,10 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
                 spanCollector.collectSpan(xmitSpan)
                 transmissionSpans[xmitId] = nil
                 numberOfTransmissionsRecvd += 1
+            } else {
+                let msgString = "Unable to look up a transmission from: \(xmitId)."
+                print(msgString)
+                errorList.append(msgString)
             }
         } catch {
             print("Error while working with received data: ", error)

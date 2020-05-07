@@ -34,10 +34,7 @@ struct MPCFProxyDisplay: View {
                             .stroke(lineWidth: 2)
                             .foregroundColor(proxy.active ? .green : .gray)
                     )
-                MPCFSessionDisplay(
-                    session: proxy.session,
-                    sessionState: proxy.proxyResponder?.sessionState ?? .notConnected
-                )
+                MPCFSessionDisplay(responder: proxy.proxyResponder!)
             }
         }
     }

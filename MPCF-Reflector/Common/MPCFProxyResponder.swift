@@ -21,8 +21,20 @@ enum MPCFSessionState: String, Codable {
 /// protocol description for a trace-enabled MPCF Proxy responder.
 protocol MPCFProxyResponder: MCNearbyServiceAdvertiserDelegate, MCSessionDelegate {
 
+    // configuration control
     var currentAdvertSpan: OpenTelemetry.Span? { get set }
     var session: MCSession? { get set }
+
+    // session state reflection
     var sessionState: MPCFSessionState { get set }
+    var connectedPeers: [MCPeerID] { get set }
+
+    // general responder reflection
+    var errorList: [String] { get set }
+
+    // data transmissions reflection
+    var numberOfTransmissionsRecvd: Int { get set }
+    var numberOfResourcesRecvd: Int { get set }
+    var transmissions: [TransmissionIdentifier] { get set }
 
 }

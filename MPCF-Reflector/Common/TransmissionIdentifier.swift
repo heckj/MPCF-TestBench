@@ -24,7 +24,13 @@ enum TransportMode: UInt, Codable, CustomStringConvertible {
     case reliable = 1
 }
 
-struct TransmissionIdentifier: Identifiable, Hashable, Codable {
+struct TransmissionIdentifier: Identifiable, Hashable, Codable, Comparable {
+
+    /// comparable conformance.
+    static func < (lhs: TransmissionIdentifier, rhs: TransmissionIdentifier) -> Bool {
+        lhs.sequenceNumber < rhs.sequenceNumber
+    }
+
     let id = UUID()
     let sequenceNumber: UInt
     let transport: TransportMode

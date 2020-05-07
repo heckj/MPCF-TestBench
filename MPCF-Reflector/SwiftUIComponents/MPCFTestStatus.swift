@@ -28,7 +28,7 @@ struct MPCFTestStatus: View {
             HStack {
                 Text("Sent         ").font(.headline)
                 ProgressBar(
-                    value: Double(testRunnerModel.transmissionsSent.count),
+                    value: Double(testRunnerModel.numberOfTransmissionsSent),
                     maxValue: testRunnerModel.numberOfTransmissionsToSend
                 )
             }
@@ -67,9 +67,7 @@ struct MPCFTestStatus: View {
         me.targetPeer = MCPeerID(displayName: "livePeer")
         me.numberOfTransmissionsToSend = 100
         // record that we've sent 35
-        for _ in 1...35 {
-            me.transmissionsSent.append(TransmissionIdentifier(traceName: "x"))
-        }
+        me.numberOfTransmissionsSent = 35
         // record that we've received 20
         me.numberOfTransmissionsRecvd = 20
         for _ in 1...20 {

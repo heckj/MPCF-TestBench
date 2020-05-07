@@ -11,8 +11,7 @@ import PreviewBackground
 import SwiftUI
 
 struct MPCFSessionDisplay: View {
-    let session: MCSession
-    let sessionState: MPCFSessionState
+    let responder: MPCFProxyResponder
 
     /// Exposes the colorscheme in this view so we can make
     /// choices based on it.
@@ -30,15 +29,15 @@ struct MPCFSessionDisplay: View {
     }
 
     private func connectedSession() -> Bool {
-        return sessionState == .connected
+        responder.sessionState == .connected
     }
 
     private func encryptedSession() -> Bool {
-        session.encryptionPreference == .required
+        responder.session?.encryptionPreference == .required
     }
 
     private func connectedPeerStrings() -> [String] {
-        return session.connectedPeers.map {
+        return responder.connectedPeers.map {
             $0.displayName
         }
     }
@@ -51,10 +50,7 @@ struct MPCFSessionDisplay: View {
                 } else {
                     Image(systemName: "lock.slash")
                 }
-                Text("Session: \(sessionState.rawValue)")
-            }
-            HStack {
-                Image(systemName: "person.2.square.stack").font(.headline)
+                Text("(ME): \(responder.sessionState.rawValue)")
                 ForEach(connectedPeerStrings(), id: \.self) { displayname in
                     Text(displayname)
                         .hidden()
@@ -73,10 +69,17 @@ struct MPCFSessionDisplay: View {
 }
 
 #if DEBUG
-    private func fakeSession() -> MCSession {
+    private func fakeResponder() -> MPCFProxyResponder {
         let me = MCPeerID(displayName: "thisPeer")
-        let x = MCSession(peer: me, securityIdentity: nil, encryptionPreference: .required)
-        return x
+        let autoresponder = MPCFAutoReflector()
+        autoresponder.session = MCSession(
+            peer: me,
+            securityIdentity: nil,
+            encryptionPreference: .required
+        )
+        autoresponder.sessionState = .connected
+        autoresponder.connectedPeers.append(MCPeerID(displayName: "livePeer"))
+        return autoresponder
     }
 
     struct MPCFSessionDisplay_Previews: PreviewProvider {
@@ -85,7 +88,7 @@ struct MPCFSessionDisplay: View {
                 ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
                     PreviewBackground {
                         VStack(alignment: .leading) {
-                            MPCFSessionDisplay(session: fakeSession(), sessionState: .connected)
+                            MPCFSessionDisplay(responder: fakeResponder())
                         }
                     }
                     .environment(\.colorScheme, colorScheme)

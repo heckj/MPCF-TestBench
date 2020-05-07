@@ -15,13 +15,15 @@ class MPCFAutoReflector: NSObject, ObservableObject, MPCFProxyResponder {
 
     var currentAdvertSpan: OpenTelemetry.Span?
     var session: MCSession?
-    var sessionState: MPCFSessionState = .notConnected
+
+    // mechanisms for reflecting the internal session state to UI
+    @Published var sessionState: MPCFSessionState = .notConnected
+    @Published var connectedPeers: [MCPeerID] = []
+    @Published var errorList: [String] = []
 
     @Published var numberOfTransmissionsRecvd: Int = 0
     @Published var numberOfResourcesRecvd: Int = 0
     @Published var transmissions: [TransmissionIdentifier] = []
-
-    @Published var errorList: [String] = []
 
     private let decoder = JSONDecoder()
 
