@@ -75,12 +75,14 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     // collection of information about data transmissions
     private var xmitLedger: [TransmissionIdentifier: RoundTripXmitReport?] = [:] {
         didSet {
-            transmissions = xmitLedger.keys.sorted()
-            numberOfTransmissionsSent = xmitLedger.count
-            numberOfTransmissionsRecvd =
-                xmitLedger.compactMap {
-                    $0.value
-                }.count
+            DispatchQueue.main.async {
+                self.transmissions = self.xmitLedger.keys.sorted()
+                self.numberOfTransmissionsSent = self.xmitLedger.count
+                self.numberOfTransmissionsRecvd =
+                    self.xmitLedger.compactMap {
+                        $0.value
+                    }.count
+            }
         }
     }
 
@@ -120,7 +122,9 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         } catch {
             // TODO: perhaps share notifications of any errors on sending..
             print("Error attempting to encode and send data: ", error)
-            errorList.append(error.localizedDescription)
+            DispatchQueue.main.async {
+                self.errorList.append(error.localizedDescription)
+            }
             xmitLedger[xmitId] = nil
         }
     }
@@ -151,8 +155,10 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
         switch state {
         case MCSessionState.connected:
-            sessionState = .connected
-            connectedPeers = session.connectedPeers
+            DispatchQueue.main.async {
+                self.sessionState = .connected
+                self.connectedPeers = session.connectedPeers
+            }
             print("Connected: \(peerID.displayName)")
             print("to peers: ", session.connectedPeers)
             // event in the session span?
@@ -167,8 +173,10 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             }
 
         case MCSessionState.connecting:
-            sessionState = .connecting
-            connectedPeers = session.connectedPeers
+            DispatchQueue.main.async {
+                self.sessionState = .connecting
+                self.connectedPeers = session.connectedPeers
+            }
             print("Connecting: \(peerID.displayName)")
             // i think this is the start of the span - but it might be when we recv invitation above...
             if let currentAdvertSpan = currentAdvertSpan {
@@ -180,8 +188,10 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             }
 
         case MCSessionState.notConnected:
-            sessionState = .notConnected
-            connectedPeers = session.connectedPeers
+            DispatchQueue.main.async {
+                self.sessionState = .notConnected
+                self.connectedPeers = session.connectedPeers
+            }
             print("Not Connected: \(peerID.displayName)")
             // and this is the end of a span... I think
             if var sessionSpan = sessionSpans[peerID] {
@@ -229,11 +239,15 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             } else {
                 let msgString = "Unable to look up a transmission from: \(xmitId)."
                 print(msgString)
-                errorList.append(msgString)
+                DispatchQueue.main.async {
+                    self.errorList.append(msgString)
+                }
             }
         } catch {
             print("Error while working with received data: ", error)
-            errorList.append(error.localizedDescription)
+            DispatchQueue.main.async {
+                self.errorList.append(error.localizedDescription)
+            }
         }
     }
 
