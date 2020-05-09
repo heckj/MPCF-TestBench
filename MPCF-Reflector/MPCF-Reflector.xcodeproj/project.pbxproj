@@ -94,25 +94,22 @@
 		1AC7916D245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC79169245F812100BC938A /* MPCFProxyPeerDisplay.swift */; };
 		1AC7916E245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC79169245F812100BC938A /* MPCFProxyPeerDisplay.swift */; };
 		1AC7916F245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC79169245F812100BC938A /* MPCFProxyPeerDisplay.swift */; };
-		1AC79171245F90F300BC938A /* TestRunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC79170245F90F300BC938A /* TestRunnerView.swift */; };
 		1AC79172245F90F300BC938A /* TestRunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC79170245F90F300BC938A /* TestRunnerView.swift */; };
 		1AC79173245F90F300BC938A /* TestRunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC79170245F90F300BC938A /* TestRunnerView.swift */; };
 		1AC79174245F90F300BC938A /* TestRunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC79170245F90F300BC938A /* TestRunnerView.swift */; };
 		1AC79175245F90F300BC938A /* TestRunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC79170245F90F300BC938A /* TestRunnerView.swift */; };
 		1AC79176245F90F300BC938A /* TestRunnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC79170245F90F300BC938A /* TestRunnerView.swift */; };
-		1AC80F5D245BA6120005E029 /* MPCFAutoReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */; };
-		1AC80F5E245BA6140005E029 /* MPCFAutoReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */; };
+		1AC80F5D245BA6120005E029 /* MPCFReflectorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */; };
+		1AC80F5E245BA6140005E029 /* MPCFReflectorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */; };
 		1AD25FA7245F27C500D3C1A4 /* MPCFSessionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FA6245F27C500D3C1A4 /* MPCFSessionDisplay.swift */; };
 		1AD25FA8245F27C500D3C1A4 /* MPCFSessionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FA6245F27C500D3C1A4 /* MPCFSessionDisplay.swift */; };
 		1AD25FA9245F27C500D3C1A4 /* MPCFSessionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FA6245F27C500D3C1A4 /* MPCFSessionDisplay.swift */; };
 		1AD25FAA245F27C500D3C1A4 /* MPCFSessionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FA6245F27C500D3C1A4 /* MPCFSessionDisplay.swift */; };
 		1AD25FAB245F27C500D3C1A4 /* MPCFSessionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FA6245F27C500D3C1A4 /* MPCFSessionDisplay.swift */; };
-		1AD25FB3245F3E4000D3C1A4 /* MPCFTestControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FB2245F3E4000D3C1A4 /* MPCFTestControl.swift */; };
 		1AD25FB4245F3E4000D3C1A4 /* MPCFTestControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FB2245F3E4000D3C1A4 /* MPCFTestControl.swift */; };
 		1AD25FB5245F3E4000D3C1A4 /* MPCFTestControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FB2245F3E4000D3C1A4 /* MPCFTestControl.swift */; };
 		1AD25FB6245F3E4000D3C1A4 /* MPCFTestControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FB2245F3E4000D3C1A4 /* MPCFTestControl.swift */; };
 		1AD25FB7245F3E4000D3C1A4 /* MPCFTestControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FB2245F3E4000D3C1A4 /* MPCFTestControl.swift */; };
-		1AD25FB9245F449800D3C1A4 /* MPCFTestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FB8245F449800D3C1A4 /* MPCFTestStatus.swift */; };
 		1AD25FBA245F449800D3C1A4 /* MPCFTestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FB8245F449800D3C1A4 /* MPCFTestStatus.swift */; };
 		1AD25FBB245F449800D3C1A4 /* MPCFTestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FB8245F449800D3C1A4 /* MPCFTestStatus.swift */; };
 		1AD25FBC245F449800D3C1A4 /* MPCFTestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FB8245F449800D3C1A4 /* MPCFTestStatus.swift */; };
@@ -127,9 +124,9 @@
 		1AD25FC7245F467000D3C1A4 /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FC4245F467000D3C1A4 /* ProgressCircle.swift */; };
 		1AD25FC8245F467000D3C1A4 /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FC4245F467000D3C1A4 /* ProgressCircle.swift */; };
 		1AD25FC9245F467000D3C1A4 /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FC4245F467000D3C1A4 /* ProgressCircle.swift */; };
-		1AE49E2F245B69B300DB9EE8 /* MPCFAutoReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */; };
-		1AE49E30245B69B300DB9EE8 /* MPCFAutoReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */; };
-		1AE49E31245B69B300DB9EE8 /* MPCFAutoReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */; };
+		1AE49E2F245B69B300DB9EE8 /* MPCFReflectorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */; };
+		1AE49E30245B69B300DB9EE8 /* MPCFReflectorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */; };
+		1AE49E31245B69B300DB9EE8 /* MPCFReflectorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */; };
 		1AE49E33245B6FA900DB9EE8 /* MPCFProxyResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */; };
 		1AE49E34245B6FA900DB9EE8 /* MPCFProxyResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */; };
 		1AE49E35245B6FA900DB9EE8 /* MPCFProxyResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */; };
@@ -159,7 +156,7 @@
 		1AE5146A245E3118009C2AF1 /* MPCFProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA52443B8C6004A6ACD /* MPCFProxy.swift */; };
 		1AE5146B245E3118009C2AF1 /* MPCFProxyResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */; };
 		1AE5146C245E3118009C2AF1 /* OTSimpleSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */; };
-		1AE5146D245E3118009C2AF1 /* MPCFAutoReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */; };
+		1AE5146D245E3118009C2AF1 /* MPCFReflectorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */; };
 		1AE5146E245E3118009C2AF1 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
 		1AE5146F245E3118009C2AF1 /* ReflectorEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */; };
 		1AE51470245E3118009C2AF1 /* TransmissionIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */; };
@@ -326,7 +323,7 @@
 		1AD25FB8245F449800D3C1A4 /* MPCFTestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFTestStatus.swift; sourceTree = "<group>"; };
 		1AD25FBE245F45EE00D3C1A4 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		1AD25FC4245F467000D3C1A4 /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
-		1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFAutoReflector.swift; sourceTree = "<group>"; };
+		1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFReflectorModel.swift; sourceTree = "<group>"; };
 		1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFProxyResponder.swift; sourceTree = "<group>"; };
 		1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTSimpleSpanCollector.swift; sourceTree = "<group>"; };
 		1AE51445245E2A8C009C2AF1 /* MPCFProxyDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFProxyDisplay.swift; sourceTree = "<group>"; };
@@ -692,15 +689,15 @@
 		1AE51440245E2771009C2AF1 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */,
 				1A475AA52443B8C6004A6ACD /* MPCFProxy.swift */,
 				1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */,
-				1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */,
-				1AE49E2E245B69B300DB9EE8 /* MPCFAutoReflector.swift */,
+				1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */,
 				1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */,
 				1AC79155245F650600BC938A /* RoundTripXmitReport.swift */,
 				1AC7915B245F709500BC938A /* XmitSummary.swift */,
-				1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */,
 				1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */,
+				1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1298,15 +1295,12 @@
 				1AC7915C245F709500BC938A /* XmitSummary.swift in Sources */,
 				1AD25FBF245F45EE00D3C1A4 /* ProgressBar.swift in Sources */,
 				1AE49E39245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */,
-				1AC79171245F90F300BC938A /* TestRunnerView.swift in Sources */,
 				1AC79163245F767500BC938A /* MPCFReflectorStatus.swift in Sources */,
 				1A475A882443B7BB004A6ACD /* AppDelegate.swift in Sources */,
 				1AE51443245E27A7009C2AF1 /* MPCFTestRunnerModel.swift in Sources */,
-				1AE49E2F245B69B300DB9EE8 /* MPCFAutoReflector.swift in Sources */,
-				1AD25FB9245F449800D3C1A4 /* MPCFTestStatus.swift in Sources */,
+				1AE49E2F245B69B300DB9EE8 /* MPCFReflectorModel.swift in Sources */,
 				1AE49E33245B6FA900DB9EE8 /* MPCFProxyResponder.swift in Sources */,
 				1AD25FA7245F27C500D3C1A4 /* MPCFSessionDisplay.swift in Sources */,
-				1AD25FB3245F3E4000D3C1A4 /* MPCFTestControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1338,7 +1332,7 @@
 				1AC79164245F767500BC938A /* MPCFReflectorStatus.swift in Sources */,
 				1A9C78EE244BA397003EBF9A /* MPCFProxy.swift in Sources */,
 				1AE51442245E27A6009C2AF1 /* MPCFTestRunnerModel.swift in Sources */,
-				1AE49E30245B69B300DB9EE8 /* MPCFAutoReflector.swift in Sources */,
+				1AE49E30245B69B300DB9EE8 /* MPCFReflectorModel.swift in Sources */,
 				1AD25FBA245F449800D3C1A4 /* MPCFTestStatus.swift in Sources */,
 				1AE49E34245B6FA900DB9EE8 /* MPCFProxyResponder.swift in Sources */,
 				1AD25FA8245F27C500D3C1A4 /* MPCFSessionDisplay.swift in Sources */,
@@ -1362,7 +1356,7 @@
 				1AD25FC1245F45EE00D3C1A4 /* ProgressBar.swift in Sources */,
 				1AC79158245F654C00BC938A /* RoundTripXmitReport.swift in Sources */,
 				1AD25FB5245F3E4000D3C1A4 /* MPCFTestControl.swift in Sources */,
-				1AE49E31245B69B300DB9EE8 /* MPCFAutoReflector.swift in Sources */,
+				1AE49E31245B69B300DB9EE8 /* MPCFReflectorModel.swift in Sources */,
 				1AD25FC7245F467000D3C1A4 /* ProgressCircle.swift in Sources */,
 				1A9C7902244BA5D5003EBF9A /* AppDelegate.swift in Sources */,
 				1AE51448245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */,
@@ -1410,7 +1404,7 @@
 				1AC7915F245F709500BC938A /* XmitSummary.swift in Sources */,
 				1AC7916D245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */,
 				1AD25FBC245F449800D3C1A4 /* MPCFTestStatus.swift in Sources */,
-				1AC80F5D245BA6120005E029 /* MPCFAutoReflector.swift in Sources */,
+				1AC80F5D245BA6120005E029 /* MPCFReflectorModel.swift in Sources */,
 				1AF76EAA245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift in Sources */,
 				1AC79166245F767500BC938A /* MPCFReflectorStatus.swift in Sources */,
 				1AE49E3C245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */,
@@ -1455,7 +1449,7 @@
 				1AC79160245F709500BC938A /* XmitSummary.swift in Sources */,
 				1AC7916E245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */,
 				1AD25FBD245F449800D3C1A4 /* MPCFTestStatus.swift in Sources */,
-				1AC80F5E245BA6140005E029 /* MPCFAutoReflector.swift in Sources */,
+				1AC80F5E245BA6140005E029 /* MPCFReflectorModel.swift in Sources */,
 				1AF76EAB245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift in Sources */,
 				1AC79167245F767500BC938A /* MPCFReflectorStatus.swift in Sources */,
 				1AE49E3D245B75A700DB9EE8 /* OTSimpleSpanCollector.swift in Sources */,
@@ -1477,7 +1471,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AE5146D245E3118009C2AF1 /* MPCFAutoReflector.swift in Sources */,
+				1AE5146D245E3118009C2AF1 /* MPCFReflectorModel.swift in Sources */,
 				1AE5146F245E3118009C2AF1 /* ReflectorEnvelope.swift in Sources */,
 				1AE51461245E2F70009C2AF1 /* ReflectorEnvelopeTests.swift in Sources */,
 				1AC7916F245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */,

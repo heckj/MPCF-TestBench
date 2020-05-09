@@ -11,7 +11,7 @@ import MultipeerConnectivity
 import OpenTelemetryModels
 
 /// Handles the automatic reactions to Multipeer traffic - accepting invitations and responding to any data sent.
-class MPCFAutoReflector: NSObject, ObservableObject, MPCFProxyResponder {
+class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
 
     var currentAdvertSpan: OpenTelemetry.Span?
     var session: MCSession?

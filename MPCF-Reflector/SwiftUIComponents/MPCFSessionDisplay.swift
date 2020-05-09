@@ -46,9 +46,17 @@ struct MPCFSessionDisplay: View {
         VStack(alignment: .leading) {
             HStack {
                 if encryptedSession() {
-                    Image(systemName: "lock")
+                    #if os(macOS)
+                        Image("lock")
+                    #else
+                        Image(systemName: "lock")
+                    #endif
                 } else {
-                    Image(systemName: "lock.slash")
+                    #if os(macOS)
+                        Image("lock.slash")
+                    #else
+                        Image(systemName: "lock.slash")
+                    #endif
                 }
                 Text("(ME): \(responder.sessionState.rawValue)")
                 ForEach(connectedPeerStrings(), id: \.self) { displayname in
@@ -71,7 +79,7 @@ struct MPCFSessionDisplay: View {
 #if DEBUG
     private func fakeResponder() -> MPCFProxyResponder {
         let me = MCPeerID(displayName: "thisPeer")
-        let autoresponder = MPCFAutoReflector()
+        let autoresponder = MPCFReflectorModel()
         autoresponder.session = MCSession(
             peer: me,
             securityIdentity: nil,

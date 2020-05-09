@@ -25,16 +25,16 @@ extension Array where Element: FloatingPoint {
 }
 
 struct XmitSummary {
-    var count: Int
-    var average: Double
-    var median: Double
+    var count: Int = 0
+    var average: Double = 0
+    var median: Double = 0
     var max: Double {
         if let val = rawValues.last {
             return val
         }
         return 0
     }
-    var stddev: Double
+    var stddev: Double = 0
     var rawValues: [Double]
     var ntile90: Double? {
         if rawValues.count > 9 {
@@ -68,14 +68,12 @@ struct XmitSummary {
     init(_ list: [RoundTripXmitReport]) {
         rawValues = list.map { $0.bandwidth }.sorted()
         count = rawValues.count
-        average = rawValues.avg()
-        stddev = rawValues.std()
-        if rawValues.count < 1 {
-            median = 0
-        } else if rawValues.count == 1 {
+        if count == 1 {
             self.median = self.rawValues[0]
-        } else {
+        } else if count > 1 {
             self.median = rawValues[rawValues.count / 2]
+            average = rawValues.avg()
+            stddev = rawValues.std()
         }
     }
 }

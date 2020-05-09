@@ -78,7 +78,7 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
         self.browser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
         super.init()
         if reflectorconfig {
-            proxyResponder = MPCFAutoReflector(collector)
+            proxyResponder = MPCFReflectorModel(collector)
         }
         self.browser.delegate = self
         self.browser.startBrowsingForPeers()

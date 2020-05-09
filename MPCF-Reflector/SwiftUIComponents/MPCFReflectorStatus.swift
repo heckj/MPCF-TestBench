@@ -12,7 +12,7 @@ import SwiftUI
 
 struct MPCFReflectorStatus: View {
 
-    @ObservedObject var reflector: MPCFAutoReflector
+    @ObservedObject var reflector: MPCFReflectorModel
     var body: some View {
         VStack(alignment: .leading) {
 
@@ -39,8 +39,8 @@ struct MPCFReflectorStatus: View {
 }
 
 #if DEBUG
-    private func fakeReflector() -> MPCFAutoReflector {
-        let me = MPCFAutoReflector(OTSimpleSpanCollector())
+    private func fakeReflector() -> MPCFReflectorModel {
+        let me = MPCFReflectorModel(OTSimpleSpanCollector())
         for _ in 1...30 {
             me.transmissions.append(TransmissionIdentifier(traceName: "foo"))
         }
