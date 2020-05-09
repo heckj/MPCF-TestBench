@@ -162,6 +162,14 @@
 		1AE51470245E3118009C2AF1 /* TransmissionIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */; };
 		1AF76EAA245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
 		1AF76EAB245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
+		1AFA5C682467343400235B93 /* MPCFPeerStatusDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA82443DB23004A6ACD /* MPCFPeerStatusDisplay.swift */; };
+		1AFA5C692467343400235B93 /* MPCFProxyDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51445245E2A8C009C2AF1 /* MPCFProxyDisplay.swift */; };
+		1AFA5C6A2467343400235B93 /* MPCFSessionDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FA6245F27C500D3C1A4 /* MPCFSessionDisplay.swift */; };
+		1AFA5C6B2467343400235B93 /* MPCFTestControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FB2245F3E4000D3C1A4 /* MPCFTestControl.swift */; };
+		1AFA5C6C2467343400235B93 /* MPCFTestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FB8245F449800D3C1A4 /* MPCFTestStatus.swift */; };
+		1AFA5C6D2467343400235B93 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FBE245F45EE00D3C1A4 /* ProgressBar.swift */; };
+		1AFA5C6E2467343400235B93 /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FC4245F467000D3C1A4 /* ProgressCircle.swift */; };
+		1AFA5C6F2467343B00235B93 /* RoundTripXmitReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC79155245F650600BC938A /* RoundTripXmitReport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1473,7 +1481,9 @@
 			files = (
 				1AE5146D245E3118009C2AF1 /* MPCFReflectorModel.swift in Sources */,
 				1AE5146F245E3118009C2AF1 /* ReflectorEnvelope.swift in Sources */,
+				1AFA5C6C2467343400235B93 /* MPCFTestStatus.swift in Sources */,
 				1AE51461245E2F70009C2AF1 /* ReflectorEnvelopeTests.swift in Sources */,
+				1AFA5C6E2467343400235B93 /* ProgressCircle.swift in Sources */,
 				1AC7916F245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */,
 				1AE5145A245E2F64009C2AF1 /* MPCF_Common_Tests.swift in Sources */,
 				1AC79168245F767500BC938A /* MPCFReflectorStatus.swift in Sources */,
@@ -1481,10 +1491,16 @@
 				1AE51470245E3118009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1AE5146C245E3118009C2AF1 /* OTSimpleSpanCollector.swift in Sources */,
 				1AE5146A245E3118009C2AF1 /* MPCFProxy.swift in Sources */,
+				1AFA5C682467343400235B93 /* MPCFPeerStatusDisplay.swift in Sources */,
 				1AE5146E245E3118009C2AF1 /* MPCFTestRunnerModel.swift in Sources */,
 				1AE51469245E309F009C2AF1 /* TransmissionIdentifierTests.swift in Sources */,
+				1AFA5C6B2467343400235B93 /* MPCFTestControl.swift in Sources */,
 				1AC79176245F90F300BC938A /* TestRunnerView.swift in Sources */,
 				1AE5146B245E3118009C2AF1 /* MPCFProxyResponder.swift in Sources */,
+				1AFA5C6A2467343400235B93 /* MPCFSessionDisplay.swift in Sources */,
+				1AFA5C6D2467343400235B93 /* ProgressBar.swift in Sources */,
+				1AFA5C692467343400235B93 /* MPCFProxyDisplay.swift in Sources */,
+				1AFA5C6F2467343B00235B93 /* RoundTripXmitReport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
