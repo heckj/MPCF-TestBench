@@ -160,6 +160,18 @@
 		1AE5146E245E3118009C2AF1 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
 		1AE5146F245E3118009C2AF1 /* ReflectorEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A29D5A7244A826B00A8584E /* ReflectorEnvelope.swift */; };
 		1AE51470245E3118009C2AF1 /* TransmissionIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */; };
+		1AEA1A7D24685EAD0076A354 /* OTNoOpSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA1A7C24685EAD0076A354 /* OTNoOpSpanCollector.swift */; };
+		1AEA1A7E24685F260076A354 /* OTNoOpSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA1A7C24685EAD0076A354 /* OTNoOpSpanCollector.swift */; };
+		1AEA1A7F24685F280076A354 /* OTNoOpSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA1A7C24685EAD0076A354 /* OTNoOpSpanCollector.swift */; };
+		1AEA1A8024685F290076A354 /* OTNoOpSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA1A7C24685EAD0076A354 /* OTNoOpSpanCollector.swift */; };
+		1AEA1A8124685F2A0076A354 /* OTNoOpSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA1A7C24685EAD0076A354 /* OTNoOpSpanCollector.swift */; };
+		1AEA1A8224685F2B0076A354 /* OTNoOpSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA1A7C24685EAD0076A354 /* OTNoOpSpanCollector.swift */; };
+		1AEA1A8424685F5B0076A354 /* OTSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA1A8324685F5B0076A354 /* OTSpanCollector.swift */; };
+		1AEA1A8524685F5B0076A354 /* OTSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA1A8324685F5B0076A354 /* OTSpanCollector.swift */; };
+		1AEA1A8624685F5B0076A354 /* OTSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA1A8324685F5B0076A354 /* OTSpanCollector.swift */; };
+		1AEA1A8824685F5B0076A354 /* OTSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA1A8324685F5B0076A354 /* OTSpanCollector.swift */; };
+		1AEA1A8924685F5B0076A354 /* OTSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA1A8324685F5B0076A354 /* OTSpanCollector.swift */; };
+		1AEA1A8A24686E570076A354 /* OTSpanCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA1A8324685F5B0076A354 /* OTSpanCollector.swift */; };
 		1AF76EAA245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
 		1AF76EAB245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */; };
 		1AFA5C682467343400235B93 /* MPCFPeerStatusDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A475AA82443DB23004A6ACD /* MPCFPeerStatusDisplay.swift */; };
@@ -340,6 +352,8 @@
 		1AE5145B245E2F64009C2AF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AE51462245E3036009C2AF1 /* TransmissionIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransmissionIdentifier.swift; sourceTree = "<group>"; };
 		1AE51468245E309F009C2AF1 /* TransmissionIdentifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransmissionIdentifierTests.swift; sourceTree = "<group>"; };
+		1AEA1A7C24685EAD0076A354 /* OTNoOpSpanCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTNoOpSpanCollector.swift; sourceTree = "<group>"; };
+		1AEA1A8324685F5B0076A354 /* OTSpanCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTSpanCollector.swift; sourceTree = "<group>"; };
 		1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFTestRunnerModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -697,7 +711,9 @@
 		1AE51440245E2771009C2AF1 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				1AEA1A8324685F5B0076A354 /* OTSpanCollector.swift */,
 				1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */,
+				1AEA1A7C24685EAD0076A354 /* OTNoOpSpanCollector.swift */,
 				1A475AA52443B8C6004A6ACD /* MPCFProxy.swift */,
 				1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */,
 				1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */,
@@ -1296,8 +1312,10 @@
 				1A475A8A2443B7BB004A6ACD /* ContentView.swift in Sources */,
 				1AE51463245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1A29D5A9244A826B00A8584E /* ReflectorEnvelope.swift in Sources */,
+				1AEA1A8424685F5B0076A354 /* OTSpanCollector.swift in Sources */,
 				1AD25FC5245F467000D3C1A4 /* ProgressCircle.swift in Sources */,
 				1A475AA72443B8C6004A6ACD /* MPCFProxy.swift in Sources */,
+				1AEA1A7D24685EAD0076A354 /* OTNoOpSpanCollector.swift in Sources */,
 				1AE51446245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */,
 				1AC7916A245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */,
 				1AC7915C245F709500BC938A /* XmitSummary.swift in Sources */,
@@ -1330,6 +1348,8 @@
 				1AE51464245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1A9C78ED244BA384003EBF9A /* MPCFPeerStatusDisplay.swift in Sources */,
 				1AD25FC6245F467000D3C1A4 /* ProgressCircle.swift in Sources */,
+				1AEA1A8524685F5B0076A354 /* OTSpanCollector.swift in Sources */,
+				1AEA1A7E24685F260076A354 /* OTNoOpSpanCollector.swift in Sources */,
 				1A9C78EF244BA3A4003EBF9A /* ReflectorEnvelope.swift in Sources */,
 				1AE51447245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */,
 				1AC7916B245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */,
@@ -1370,8 +1390,10 @@
 				1AE51448245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */,
 				1AC79173245F90F300BC938A /* TestRunnerView.swift in Sources */,
 				1AD25FA9245F27C500D3C1A4 /* MPCFSessionDisplay.swift in Sources */,
+				1AEA1A7F24685F280076A354 /* OTNoOpSpanCollector.swift in Sources */,
 				1A9C7904244BA5D5003EBF9A /* SceneDelegate.swift in Sources */,
 				1A9C7923244BA62B003EBF9A /* MPCFPeerStatusDisplay.swift in Sources */,
+				1AEA1A8624685F5B0076A354 /* OTSpanCollector.swift in Sources */,
 				1AC7915E245F709500BC938A /* XmitSummary.swift in Sources */,
 				1AC7916C245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */,
 				1AD25FBB245F449800D3C1A4 /* MPCFTestStatus.swift in Sources */,
@@ -1407,7 +1429,9 @@
 				1AE51449245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */,
 				1AC79174245F90F300BC938A /* TestRunnerView.swift in Sources */,
 				1AD25FAA245F27C500D3C1A4 /* MPCFSessionDisplay.swift in Sources */,
+				1AEA1A8024685F290076A354 /* OTNoOpSpanCollector.swift in Sources */,
 				1AB3ECAB24564851006BB25D /* AppDelegate.swift in Sources */,
+				1AEA1A8A24686E570076A354 /* OTSpanCollector.swift in Sources */,
 				1AB3ECAD24564851006BB25D /* SceneDelegate.swift in Sources */,
 				1AC7915F245F709500BC938A /* XmitSummary.swift in Sources */,
 				1AC7916D245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */,
@@ -1452,8 +1476,10 @@
 				1AE5144A245E2A8C009C2AF1 /* MPCFProxyDisplay.swift in Sources */,
 				1AC79175245F90F300BC938A /* TestRunnerView.swift in Sources */,
 				1AD25FAB245F27C500D3C1A4 /* MPCFSessionDisplay.swift in Sources */,
+				1AEA1A8124685F2A0076A354 /* OTNoOpSpanCollector.swift in Sources */,
 				1AB3ECE7245648F1006BB25D /* Document.swift in Sources */,
 				1AB3ECE5245648F1006BB25D /* AppDelegate.swift in Sources */,
+				1AEA1A8824685F5B0076A354 /* OTSpanCollector.swift in Sources */,
 				1AC79160245F709500BC938A /* XmitSummary.swift in Sources */,
 				1AC7916E245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */,
 				1AD25FBD245F449800D3C1A4 /* MPCFTestStatus.swift in Sources */,
@@ -1489,8 +1515,10 @@
 				1AC79168245F767500BC938A /* MPCFReflectorStatus.swift in Sources */,
 				1AC79161245F709500BC938A /* XmitSummary.swift in Sources */,
 				1AE51470245E3118009C2AF1 /* TransmissionIdentifier.swift in Sources */,
+				1AEA1A8224685F2B0076A354 /* OTNoOpSpanCollector.swift in Sources */,
 				1AE5146C245E3118009C2AF1 /* OTSimpleSpanCollector.swift in Sources */,
 				1AE5146A245E3118009C2AF1 /* MPCFProxy.swift in Sources */,
+				1AEA1A8924685F5B0076A354 /* OTSpanCollector.swift in Sources */,
 				1AFA5C682467343400235B93 /* MPCFPeerStatusDisplay.swift in Sources */,
 				1AE5146E245E3118009C2AF1 /* MPCFTestRunnerModel.swift in Sources */,
 				1AE51469245E309F009C2AF1 /* TransmissionIdentifierTests.swift in Sources */,

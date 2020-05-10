@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let collector = OTSimpleSpanCollector()
     override init() {
         peerID = MCPeerID(displayName: UIDevice.current.name)
-        let runner = MPCFTestRunnerModel(spanCollector: collector)
+        let runner = MPCFTestRunnerModel(peer: peerID, collector)
         proxy = MPCFProxy(
             peerID,
             collector: collector,

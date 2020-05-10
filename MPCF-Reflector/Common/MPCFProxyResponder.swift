@@ -22,8 +22,8 @@ enum MPCFSessionState: String, Codable {
 protocol MPCFProxyResponder: MCNearbyServiceAdvertiserDelegate, MCSessionDelegate {
 
     // configuration control
-    var currentAdvertSpan: OpenTelemetry.Span? { get set }
-    var session: MCSession? { get set }
+    var currentSessionSpan: OpenTelemetry.Span? { get set }
+    var session: MCSession { get }
 
     // session state reflection
     var sessionState: MPCFSessionState { get set }

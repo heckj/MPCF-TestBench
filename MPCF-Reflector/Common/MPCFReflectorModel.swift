@@ -13,8 +13,9 @@ import OpenTelemetryModels
 /// Handles the automatic reactions to Multipeer traffic - accepting invitations and responding to any data sent.
 class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
 
-    var currentAdvertSpan: OpenTelemetry.Span?
-    var session: MCSession?
+    var currentSessionSpan: OpenTelemetry.Span?
+    var session: MCSession
+    var me: MCPeerID
 
     // mechanisms for reflecting the internal session state to UI
     @Published var sessionState: MPCFSessionState = .notConnected
@@ -31,8 +32,19 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
     private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
     private var dataSpans: [MCPeerID: OpenTelemetry.Span] = [:]
 
-    init(_ collector: OTSimpleSpanCollector? = nil) {
+    init(
+        peer: MCPeerID,
+        _ collector: OTSimpleSpanCollector? = nil,
+        _ encryptpref: MCEncryptionPreference = .optional
+    ) {
+        self.session = MCSession(
+            peer: peer,
+            securityIdentity: nil,
+            encryptionPreference: encryptpref
+        )
+        self.me = peer
         super.init()
+        self.session.delegate = self
         self.spanCollector = collector
     }
 
@@ -46,7 +58,7 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
         withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void
     ) {
         print("received invitation from ", peerID)
-        if var currentAdvertSpan = currentAdvertSpan {
+        if var currentAdvertSpan = currentSessionSpan {
             // if we have an avertising span, let's append some events related to the browser on it.
             currentAdvertSpan.addEvent(
                 OpenTelemetry.Event(
@@ -96,7 +108,7 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
         case MCSessionState.connecting:
             print("Connecting: \(peerID.displayName)")
             // i think this is the start of the span - but it might be when we recv invitation above...
-            if let currentAdvertSpan = currentAdvertSpan {
+            if let currentAdvertSpan = currentSessionSpan {
                 var sessionSpan = currentAdvertSpan.createChildSpan(name: "MPCFsession")
                 // add an attribute of the current peer
                 sessionSpan.setTag("peerID", peerID.displayName)

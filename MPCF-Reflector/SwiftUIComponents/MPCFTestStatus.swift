@@ -63,7 +63,8 @@ struct MPCFTestStatus: View {
 
 #if DEBUG
     private func fakeTestRunner() -> MPCFTestRunnerModel {
-        let me = MPCFTestRunnerModel(spanCollector: OTSimpleSpanCollector())
+        let myself = MCPeerID(displayName: "me")
+        let me = MPCFTestRunnerModel(peer: myself, OTSimpleSpanCollector())
         me.targetPeer = MCPeerID(displayName: "livePeer")
         me.numberOfTransmissionsToSend = 100
         // record that we've sent 35

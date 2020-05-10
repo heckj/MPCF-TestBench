@@ -33,7 +33,7 @@ struct MPCFSessionDisplay: View {
     }
 
     private func encryptedSession() -> Bool {
-        responder.session?.encryptionPreference == .required
+        responder.session.encryptionPreference == .required
     }
 
     private func connectedPeerStrings() -> [String] {
@@ -79,12 +79,7 @@ struct MPCFSessionDisplay: View {
 #if DEBUG
     private func fakeResponder() -> MPCFProxyResponder {
         let me = MCPeerID(displayName: "thisPeer")
-        let autoresponder = MPCFReflectorModel()
-        autoresponder.session = MCSession(
-            peer: me,
-            securityIdentity: nil,
-            encryptionPreference: .required
-        )
+        let autoresponder = MPCFReflectorModel(peer: me)
         autoresponder.sessionState = .connected
         autoresponder.connectedPeers.append(MCPeerID(displayName: "livePeer"))
         return autoresponder

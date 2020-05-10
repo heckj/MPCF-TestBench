@@ -16,7 +16,7 @@ struct ContentView: View {
             VStack {
                 MPCFProxyDisplay(proxy: proxy)
                 Divider()
-                Text("Span collection size: \(proxy.spanCollector.spanBucket.count)")
+                Text("Span collection size: \(proxy.spanCollector.spanCollection.count)")
                 MPCFTestControl(testRunnerModel: proxy.proxyResponder as! MPCFTestRunnerModel)
                 Divider()
                 VStack(alignment: .leading) {
@@ -26,7 +26,8 @@ struct ContentView: View {
                             MPCFPeerStatusDisplay(peerstatus: peerstatus)
                                 .onTapGesture {
                                     let runner = self.proxy.proxyResponder as! MPCFTestRunnerModel
-                                    self.proxy.startSession(with: peerstatus.peer)
+                                    //self.proxy.startSession(with: peerstatus.peer)
+                                    // TODO: start a session 
                                     runner.targetPeer = peerstatus.peer
                                 }
 
@@ -49,11 +50,12 @@ struct ContentView: View {
 #if DEBUG
     private func proxyWithRunner() -> MPCFProxy {
         let collector = OTSimpleSpanCollector()
-        let runner = MPCFTestRunnerModel(spanCollector: collector)
+        let myself = MCPeerID(displayName: "me")
+        let runner = MPCFTestRunnerModel(peer: myself, collector)
         runner.targetPeer = MCPeerID(displayName: "livePeer")
 
         let me = MPCFProxy(
-            MCPeerID(displayName: "me"),
+            myself,
             collector: OTSimpleSpanCollector(),
             encrypt: .required,
             reflectorconfig: false

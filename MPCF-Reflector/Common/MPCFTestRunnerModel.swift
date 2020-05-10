@@ -12,8 +12,9 @@ import OpenTelemetryModels
 
 /// Handles the automatic reactions to Multipeer traffic - accepting invitations and responding to any data sent.
 class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
-    internal var currentAdvertSpan: OpenTelemetry.Span?
-    @Published var session: MCSession?
+    internal var currentSessionSpan: OpenTelemetry.Span?
+    var session: MCSession
+    var me: MCPeerID
 
     // mechanisms for reflecting the internal session state to UI
     @Published var sessionState: MPCFSessionState = .notConnected
@@ -25,7 +26,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     @Published var numberOfResourcesRecvd: Int = 0
     @Published var transmissions: [TransmissionIdentifier] = []
 
-    private var spanCollector: OTSimpleSpanCollector
+    private var spanCollector: OTSpanCollector
     private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
 
     // local temp collection to track spans between starting and finishing recv resource
@@ -39,8 +40,25 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
     // MARK: Initializers
 
-    init(spanCollector: OTSimpleSpanCollector) {
-        self.spanCollector = spanCollector
+    init(
+        peer: MCPeerID,
+        _ collector: OTSpanCollector? = nil,
+        _ encryptpref: MCEncryptionPreference = .optional
+    ) {
+        self.session = MCSession(
+            peer: peer,
+            securityIdentity: nil,
+            encryptionPreference: encryptpref
+        )
+        if let collector = collector {
+            self.spanCollector = collector
+        } else {
+            self.spanCollector = OTNoOpSpanCollector()
+        }
+        self.me = peer
+        super.init()
+        self.session.delegate = self
+
     }
 
     // MARK: State based intializers & SwiftUI exported data views
@@ -92,7 +110,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     }
 
     private func sendAndRecordTransmission() {
-        guard let targetPeer = targetPeer, let session = session else {
+        guard let targetPeer = targetPeer else {
             // do nothing to send data if there's no target identified
             // or not session defined
             return
@@ -138,7 +156,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         // we received an invitation - which we can respond with an MCSession and affirmation to join
 
         print("received invitation from ", peerID)
-        if var currentAdvertSpan = currentAdvertSpan {
+        if var currentAdvertSpan = currentSessionSpan {
             // if we have an avertising span, let's append some events related to the browser on it.
             currentAdvertSpan.addEvent(
                 OpenTelemetry.Event(
@@ -179,7 +197,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             }
             print("Connecting: \(peerID.displayName)")
             // i think this is the start of the span - but it might be when we recv invitation above...
-            if let currentAdvertSpan = currentAdvertSpan {
+            if let currentAdvertSpan = currentSessionSpan {
                 var sessionSpan = currentAdvertSpan.createChildSpan(name: "MPCFsession")
                 // add an attribute of the current peer
                 sessionSpan.setTag("peerID", peerID.displayName)

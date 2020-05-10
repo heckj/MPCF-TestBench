@@ -22,8 +22,10 @@ struct TestRunnerView: View {
 
 #if DEBUG
     private func fakeTestRunner() -> MPCFTestRunnerModel {
-        let me = MPCFTestRunnerModel(spanCollector: OTSimpleSpanCollector())
-        me.targetPeer = MCPeerID(displayName: "livePeer")
+        let me = MPCFTestRunnerModel(
+            peer: MCPeerID(displayName: "livePeer"),
+            OTSimpleSpanCollector()
+        )
         return me
     }
 

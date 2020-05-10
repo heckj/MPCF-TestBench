@@ -40,7 +40,8 @@ struct MPCFReflectorStatus: View {
 
 #if DEBUG
     private func fakeReflector() -> MPCFReflectorModel {
-        let me = MPCFReflectorModel(OTSimpleSpanCollector())
+        let thispeer = MCPeerID(displayName: "thisPeer")
+        let me = MPCFReflectorModel(peer: thispeer, OTSimpleSpanCollector())
         for _ in 1...30 {
             me.transmissions.append(TransmissionIdentifier(traceName: "foo"))
         }
