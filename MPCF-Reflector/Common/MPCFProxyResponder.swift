@@ -24,10 +24,7 @@ protocol MPCFProxyResponder: MCNearbyServiceAdvertiserDelegate, MCSessionDelegat
     // configuration control
     var currentSessionSpan: OpenTelemetry.Span? { get set }
     var session: MCSession { get }
-
-    // session state reflection
-    var sessionState: MPCFSessionState { get set }
-    var connectedPeers: [MCPeerID] { get set }
+    var sessionProxy: SessionProxy { get set }
 
     // general responder reflection
     var errorList: [String] { get set }

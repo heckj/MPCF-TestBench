@@ -11,7 +11,7 @@ import PreviewBackground
 import SwiftUI
 
 struct MPCFSessionDisplay: View {
-    let responder: MPCFProxyResponder
+    @ObservedObject var session: SessionProxy
 
     /// Exposes the colorscheme in this view so we can make
     /// choices based on it.
@@ -29,15 +29,15 @@ struct MPCFSessionDisplay: View {
     }
 
     private func connectedSession() -> Bool {
-        responder.sessionState == .connected
+        session.sessionState == .connected
     }
 
     private func encryptedSession() -> Bool {
-        responder.session.encryptionPreference == .required
+        session.encryptionPreference == .required
     }
 
     private func connectedPeerStrings() -> [String] {
-        return responder.connectedPeers.map {
+        return session.connectedPeers.map {
             $0.displayName
         }
     }
@@ -58,7 +58,7 @@ struct MPCFSessionDisplay: View {
                         Image(systemName: "lock.slash")
                     #endif
                 }
-                Text("(ME): \(responder.sessionState.rawValue)")
+                Text("(ME): \(session.sessionState.rawValue)")
                 ForEach(connectedPeerStrings(), id: \.self) { displayname in
                     Text(displayname)
                         .hidden()
@@ -77,12 +77,11 @@ struct MPCFSessionDisplay: View {
 }
 
 #if DEBUG
-    private func fakeResponder() -> MPCFProxyResponder {
-        let me = MCPeerID(displayName: "thisPeer")
-        let autoresponder = MPCFReflectorModel(peer: me)
-        autoresponder.sessionState = .connected
-        autoresponder.connectedPeers.append(MCPeerID(displayName: "livePeer"))
-        return autoresponder
+    private func fakeSessionProxy() -> SessionProxy {
+        let session = SessionProxy()
+        session.sessionState = .connected
+        session.connectedPeers.append(MCPeerID(displayName: "livePeer"))
+        return session
     }
 
     struct MPCFSessionDisplay_Previews: PreviewProvider {
@@ -91,7 +90,7 @@ struct MPCFSessionDisplay: View {
                 ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
                     PreviewBackground {
                         VStack(alignment: .leading) {
-                            MPCFSessionDisplay(responder: fakeResponder())
+                            MPCFSessionDisplay(session: fakeSessionProxy())
                         }
                     }
                     .environment(\.colorScheme, colorScheme)

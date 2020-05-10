@@ -31,7 +31,7 @@ struct TransmissionIdentifier: Identifiable, Hashable, Codable, Comparable {
         lhs.sequenceNumber < rhs.sequenceNumber
     }
 
-    let id = UUID()
+    let id: UUID
     let sequenceNumber: UInt
     let transport: TransportMode
     let traceName: String
@@ -45,6 +45,7 @@ struct TransmissionIdentifier: Identifiable, Hashable, Codable, Comparable {
     }
 
     init(traceName: String, transport: TransportMode = .reliable) {
+        self.id = UUID()
         self.transport = transport
         self.traceName = traceName
         sequenceNumber = TransmissionIdentifier.nextSequenceNumber()

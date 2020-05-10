@@ -21,8 +21,7 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
     var me: MCPeerID
 
     // mechanisms for reflecting the internal session state to UI
-    @Published var sessionState: MPCFSessionState = .notConnected
-    @Published var connectedPeers: [MCPeerID] = []
+    var sessionProxy: SessionProxy = SessionProxy()
     @Published var errorList: [String] = []
 
     @Published var numberOfTransmissionsRecvd: Int = 0
@@ -104,6 +103,10 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
         case MCSessionState.connected:
+            DispatchQueue.main.async {
+                self.sessionProxy.sessionState = .connected
+                self.sessionProxy.connectedPeers = session.connectedPeers
+            }
             print("Connected: \(peerID.displayName)")
             // event in the session span?
             if var sessionSpan = self.currentSessionSpan {
@@ -114,6 +117,10 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
             }
 
         case MCSessionState.connecting:
+            DispatchQueue.main.async {
+                self.sessionProxy.sessionState = .connecting
+                self.sessionProxy.connectedPeers = session.connectedPeers
+            }
             print("Connecting: \(peerID.displayName)")
             // i think this is the start of the span - but it might be when we recv invitation above...
             if var sessionSpan = currentSessionSpan {
@@ -124,6 +131,10 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
             }
 
         case MCSessionState.notConnected:
+            DispatchQueue.main.async {
+                self.sessionProxy.sessionState = .notConnected
+                self.sessionProxy.connectedPeers = session.connectedPeers
+            }
             print("Not Connected: \(peerID.displayName)")
             // and this is the end of a span... I think
             if var sessionSpan = currentSessionSpan {

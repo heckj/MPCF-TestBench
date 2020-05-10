@@ -15,7 +15,7 @@ struct ReflectorEnvelope: Codable {
     let payload: Data
 
     /// sizing for payloads.
-    enum PayloadSize: UInt, Codable {
+    enum PayloadSize: UInt, CaseIterable, Hashable, Identifiable, Codable {
         case x1 = 1
         case x10 = 10
         case x100 = 100
@@ -24,6 +24,13 @@ struct ReflectorEnvelope: Codable {
         case x4k = 4096
         case x10k = 10240
         case x1M = 1_048_576
+
+        var name: String {
+            return "\(self)".map {
+                $0.isUppercase ? " \($0)" : "\($0)"
+            }.joined().capitalized
+        }
+        var id: PayloadSize { self }
     }
 
     init(id: TransmissionIdentifier, payload: Data) {

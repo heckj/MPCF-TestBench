@@ -124,6 +124,12 @@
 		1AD25FC7245F467000D3C1A4 /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FC4245F467000D3C1A4 /* ProgressCircle.swift */; };
 		1AD25FC8245F467000D3C1A4 /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FC4245F467000D3C1A4 /* ProgressCircle.swift */; };
 		1AD25FC9245F467000D3C1A4 /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD25FC4245F467000D3C1A4 /* ProgressCircle.swift */; };
+		1AD87F9824688FD00026B4A7 /* SessionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD87F9724688FD00026B4A7 /* SessionProxy.swift */; };
+		1AD87F9924688FD00026B4A7 /* SessionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD87F9724688FD00026B4A7 /* SessionProxy.swift */; };
+		1AD87F9A24688FD00026B4A7 /* SessionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD87F9724688FD00026B4A7 /* SessionProxy.swift */; };
+		1AD87F9B24688FD00026B4A7 /* SessionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD87F9724688FD00026B4A7 /* SessionProxy.swift */; };
+		1AD87F9C24688FD00026B4A7 /* SessionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD87F9724688FD00026B4A7 /* SessionProxy.swift */; };
+		1AD87F9D24688FD00026B4A7 /* SessionProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD87F9724688FD00026B4A7 /* SessionProxy.swift */; };
 		1AE49E2F245B69B300DB9EE8 /* MPCFReflectorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */; };
 		1AE49E30245B69B300DB9EE8 /* MPCFReflectorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */; };
 		1AE49E31245B69B300DB9EE8 /* MPCFReflectorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */; };
@@ -343,6 +349,7 @@
 		1AD25FB8245F449800D3C1A4 /* MPCFTestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFTestStatus.swift; sourceTree = "<group>"; };
 		1AD25FBE245F45EE00D3C1A4 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		1AD25FC4245F467000D3C1A4 /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
+		1AD87F9724688FD00026B4A7 /* SessionProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProxy.swift; sourceTree = "<group>"; };
 		1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFReflectorModel.swift; sourceTree = "<group>"; };
 		1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFProxyResponder.swift; sourceTree = "<group>"; };
 		1AE49E38245B75A700DB9EE8 /* OTSimpleSpanCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTSimpleSpanCollector.swift; sourceTree = "<group>"; };
@@ -716,6 +723,7 @@
 				1AEA1A7C24685EAD0076A354 /* OTNoOpSpanCollector.swift */,
 				1A475AA52443B8C6004A6ACD /* MPCFProxy.swift */,
 				1AE49E32245B6FA900DB9EE8 /* MPCFProxyResponder.swift */,
+				1AD87F9724688FD00026B4A7 /* SessionProxy.swift */,
 				1AE49E2E245B69B300DB9EE8 /* MPCFReflectorModel.swift */,
 				1AF76EA9245BBF8F00F84BD2 /* MPCFTestRunnerModel.swift */,
 				1AC79155245F650600BC938A /* RoundTripXmitReport.swift */,
@@ -1307,6 +1315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AD87F9824688FD00026B4A7 /* SessionProxy.swift in Sources */,
 				1A475AAA2443DB23004A6ACD /* MPCFPeerStatusDisplay.swift in Sources */,
 				1AC79156245F650600BC938A /* RoundTripXmitReport.swift in Sources */,
 				1A475A8A2443B7BB004A6ACD /* ContentView.swift in Sources */,
@@ -1345,6 +1354,7 @@
 				1A9C78D1244BA32E003EBF9A /* ContentView.swift in Sources */,
 				1AC79157245F654B00BC938A /* RoundTripXmitReport.swift in Sources */,
 				1A9C78CF244BA32E003EBF9A /* AppDelegate.swift in Sources */,
+				1AD87F9924688FD00026B4A7 /* SessionProxy.swift in Sources */,
 				1AE51464245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1A9C78ED244BA384003EBF9A /* MPCFPeerStatusDisplay.swift in Sources */,
 				1AD25FC6245F467000D3C1A4 /* ProgressCircle.swift in Sources */,
@@ -1393,6 +1403,7 @@
 				1AEA1A7F24685F280076A354 /* OTNoOpSpanCollector.swift in Sources */,
 				1A9C7904244BA5D5003EBF9A /* SceneDelegate.swift in Sources */,
 				1A9C7923244BA62B003EBF9A /* MPCFPeerStatusDisplay.swift in Sources */,
+				1AD87F9A24688FD00026B4A7 /* SessionProxy.swift in Sources */,
 				1AEA1A8624685F5B0076A354 /* OTSpanCollector.swift in Sources */,
 				1AC7915E245F709500BC938A /* XmitSummary.swift in Sources */,
 				1AC7916C245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */,
@@ -1432,6 +1443,7 @@
 				1AEA1A8024685F290076A354 /* OTNoOpSpanCollector.swift in Sources */,
 				1AB3ECAB24564851006BB25D /* AppDelegate.swift in Sources */,
 				1AEA1A8A24686E570076A354 /* OTSpanCollector.swift in Sources */,
+				1AD87F9B24688FD00026B4A7 /* SessionProxy.swift in Sources */,
 				1AB3ECAD24564851006BB25D /* SceneDelegate.swift in Sources */,
 				1AC7915F245F709500BC938A /* XmitSummary.swift in Sources */,
 				1AC7916D245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */,
@@ -1479,6 +1491,7 @@
 				1AEA1A8124685F2A0076A354 /* OTNoOpSpanCollector.swift in Sources */,
 				1AB3ECE7245648F1006BB25D /* Document.swift in Sources */,
 				1AB3ECE5245648F1006BB25D /* AppDelegate.swift in Sources */,
+				1AD87F9C24688FD00026B4A7 /* SessionProxy.swift in Sources */,
 				1AEA1A8824685F5B0076A354 /* OTSpanCollector.swift in Sources */,
 				1AC79160245F709500BC938A /* XmitSummary.swift in Sources */,
 				1AC7916E245F812100BC938A /* MPCFProxyPeerDisplay.swift in Sources */,
@@ -1518,6 +1531,7 @@
 				1AEA1A8224685F2B0076A354 /* OTNoOpSpanCollector.swift in Sources */,
 				1AE5146C245E3118009C2AF1 /* OTSimpleSpanCollector.swift in Sources */,
 				1AE5146A245E3118009C2AF1 /* MPCFProxy.swift in Sources */,
+				1AD87F9D24688FD00026B4A7 /* SessionProxy.swift in Sources */,
 				1AEA1A8924685F5B0076A354 /* OTSpanCollector.swift in Sources */,
 				1AFA5C682467343400235B93 /* MPCFPeerStatusDisplay.swift in Sources */,
 				1AE5146E245E3118009C2AF1 /* MPCFTestRunnerModel.swift in Sources */,

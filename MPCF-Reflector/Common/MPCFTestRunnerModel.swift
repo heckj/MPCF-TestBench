@@ -21,22 +21,20 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     var me: MCPeerID
 
     // mechanisms for reflecting the internal session state to UI
-    @Published var sessionState: MPCFSessionState = .notConnected
-    @Published var connectedPeers: [MCPeerID] = []
+    var sessionProxy: SessionProxy = SessionProxy()
     @Published var errorList: [String] = []
 
     @Published var numberOfTransmissionsSent: Int = 0
     @Published var numberOfTransmissionsRecvd: Int = 0
     @Published var numberOfResourcesRecvd: Int = 0
+    @Published var dataSize: ReflectorEnvelope.PayloadSize = .x1k
     @Published var transmissions: [TransmissionIdentifier] = []
 
     private var spanCollector: OTSpanCollector
-    private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
-
     // local temp collection to track spans between starting and finishing recv resource
     private var dataSpans: [MCPeerID: OpenTelemetry.Span] = [:]
-
-    // local lookup that matches spans with explicit transmissions to a reflector
+    // local temp collection to track sending data and receiving the expected response from the
+    // reflector
     private var transmissionSpans: [TransmissionIdentifier: OpenTelemetry.Span] = [:]
 
     private let encoder = JSONEncoder()
@@ -120,11 +118,11 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             return
         }
         let xmitId = TransmissionIdentifier(traceName: "xmit")
-        let envelope = ReflectorEnvelope(id: xmitId, size: .x1k)
+        let envelope = ReflectorEnvelope(id: xmitId, size: self.dataSize)
         var xmitSpan: OpenTelemetry.Span?
         do {
 
-            xmitSpan = sessionSpans[targetPeer]?.createChildSpan(name: "data xmit")
+            xmitSpan = currentSessionSpan?.createChildSpan(name: "data xmit")
 
             // encode, and wrap it in a span
             var encodespan = xmitSpan?.createChildSpan(name: "encode")
@@ -138,8 +136,13 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             sessionSendSpan?.finish()
             spanCollector.collectSpan(sessionSendSpan)
 
+            // record that we sent the transmission
+            transmissions.append(xmitId)
+            print("Sent transmission: \(xmitId)")
             // record that we sent it, and the span to close it later...
             transmissionSpans[xmitId] = xmitSpan
+            // clear out the ledger entry for this transmission ID in case it exists
+            // (in general, it shouldn't)
             xmitLedger[xmitId] = nil
         } catch {
             // TODO: perhaps share notifications of any errors on sending..
@@ -149,6 +152,15 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             }
             xmitLedger[xmitId] = nil
         }
+    }
+
+    func terminateSessionAndCollectSpan() {
+        guard var sessionSpan = currentSessionSpan else {
+            return
+        }
+        sessionSpan.finish()
+        session.disconnect()
+        spanCollector.collectSpan(sessionSpan)
     }
 
     // MARK: MCNearbyServiceAdvertiserDelegate
@@ -178,50 +190,45 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         switch state {
         case MCSessionState.connected:
             DispatchQueue.main.async {
-                self.sessionState = .connected
-                self.connectedPeers = session.connectedPeers
+                self.sessionProxy.sessionState = .connected
+                self.sessionProxy.connectedPeers = session.connectedPeers
             }
             print("Connected: \(peerID.displayName)")
             print("to peers: ", session.connectedPeers)
             // event in the session span?
-            if var sessionSpan = sessionSpans[peerID] {
+            if var sessionSpan = currentSessionSpan {
                 sessionSpan.addEvent(
                     OpenTelemetry.Event(
                         "sessionConnected",
                         attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
-                // not sure if this is needed - I think we may have made a local copy here...
-                // so this updates the local collection of spans with our updated version
-                sessionSpans[peerID] = sessionSpan
             }
 
         case MCSessionState.connecting:
             DispatchQueue.main.async {
-                self.sessionState = .connecting
-                self.connectedPeers = session.connectedPeers
+                self.sessionProxy.sessionState = .connecting
+                self.sessionProxy.connectedPeers = session.connectedPeers
             }
             print("Connecting: \(peerID.displayName)")
             // i think this is the start of the span - but it might be when we recv invitation above...
-            if let currentAdvertSpan = currentSessionSpan {
-                var sessionSpan = currentAdvertSpan.createChildSpan(name: "MPCFsession")
-                // add an attribute of the current peer
-                sessionSpan.setTag("peerID", peerID.displayName)
-                // add it into our collection, referenced by Peer
-                sessionSpans[peerID] = sessionSpan
+            if var sessionSpan = currentSessionSpan {
+                sessionSpan.addEvent(
+                    OpenTelemetry.Event(
+                        "sessionConnecting",
+                        attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
             }
 
         case MCSessionState.notConnected:
             DispatchQueue.main.async {
-                self.sessionState = .notConnected
-                self.connectedPeers = session.connectedPeers
+                self.sessionProxy.sessionState = .notConnected
+                self.sessionProxy.connectedPeers = session.connectedPeers
             }
             print("Not Connected: \(peerID.displayName)")
-            // and this is the end of a span... I think
-            if var sessionSpan = sessionSpans[peerID] {
-                sessionSpan.finish()
-                spanCollector.collectSpan(sessionSpan)
+            if var sessionSpan = currentSessionSpan {
+                sessionSpan.addEvent(
+                    OpenTelemetry.Event(
+                        "sessionNotConnected",
+                        attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
             }
-            // after we "record" it - we kill the current span reference in the dictionary by peer
-            sessionSpans.removeValue(forKey: peerID)
 
         @unknown default:
             fatalError("unsupported MCSessionState result")
@@ -235,14 +242,13 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         certificateHandler: @escaping (Bool) -> Void
     ) {
         print("from \(peerID.displayName) received certificate: ", certificate as Any)
-        if var sessionSpan = sessionSpans[peerID] {
+        if var sessionSpan = currentSessionSpan {
             sessionSpan.addEvent(
                 OpenTelemetry.Event(
                     "didReceiveCertificate",
                     attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
             // not sure if this is needed - I think we may have made a local copy here...
             // so this updates the local collection of spans with our updated version
-            sessionSpans[peerID] = sessionSpan
         }
         certificateHandler(true)
     }
@@ -262,11 +268,14 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
                     dataSize: data.count
                 )
                 xmitLedger[xmitId] = report
-                reportsReceived.append(report)
                 xmitSpan.finish(end: transmissionFinished)
                 spanCollector.collectSpan(xmitSpan)
-                transmissionSpans[xmitId] = nil
-                numberOfTransmissionsRecvd += 1
+                DispatchQueue.main.async {
+                    self.reportsReceived.append(report)
+                    self.transmissionSpans[xmitId] = nil
+                    self.numberOfTransmissionsRecvd += 1
+                }
+
             } else {
                 let msgString = "Unable to look up a transmission from: \(xmitId)."
                 print(msgString)
@@ -297,7 +306,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
         print("starting receiving resource: \(resourceName)")
         // event in the session span?
-        if let sessionSpan = sessionSpans[peerID] {
+        if let sessionSpan = currentSessionSpan {
             var recvDataSpan = sessionSpan.createChildSpan(name: "MPCF-recv-resource")
             // add an attribute of the current peer
             recvDataSpan.setTag("peerID", peerID.displayName)

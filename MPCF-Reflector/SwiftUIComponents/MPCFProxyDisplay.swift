@@ -23,9 +23,9 @@ struct MPCFProxyDisplay: View {
 
                 HStack {
                     if proxy.active {
-                        Text("Deactivate Multipeer").foregroundColor(.red)
+                        Text("Deactivate advertising").foregroundColor(.red)
                     } else {
-                        Text("Activate Multipeer").foregroundColor(.green)
+                        Text("Activate advertising").foregroundColor(.green)
                     }
                     Toggle("active", isOn: $proxy.active).labelsHidden()
                 }.padding()
@@ -34,7 +34,7 @@ struct MPCFProxyDisplay: View {
                             .stroke(lineWidth: 2)
                             .foregroundColor(proxy.active ? .green : .gray)
                     )
-                MPCFSessionDisplay(responder: proxy.proxyResponder!)
+                MPCFSessionDisplay(session: proxy.proxyResponder?.sessionProxy ?? SessionProxy())
             }
         }
     }

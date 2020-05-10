@@ -16,6 +16,14 @@ struct MPCFTestControl: View {
         VStack(alignment: .leading) {
 
             HStack {
+                Picker("data size", selection: $testRunnerModel.dataSize) {
+                    ForEach(ReflectorEnvelope.PayloadSize.allCases) { v in
+                        Text(v.name).font(.caption).tag(v)
+                    }
+                }.frame(minHeight: 40, idealHeight: 60, maxHeight: 80, alignment: Alignment.center)
+            }
+            Divider()
+            HStack {
                 Text("Send").font(.body)
                 Text("\(testRunnerModel.numberOfTransmissionsToSend, specifier: "%.0f")")
                 Slider(

@@ -17,31 +17,27 @@ struct ContentView: View {
                 MPCFProxyDisplay(proxy: proxy)
                 Divider()
                 Text("Span collection size: \(proxy.spanCollector.spanCollection.count)")
-                MPCFTestControl(testRunnerModel: proxy.proxyResponder as! MPCFTestRunnerModel)
                 Divider()
                 VStack(alignment: .leading) {
-                    Text("Known Peers").font(.body)
+                    Text("Available Peers").font(.body)
                     List(proxy.peerList, id: \.peer) { peerstatus in
                         HStack {
                             MPCFPeerStatusDisplay(peerstatus: peerstatus)
                                 .onTapGesture {
                                     let runner = self.proxy.proxyResponder as! MPCFTestRunnerModel
-                                    //self.proxy.startSession(with: peerstatus.peer)
-                                    // TODO: start a session 
+                                    self.proxy.startSession(with: peerstatus.peer)
                                     runner.targetPeer = peerstatus.peer
                                 }
 
                             NavigationLink(
                                 destination: TestRunnerView(
                                     testrunner: self.proxy.proxyResponder as! MPCFTestRunnerModel),
-                                label: { Text("go") }
+                                label: { Text("transmit") }
                             )
 
                         }
                     }
                 }
-                Divider()
-                //MPCFTestStatus(testRunnerModel: proxy.proxyResponder as! MPCFTestRunnerModel)
             }
         }
     }
