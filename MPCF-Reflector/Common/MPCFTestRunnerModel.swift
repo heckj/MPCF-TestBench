@@ -12,7 +12,11 @@ import OpenTelemetryModels
 
 /// Handles the automatic reactions to Multipeer traffic - accepting invitations and responding to any data sent.
 class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
-    internal var currentSessionSpan: OpenTelemetry.Span?
+
+    // this represents the span matching the MCSession being active
+    // it's created when the runner invites another peer and events appended
+    // as they happen to the delegate.
+    var currentSessionSpan: OpenTelemetry.Span?
     var session: MCSession
     var me: MCPeerID
 
@@ -156,9 +160,9 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         // we received an invitation - which we can respond with an MCSession and affirmation to join
 
         print("received invitation from ", peerID)
-        if var currentAdvertSpan = currentSessionSpan {
+        if var sessionSpan = currentSessionSpan {
             // if we have an avertising span, let's append some events related to the browser on it.
-            currentAdvertSpan.addEvent(
+            sessionSpan.addEvent(
                 OpenTelemetry.Event(
                     "didReceiveInvitationFromPeer",
                     attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
@@ -231,6 +235,15 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         certificateHandler: @escaping (Bool) -> Void
     ) {
         print("from \(peerID.displayName) received certificate: ", certificate as Any)
+        if var sessionSpan = sessionSpans[peerID] {
+            sessionSpan.addEvent(
+                OpenTelemetry.Event(
+                    "didReceiveCertificate",
+                    attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
+            // not sure if this is needed - I think we may have made a local copy here...
+            // so this updates the local collection of spans with our updated version
+            sessionSpans[peerID] = sessionSpan
+        }
         certificateHandler(true)
     }
 

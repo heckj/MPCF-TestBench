@@ -52,10 +52,10 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
         didSet {
             if active {
                 print("Toggled active, starting")
-                self.startHosting()
+                self.startAdvertising()
             } else {
                 print("Toggled inactive, stopping")
-                self.stopHosting()
+                self.stopAdvertising()
             }
         }
     }
@@ -73,8 +73,8 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
             self.spanCollector = OTSimpleSpanCollector()
         }
         self.encryptionPreferences = encrypt
-        self.browsingSpan = OpenTelemetry.Span.start(name: "MCNearbyServiceBrowser")
         self.browser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
+        self.browsingSpan = OpenTelemetry.Span.start(name: "MCNearbyServiceBrowser")
         super.init()
         if reflectorconfig {
             proxyResponder = MPCFReflectorModel(peer: peerID, collector)
@@ -94,7 +94,7 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
     }
 
     /// I could pass the session and advertising delegate in through here...
-    func startHosting() {
+    func startAdvertising() {
         advertiser = MCNearbyServiceAdvertiser(
             peer: peerID,
             discoveryInfo: nil,
@@ -107,7 +107,7 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
         advertiser?.startAdvertisingPeer()
     }
 
-    func stopHosting() {
+    func stopAdvertising() {
         advertiser?.stopAdvertisingPeer()
         // if we have an advertising span, mark it with an end time and add it to our
         // span collection to report/share later.

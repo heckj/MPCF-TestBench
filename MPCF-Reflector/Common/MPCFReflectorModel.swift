@@ -13,6 +13,9 @@ import OpenTelemetryModels
 /// Handles the automatic reactions to Multipeer traffic - accepting invitations and responding to any data sent.
 class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
 
+    // this represents the span matching the MCSession being active
+    // it's created when the first invitation is received and event appended
+    // as they happen to the delegate.
     var currentSessionSpan: OpenTelemetry.Span?
     var session: MCSession
     var me: MCPeerID
@@ -29,7 +32,6 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
     private let decoder = JSONDecoder()
 
     private var spanCollector: OTSimpleSpanCollector?
-    private var sessionSpans: [MCPeerID: OpenTelemetry.Span] = [:]
     private var dataSpans: [MCPeerID: OpenTelemetry.Span] = [:]
 
     init(
@@ -58,12 +60,20 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
         withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void
     ) {
         print("received invitation from ", peerID)
-        if var currentAdvertSpan = currentSessionSpan {
+
+        if var currentSpan = currentSessionSpan {
             // if we have an avertising span, let's append some events related to the browser on it.
-            currentAdvertSpan.addEvent(
+            currentSpan.addEvent(
                 OpenTelemetry.Event(
                     "didReceiveInvitationFromPeer",
                     attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
+        } else {
+            self.currentSessionSpan = OpenTelemetry.Span.start(name: "sessionStartFromInvitation")
+            self.currentSessionSpan?.addEvent(
+                OpenTelemetry.Event(
+                    "didReceiveInvitationFromPeer",
+                    attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
+
         }
         // accept all invitations with the default session that we built
         invitationHandler(true, self.session)
@@ -73,6 +83,7 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
         _ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error
     ) {
         print("failed to advertise: ", error)
+        self.currentSessionSpan?.finish(withStatusCode: .internalError)
         DispatchQueue.main.async {
             self.errorList.append(error.localizedDescription)
         }
@@ -95,37 +106,31 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
         case MCSessionState.connected:
             print("Connected: \(peerID.displayName)")
             // event in the session span?
-            if var sessionSpan = sessionSpans[peerID] {
+            if var sessionSpan = self.currentSessionSpan {
                 sessionSpan.addEvent(
                     OpenTelemetry.Event(
                         "sessionConnected",
                         attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
-                // not sure if this is needed - I think we may have made a local copy here...
-                // so this updates the local collection of spans with our updated version
-                sessionSpans[peerID] = sessionSpan
             }
 
         case MCSessionState.connecting:
             print("Connecting: \(peerID.displayName)")
             // i think this is the start of the span - but it might be when we recv invitation above...
-            if let currentAdvertSpan = currentSessionSpan {
-                var sessionSpan = currentAdvertSpan.createChildSpan(name: "MPCFsession")
-                // add an attribute of the current peer
-                sessionSpan.setTag("peerID", peerID.displayName)
-                // add it into our collection, referenced by Peer
-                sessionSpans[peerID] = sessionSpan
+            if var sessionSpan = currentSessionSpan {
+                sessionSpan.addEvent(
+                    OpenTelemetry.Event(
+                        "sessionConnecting",
+                        attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
             }
 
         case MCSessionState.notConnected:
             print("Not Connected: \(peerID.displayName)")
             // and this is the end of a span... I think
-            if var sessionSpan = sessionSpans[peerID] {
-                sessionSpan.finish()
-                spanCollector?.collectSpan(sessionSpan)
-            }
-            // after we "record" it - we kill the current span reference in the dictionary by peer
-            DispatchQueue.main.async {
-                self.sessionSpans.removeValue(forKey: peerID)
+            if var sessionSpan = currentSessionSpan {
+                sessionSpan.addEvent(
+                    OpenTelemetry.Event(
+                        "notConnected",
+                        attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
             }
 
         @unknown default:
@@ -138,12 +143,11 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
         DispatchQueue.main.async {
             self.numberOfTransmissionsRecvd += 1
         }
-        if var sessionSpan = sessionSpans[peerID] {
+        if var sessionSpan = currentSessionSpan {
             sessionSpan.addEvent(
                 OpenTelemetry.Event(
                     "didReceiveData", attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)])
             )
-            sessionSpans[peerID] = sessionSpan
         }
         do {
             let xmit = try decoder.decode(ReflectorEnvelope.self, from: data)
@@ -154,12 +158,24 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
             case .reliable:
                 print("reflecting .reliable \(data.count) bytes back to \(peerID.displayName)")
                 try session.send(data, toPeers: [peerID], with: .reliable)
+                currentSessionSpan?.addEvent(
+                    OpenTelemetry.Event(
+                        "send", attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)])
+                )
             case .unreliable:
                 print("reflecting .unreliable \(data.count) bytes back to \(peerID.displayName)")
                 try session.send(data, toPeers: [peerID], with: .unreliable)
+                currentSessionSpan?.addEvent(
+                    OpenTelemetry.Event(
+                        "send", attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)])
+                )
             @unknown default:
                 try session.send(data, toPeers: [peerID], with: .reliable)
                 print("reflecting .reliable \(data.count) bytes back to \(peerID.displayName)")
+                currentSessionSpan?.addEvent(
+                    OpenTelemetry.Event(
+                        "send", attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)])
+                )
             }
             print("data sent, reflection complete")
         } catch {
@@ -185,7 +201,7 @@ class MPCFReflectorModel: NSObject, ObservableObject, MPCFProxyResponder {
     ) {
         print("starting receiving resource: \(resourceName)")
         // event in the session span?
-        if let sessionSpan = sessionSpans[peerID] {
+        if let sessionSpan = currentSessionSpan {
             var recvDataSpan = sessionSpan.createChildSpan(name: "MPCF-recv-resource")
             // add an attribute of the current peer
             recvDataSpan.setTag("peerID", peerID.displayName)

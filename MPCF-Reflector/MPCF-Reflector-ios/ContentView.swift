@@ -17,7 +17,7 @@ struct ContentView: View {
             Divider()
             MPCFProxyPeerDisplay(proxy: proxy)
             Divider()
-            Text("Span collection size: \(proxy.spanCollector.spanBucket.count)")
+            Text("Span collection size: \(proxy.spanCollector.spanCollection.count)")
             Divider()
             MPCFReflectorStatus(reflector: proxy.proxyResponder as! MPCFReflectorModel)
         }
