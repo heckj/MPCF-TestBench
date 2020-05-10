@@ -10,13 +10,28 @@ import Foundation
 import MultipeerConnectivity
 
 // local, codable mirror to import MultipeerConnectivity.MCSessionSendDataMode
-enum TransportMode: UInt, Codable {
+enum TransportMode: UInt, Codable, CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .reliable:
+            return "reliable"
+        case .unreliable:
+            return "unreliable"
+        }
+    }
+
     case unreliable = 0
     case reliable = 1
 }
 
-struct TransmissionIdentifier: Identifiable, Hashable, Codable {
-    let id = UUID()
+struct TransmissionIdentifier: Identifiable, Hashable, Codable, Comparable {
+
+    /// comparable conformance.
+    static func < (lhs: TransmissionIdentifier, rhs: TransmissionIdentifier) -> Bool {
+        lhs.sequenceNumber < rhs.sequenceNumber
+    }
+
+    let id: UUID
     let sequenceNumber: UInt
     let transport: TransportMode
     let traceName: String
@@ -30,6 +45,7 @@ struct TransmissionIdentifier: Identifiable, Hashable, Codable {
     }
 
     init(traceName: String, transport: TransportMode = .reliable) {
+        self.id = UUID()
         self.transport = transport
         self.traceName = traceName
         sequenceNumber = TransmissionIdentifier.nextSequenceNumber()

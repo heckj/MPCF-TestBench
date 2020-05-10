@@ -10,7 +10,7 @@ import MultipeerConnectivity
 import PreviewBackground
 import SwiftUI
 
-struct MPCFPeerDisplay: View {
+struct MPCFPeerStatusDisplay: View {
     let peerstatus: MPCFReflectorPeerStatus
 
     func colorFromStatus() -> Color {
@@ -22,7 +22,7 @@ struct MPCFPeerDisplay: View {
             Circle()
                 .fill(colorFromStatus())
                 .frame(width: 8, height: 8, alignment: .center)
-            Text(peerstatus.peer.displayName)
+            Text(peerstatus.peer.displayName).font(.body)
         }
     }
 }
@@ -33,11 +33,11 @@ struct MPCFPeerDisplay: View {
             Group {
                 ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
                     PreviewBackground {
-                        VStack {
-                            MPCFPeerDisplay(
+                        VStack(alignment: .leading) {
+                            MPCFPeerStatusDisplay(
                                 peerstatus: MPCFReflectorPeerStatus(
                                     peer: MCPeerID(displayName: "livePeer"), connected: true))
-                            MPCFPeerDisplay(
+                            MPCFPeerStatusDisplay(
                                 peerstatus: MPCFReflectorPeerStatus(
                                     peer: MCPeerID(displayName: "deadPeer"), connected: false))
                         }

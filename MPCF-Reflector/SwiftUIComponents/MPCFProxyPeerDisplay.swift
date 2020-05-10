@@ -1,8 +1,8 @@
 //
-//  SwiftUIView.swift
+//  ProxyPeerList.swift
 //  MPCF-Reflector
 //
-//  Created by Joseph Heck on 5/2/20.
+//  Created by Joseph Heck on 5/3/20.
 //  Copyright © 2020 JFH Consulting. All rights reserved.
 //
 
@@ -10,35 +10,24 @@ import MultipeerConnectivity
 import PreviewBackground
 import SwiftUI
 
-struct MPCFProxyDisplay: View {
+struct MPCFProxyPeerDisplay: View {
     @ObservedObject var proxy: MPCFProxy
-    // proxy has a .peerList -> MCPeerStatus
-    // .encryptionPreferences
-    // proxy.active is Bool
-    // $proxy
     var body: some View {
-        VStack {
-            VStack {
-                Text(proxy.peerID.displayName).font(.largeTitle)
-
-                HStack {
-                    if proxy.active {
-                        Text("Deactivate advertising").foregroundColor(.red)
-                    } else {
-                        Text("Activate advertising").foregroundColor(.green)
-                    }
-                    Toggle("active", isOn: $proxy.active).labelsHidden()
-                }.padding()
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(lineWidth: 2)
-                            .foregroundColor(proxy.active ? .green : .gray)
-                    )
-                MPCFSessionDisplay(session: proxy.proxyResponder?.sessionProxy ?? SessionProxy())
+        VStack(alignment: .leading) {
+            Text("Known Peers").font(.title)
+            List(proxy.peerList, id: \.peer) { peerstatus in
+                MPCFPeerStatusDisplay(peerstatus: peerstatus)
             }
+            HStack {
+                ForEach(proxy.errorList, id: \.self) { err in
+                    Text("\(err)").font(.caption)
+                }
+            }
+
         }
     }
 }
+
 #if DEBUG
     private func proxyWithTwoPeers() -> MPCFProxy {
         let x = MPCFProxy(MCPeerID(displayName: "livePeer"))
@@ -51,13 +40,13 @@ struct MPCFProxyDisplay: View {
         return x
     }
 
-    struct MPCFProxyDisplay_Previews: PreviewProvider {
+    struct MPCFProxyPeerDisplay_Previews: PreviewProvider {
         static var previews: some View {
             Group {
                 ForEach(ColorScheme.allCases, id: \.self) { colorScheme in
                     PreviewBackground {
                         VStack(alignment: .leading) {
-                            MPCFProxyDisplay(
+                            MPCFProxyPeerDisplay(
                                 proxy: proxyWithTwoPeers())
                         }
                     }

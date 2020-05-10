@@ -10,29 +10,22 @@ import MultipeerConnectivity
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var reflector: MPCFProxy
+    @ObservedObject var proxy: MPCFProxy
     var body: some View {
         VStack {
-            Text("MPCF Reflector")
-            Toggle(isOn: $reflector.active, label: { Text("Active") })
-            Text("Found peers: \(reflector.peerList.count)")
-            if (reflector.proxyResponder?.currentAdvertSpan) != nil {
-                Text("ADVERT SPAN")
-            }
-
-            Text("Span collection size: \(reflector.spanCollector.spanBucket.count)")
-
-            List(
-                reflector.peerList, id: \.peer,
-                rowContent: { ps in
-                    MPCFPeerDisplay(peerstatus: ps)
-                })
+            MPCFProxyDisplay(proxy: proxy)
+            Divider()
+            MPCFProxyPeerDisplay(proxy: proxy)
+            Divider()
+            Text("Span collection size: \(proxy.spanCollector.spanCollection.count)")
+            Divider()
+            MPCFReflectorStatus(reflector: proxy.proxyResponder as! MPCFReflectorModel)
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(reflector: MPCFProxy(MCPeerID(displayName: "xpeer")))
+        ContentView(proxy: MPCFProxy(MCPeerID(displayName: "xpeer")))
     }
 }

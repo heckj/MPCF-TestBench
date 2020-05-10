@@ -6,10 +6,26 @@
 //  Copyright © 2020 JFH Consulting. All rights reserved.
 //
 
+import MultipeerConnectivity
 import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    let peerID: MCPeerID
+    let proxy: MPCFProxy
+    let collector = OTSimpleSpanCollector()
+    override init() {
+        peerID = MCPeerID(displayName: UIDevice.current.name)
+        let runner = MPCFTestRunnerModel(peer: peerID, collector)
+        proxy = MPCFProxy(
+            peerID,
+            collector: collector,
+            encrypt: .required,
+            reflectorconfig: false
+        )
+        proxy.proxyResponder = runner
+    }
 
     func application(
         _ application: UIApplication,

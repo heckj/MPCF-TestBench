@@ -13,10 +13,10 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let peerID: MCPeerID
-    let reflector: MPCFProxy
+    let proxy: MPCFProxy
     override init() {
         peerID = MCPeerID(displayName: UIDevice.current.name)
-        reflector = MPCFProxy(peerID)
+        proxy = MPCFProxy(peerID)
     }
 
     // MARK: Lifecycle
