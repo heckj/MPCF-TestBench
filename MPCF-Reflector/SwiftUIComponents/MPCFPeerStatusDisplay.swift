@@ -11,17 +11,18 @@ import PreviewBackground
 import SwiftUI
 
 struct MPCFPeerStatusDisplay: View {
-    let peerstatus: MPCFReflectorPeerStatus
+    let peerstatus: MCPeerAdvertizingStatus
 
     func colorFromStatus() -> Color {
-        peerstatus.connected ? Color.green : Color.gray
+        peerstatus.advertising ? Color.green : Color.gray
     }
 
     var body: some View {
         HStack {
             Circle()
                 .fill(colorFromStatus())
-                .frame(width: 8, height: 8, alignment: .center)
+                .frame(width: 11, height: 11, alignment: .center)
+                .animation(.default)
             Text(peerstatus.peer.displayName).font(.body)
         }
     }
@@ -35,11 +36,11 @@ struct MPCFPeerStatusDisplay: View {
                     PreviewBackground {
                         VStack(alignment: .leading) {
                             MPCFPeerStatusDisplay(
-                                peerstatus: MPCFReflectorPeerStatus(
-                                    peer: MCPeerID(displayName: "livePeer"), connected: true))
+                                peerstatus: MCPeerAdvertizingStatus(
+                                    peer: MCPeerID(displayName: "livePeer"), advertising: true))
                             MPCFPeerStatusDisplay(
-                                peerstatus: MPCFReflectorPeerStatus(
-                                    peer: MCPeerID(displayName: "deadPeer"), connected: false))
+                                peerstatus: MCPeerAdvertizingStatus(
+                                    peer: MCPeerID(displayName: "deadPeer"), advertising: false))
                         }
                     }
                     .environment(\.colorScheme, colorScheme)

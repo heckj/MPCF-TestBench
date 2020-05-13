@@ -11,7 +11,8 @@ import MultipeerConnectivity
 
 /// An observable proxy for when MCSession changes state.
 class SessionProxy: NSObject, ObservableObject {
-    // session state reflection
+    // session state reflection - these values are updated
+    // by the MCSessionDelegate on various callbacks
     @Published var sessionState: MPCFSessionState
     @Published var connectedPeers: [MCPeerID]
     @Published var encryptionPreference: MCEncryptionPreference
