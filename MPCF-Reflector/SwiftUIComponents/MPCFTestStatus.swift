@@ -30,7 +30,7 @@ struct MPCFTestStatus: View {
                 ProgressBar(
                     value: Double(testRunnerModel.numberOfTransmissionsSent),
                     maxValue: testRunnerModel.numberOfTransmissionsToSend
-                )
+                ).animation(.default)
             }
 
             Divider()
@@ -40,7 +40,7 @@ struct MPCFTestStatus: View {
                     value: Double(testRunnerModel.numberOfTransmissionsRecvd),
                     maxValue:
                         testRunnerModel.numberOfTransmissionsToSend
-                )
+                ).animation(.default)
             }
             Divider()
             List(testRunnerModel.reportsReceived, id: \.self) {
@@ -50,8 +50,7 @@ struct MPCFTestStatus: View {
                     Text(" \(xmitreport.bandwidth, specifier: "%.2f") bytes/sec at \(self.stringFromDate(xmitreport.end))")
                     .font(.caption)
                 }
-
-            }
+            }.animation(.default)
             Divider()
             Text("Summary").font(.headline)
             VStack {

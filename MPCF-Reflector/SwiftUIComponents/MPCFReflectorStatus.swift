@@ -25,7 +25,7 @@ struct MPCFReflectorStatus: View {
                     Text("\(xmit.sequenceNumber)").font(.caption)
                     Text(String(describing: xmit.transport)).font(.caption)
                 }
-            }
+            }.animation(.default)
             Divider()
             Text("Errors: ").font(.headline)
                 + Text("\(reflector.errorList.count)")
@@ -43,7 +43,7 @@ struct MPCFReflectorStatus: View {
                                 opacity: 0.3)
                         )
                 )
-            }
+            }.animation(.default)
         }
     }
 }
