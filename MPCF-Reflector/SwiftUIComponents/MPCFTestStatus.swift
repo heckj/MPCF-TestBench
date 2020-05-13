@@ -50,8 +50,14 @@ struct MPCFTestStatus: View {
             List(testRunnerModel.reportsReceived, id: \.self) {
                 xmitreport in
                 HStack {
-                    Text(" \(xmitreport.sequenceNumber) ").overlay(RoundedRectangle(cornerRadius: 4).stroke(lineWidth: 1))
-                    Text(" \(xmitreport.bandwidth, specifier: "%.2f") bytes/sec at \(self.stringFromDate(xmitreport.end))")
+                    Text(" \(xmitreport.sequenceNumber) ")
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 4)
+                                .stroke(lineWidth: 1)
+                        )
+                    Text(
+                        " \(xmitreport.bandwidth, specifier: "%.2f") bytes/sec at \(self.stringFromDate(xmitreport.end))"
+                    )
                     .font(.caption)
                 }
             }.animation(.default)
