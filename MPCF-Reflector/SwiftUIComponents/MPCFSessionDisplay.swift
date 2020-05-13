@@ -70,7 +70,7 @@ struct MPCFSessionDisplay: View {
                                     .foregroundColor(self.invertedPrimaryColor())
                             )
                         )
-                }
+                }.animation(.default)
             }
         }
     }

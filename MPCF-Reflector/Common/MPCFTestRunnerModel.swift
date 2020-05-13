@@ -263,6 +263,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             let xmitId = foo.id
             if var xmitSpan = transmissionSpans[xmitId] {
                 let report = RoundTripXmitReport(
+                    sequenceNumber: xmitId.sequenceNumber,
                     start: xmitSpan.startDate(),
                     end: transmissionFinished,
                     dataSize: data.count

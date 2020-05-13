@@ -17,13 +17,12 @@ struct MPCFProxyPeerDisplay: View {
             Text("Known Peers").font(.title)
             List(proxy.peerList, id: \.peer) { peerstatus in
                 MPCFPeerStatusDisplay(peerstatus: peerstatus)
-            }
+            }.animation(.default)
             HStack {
                 ForEach(proxy.errorList, id: \.self) { err in
                     Text("\(err)").font(.caption)
                 }
-            }
-
+            }.animation(.default)
         }
     }
 }
@@ -32,10 +31,10 @@ struct MPCFProxyPeerDisplay: View {
     private func proxyWithTwoPeers() -> MPCFProxy {
         let x = MPCFProxy(MCPeerID(displayName: "livePeer"))
         x.peerList.append(
-            MPCFReflectorPeerStatus(peer: MCPeerID(displayName: "first"), connected: true)
+            MCPeerAdvertizingStatus(peer: MCPeerID(displayName: "first"), advertising: true)
         )
         x.peerList.append(
-            MPCFReflectorPeerStatus(peer: MCPeerID(displayName: "second"), connected: false)
+            MCPeerAdvertizingStatus(peer: MCPeerID(displayName: "second"), advertising: false)
         )
         return x
     }

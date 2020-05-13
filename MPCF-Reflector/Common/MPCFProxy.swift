@@ -10,15 +10,6 @@ import Foundation
 import MultipeerConnectivity
 import OpenTelemetryModels
 
-struct MPCFReflectorPeerStatus: Comparable {
-    static func < (lhs: MPCFReflectorPeerStatus, rhs: MPCFReflectorPeerStatus) -> Bool {
-        lhs.peer.displayName < rhs.peer.displayName
-    }
-
-    let peer: MCPeerID
-    let connected: Bool
-}
-
 /// The rough moral equivalent of the Transceiver concept in MultiPeerKit's mechanism.
 ///
 /// Send and receive data, object of responsibility.
@@ -37,12 +28,12 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
     var advertisingSpan: OpenTelemetry.Span?
     var browsingSpan: OpenTelemetry.Span
 
-    private var internalPeerStatusDict: [MCPeerID: MPCFReflectorPeerStatus] = [:] {
+    private var internalPeerStatusDict: [MCPeerID: MCPeerAdvertizingStatus] = [:] {
         didSet {
             peerList = internalPeerStatusDict.values.sorted()
         }
     }
-    @Published var peerList: [MPCFReflectorPeerStatus] = []
+    @Published var peerList: [MCPeerAdvertizingStatus] = []
     @Published var encryptionPreferences: MCEncryptionPreference
     @Published var errorList: [String] = []
 
@@ -151,7 +142,7 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
         self.browsingSpan.addEvent(OpenTelemetry.Event("foundPeer", attr: attrList))
 
         // add to the local peer list as well
-        internalPeerStatusDict[peerID] = MPCFReflectorPeerStatus(peer: peerID, connected: true)
+        internalPeerStatusDict[peerID] = MCPeerAdvertizingStatus(peer: peerID, advertising: true)
     }
 
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
@@ -162,7 +153,7 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
                 "lostPeer", attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
 
         // update the local peer list with the loss info
-        internalPeerStatusDict[peerID] = MPCFReflectorPeerStatus(peer: peerID, connected: false)
+        internalPeerStatusDict[peerID] = MCPeerAdvertizingStatus(peer: peerID, advertising: false)
     }
 
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {

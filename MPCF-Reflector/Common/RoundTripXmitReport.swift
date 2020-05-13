@@ -9,6 +9,7 @@
 import Foundation
 
 struct RoundTripXmitReport: Hashable {
+    let sequenceNumber: UInt
     let start: Date
     let end: Date
     let dataSize: Int

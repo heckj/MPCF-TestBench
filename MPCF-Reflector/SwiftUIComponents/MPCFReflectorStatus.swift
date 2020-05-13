@@ -15,7 +15,6 @@ struct MPCFReflectorStatus: View {
     @ObservedObject var reflector: MPCFReflectorModel
     var body: some View {
         VStack(alignment: .leading) {
-
             Text("Transmissions: ").font(.headline)
                 + Text("\(reflector.numberOfTransmissionsRecvd)")
             Divider()
@@ -26,15 +25,26 @@ struct MPCFReflectorStatus: View {
                     Text("\(xmit.sequenceNumber)").font(.caption)
                     Text(String(describing: xmit.transport)).font(.caption)
                 }
-            }
+            }.animation(.default)
             Divider()
-            HStack {
-                ForEach(reflector.errorList, id: \.self) {
-                    Text($0).font(.caption)
-                }
-            }
+            Text("Errors: ").font(.headline)
+                + Text("\(reflector.errorList.count)")
+            List(reflector.errorList, id: \.self) {
+                Text($0).font(.caption).padding(
+                    EdgeInsets(top: 1, leading: 2, bottom: 1, trailing: 2)
+                ).overlay(
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(
+                            Color.init(
+                                Color.RGBColorSpace.sRGB,
+                                red: 1.0,
+                                green: 0.1,
+                                blue: 0.1,
+                                opacity: 0.3)
+                        )
+                )
+            }.animation(.default)
         }
-
     }
 }
 
@@ -45,6 +55,10 @@ struct MPCFReflectorStatus: View {
         for _ in 1...30 {
             me.transmissions.append(TransmissionIdentifier(traceName: "foo"))
         }
+        me.errorList.append("oops - something bad")
+        me.errorList.append("some really, really, really long error message")
+        me.errorList.append("darnit, again")
+        me.errorList.append("NO! Really!?")
         return me
     }
 

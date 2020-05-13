@@ -14,7 +14,7 @@ struct MPCFTestStatus: View {
 
     private let df = DateFormatter()
     private func stringFromDate(_ date: Date) -> String {
-        df.dateFormat = "y-MM-dd H:m:ss.SSSS"
+        df.dateFormat = "M-dd H:m:ss.SSSS"
         return df.string(from: date)
     }
 
@@ -30,8 +30,10 @@ struct MPCFTestStatus: View {
                 ProgressBar(
                     value: Double(testRunnerModel.numberOfTransmissionsSent),
                     maxValue: testRunnerModel.numberOfTransmissionsToSend
-                )
-            }
+                ).animation(.default)
+            }.padding(
+                EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
+            )
 
             Divider()
             HStack {
@@ -40,18 +42,28 @@ struct MPCFTestStatus: View {
                     value: Double(testRunnerModel.numberOfTransmissionsRecvd),
                     maxValue:
                         testRunnerModel.numberOfTransmissionsToSend
-                )
-            }
+                ).animation(.default)
+            }.padding(
+                EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
+            )
             Divider()
             List(testRunnerModel.reportsReceived, id: \.self) {
                 xmitreport in
-                Text("\(xmitreport.bandwidth, specifier: "%.2f") bytes/sec ")
-                    + Text("at \(self.stringFromDate(xmitreport.end))")
+                HStack {
+                    Text(" \(xmitreport.sequenceNumber) ")
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 4)
+                                .stroke(lineWidth: 1)
+                        )
+                    Text(
+                        " \(xmitreport.bandwidth, specifier: "%.2f") bytes/sec at \(self.stringFromDate(xmitreport.end))"
+                    )
                     .font(.caption)
-            }
+                }
+            }.animation(.default)
             Divider()
-            Text("Summary")
-            HStack {
+            Text("Summary").font(.headline)
+            VStack {
                 Text("Average: \(testRunnerModel.summary.average, specifier: "%.2f")")
                 Text("StdDev: \(testRunnerModel.summary.stddev, specifier: "%.2f")")
                 Text("Max: \(testRunnerModel.summary.max, specifier: "%.2f")")
@@ -71,9 +83,10 @@ struct MPCFTestStatus: View {
         me.numberOfTransmissionsSent = 35
         // record that we've received 20
         me.numberOfTransmissionsRecvd = 20
-        for _ in 1...20 {
+        for num in 1...20 {
             me.reportsReceived.append(
                 RoundTripXmitReport(
+                    sequenceNumber: UInt(num),
                     start: Date(),
                     end: Date() + TimeInterval(1),
                     dataSize: 4321

@@ -13,58 +13,58 @@ import SwiftUI
 struct MPCFTestControl: View {
     @ObservedObject var testRunnerModel: MPCFTestRunnerModel
     var body: some View {
-        VStack(alignment: .leading) {
-
-            HStack {
-                Picker("data size", selection: $testRunnerModel.dataSize) {
-                    ForEach(ReflectorEnvelope.PayloadSize.allCases) { v in
-                        Text(v.name).font(.caption).tag(v)
+        NavigationView {
+            VStack(alignment: .leading) {
+                Form {
+                    HStack {
+                        Picker("Data size", selection: $testRunnerModel.dataSize) {
+                            ForEach(ReflectorEnvelope.PayloadSize.allCases) { v in
+                                Text(v.name).font(.caption).tag(v)
+                            }
+                        }
                     }
-                }.frame(minHeight: 40, idealHeight: 60, maxHeight: 80, alignment: Alignment.center)
-            }
-            Divider()
-            HStack {
-                Text("Send").font(.body)
-                Text("\(testRunnerModel.numberOfTransmissionsToSend, specifier: "%.0f")")
-                Slider(
-                    value: $testRunnerModel.numberOfTransmissionsToSend,
-                    in: 1...1000,
-                    minimumValueLabel: Text(""),
-                    maximumValueLabel: Text("1000"),
-                    label: { EmptyView() }
-                )
-            }
-            Divider()
-            HStack {
-                Text("Delay").font(.body)
-                Text("\(testRunnerModel.transmissionDelay, specifier: "%.2f")")
-                Slider(
-                    value: $testRunnerModel.transmissionDelay,
-                    in: 0...2,
-                    step: 0.5,
-                    minimumValueLabel: Text(""),
-                    maximumValueLabel: Text("2"),
-                    label: { EmptyView() }
-                )
-            }
-            VStack {
-                Divider()
-                HStack {
-                    if testRunnerModel.active {
-                        Text("Deactivate Test").foregroundColor(.red)
-                    } else {
-                        Text("Activate Test").foregroundColor(.green)
+                    Divider()
+                    HStack {
+                        Text("Send").font(.body)
+                        Text("\(testRunnerModel.numberOfTransmissionsToSend, specifier: "%.0f")")
+                        Slider(
+                            value: $testRunnerModel.numberOfTransmissionsToSend,
+                            in: 1...1000,
+                            minimumValueLabel: Text(""),
+                            maximumValueLabel: Text("1000"),
+                            label: { EmptyView() }
+                        )
                     }
+                    Divider()
+                    HStack {
+                        Text("Delay").font(.body)
+                        Text("\(testRunnerModel.transmissionDelay, specifier: "%.2f")")
+                        Slider(
+                            value: $testRunnerModel.transmissionDelay,
+                            in: 0...2,
+                            step: 0.5,
+                            minimumValueLabel: Text(""),
+                            maximumValueLabel: Text("2"),
+                            label: { EmptyView() }
+                        )
+                    }
+                    Divider()
+                    HStack {
+                        if testRunnerModel.active {
+                            Text("Deactivate Test").foregroundColor(.red)
+                        } else {
+                            Text("Activate Test").foregroundColor(.green)
+                        }
 
-                    Toggle("active", isOn: $testRunnerModel.active).labelsHidden()
-                }.padding()
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(lineWidth: 2)
-                            .foregroundColor(testRunnerModel.active ? .green : .gray)
-                    )
+                        Toggle("active", isOn: $testRunnerModel.active).labelsHidden()
+                    }.padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(lineWidth: 2)
+                                .foregroundColor(testRunnerModel.active ? .green : .gray)
+                        )
+                }
             }
-
         }
 
     }
