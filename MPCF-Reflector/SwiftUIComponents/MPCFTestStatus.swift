@@ -31,7 +31,9 @@ struct MPCFTestStatus: View {
                     value: Double(testRunnerModel.numberOfTransmissionsSent),
                     maxValue: testRunnerModel.numberOfTransmissionsToSend
                 ).animation(.default)
-            }
+            }.padding(
+                EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
+            )
 
             Divider()
             HStack {
@@ -41,7 +43,9 @@ struct MPCFTestStatus: View {
                     maxValue:
                         testRunnerModel.numberOfTransmissionsToSend
                 ).animation(.default)
-            }
+            }.padding(
+                EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
+            )
             Divider()
             List(testRunnerModel.reportsReceived, id: \.self) {
                 xmitreport in
