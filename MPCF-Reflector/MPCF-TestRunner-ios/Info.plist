@@ -43,6 +43,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -91,5 +93,7 @@
 	</array>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 </dict>
 </plist>

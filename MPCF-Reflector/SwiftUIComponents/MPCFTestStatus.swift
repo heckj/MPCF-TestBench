@@ -18,18 +18,32 @@ struct MPCFTestStatus: View {
         return df.string(from: date)
     }
 
+    func targetPeerDefined() -> Bool {
+        self.testRunnerModel.targetPeer != nil
+    }
     @ObservedObject var testRunnerModel: MPCFTestRunnerModel
     var body: some View {
         VStack(alignment: .leading) {
 
-            Text("Target: ").font(.headline)
-                + Text("\(testRunnerModel.targetPeer?.displayName ?? "???")")
+            if targetPeerDefined() {
+                Text("Target: ").font(.headline)
+                    + Text("\(testRunnerModel.targetPeer?.displayName ?? "???")")
+            } else {
+                Text("Session not connected")
+                    .font(.headline)
+                    .foregroundColor(.red)
+                    .italic()
+                    .padding(
+                        EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
+                    )
+
+            }
             Divider()
             HStack {
                 Text("Sent         ").font(.headline)
                 ProgressBar(
                     value: Double(testRunnerModel.numberOfTransmissionsSent),
-                    maxValue: testRunnerModel.numberOfTransmissionsToSend
+                    maxValue: Double(testRunnerModel.testconfig.number)
                 ).animation(.default)
             }.padding(
                 EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
@@ -40,8 +54,7 @@ struct MPCFTestStatus: View {
                 Text("Received").font(.headline)
                 ProgressBar(
                     value: Double(testRunnerModel.numberOfTransmissionsRecvd),
-                    maxValue:
-                        testRunnerModel.numberOfTransmissionsToSend
+                    maxValue: Double(testRunnerModel.testconfig.number)
                 ).animation(.default)
             }.padding(
                 EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
@@ -78,7 +91,7 @@ struct MPCFTestStatus: View {
         let myself = MCPeerID(displayName: "me")
         let me = MPCFTestRunnerModel(peer: myself, OTSimpleSpanCollector())
         me.targetPeer = MCPeerID(displayName: "livePeer")
-        me.numberOfTransmissionsToSend = 100
+        me.testconfig.number = 100
         // record that we've sent 35
         me.numberOfTransmissionsSent = 35
         // record that we've received 20

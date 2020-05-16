@@ -13,7 +13,7 @@ struct ContentView: View {
     @ObservedObject var proxy: MPCFProxy
     var body: some View {
         VStack {
-            MPCFProxyDisplay(proxy: proxy)
+            MPCFProxyDisplay(advertiseAvailable: true, proxy: proxy)
             Divider()
             MPCFProxyPeerDisplay(proxy: proxy)
             Divider()

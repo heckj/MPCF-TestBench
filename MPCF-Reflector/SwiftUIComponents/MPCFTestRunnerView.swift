@@ -9,11 +9,25 @@
 import MultipeerConnectivity
 import SwiftUI
 
-struct TestRunnerView: View {
+struct MPCFTestRunnerView: View {
     @ObservedObject var testrunner: MPCFTestRunnerModel
+    func targetSelected() -> Bool {
+        testrunner.targetPeer != nil
+    }
+
+    func runTest() {
+        testrunner.sendTransmissions()
+    }
+
     var body: some View {
         VStack {
-            MPCFTestControl(testRunnerModel: testrunner)
+            MPCFSessionDisplay(session: testrunner.sessionProxy)
+            if self.targetSelected() {
+                Divider()
+                Button(action: runTest) {
+                    Text("RUN")
+                }
+            }
             Divider()
             MPCFTestStatus(testRunnerModel: testrunner)
         }
@@ -31,7 +45,7 @@ struct TestRunnerView: View {
 
     struct TestRunnerView_Previews: PreviewProvider {
         static var previews: some View {
-            TestRunnerView(testrunner: fakeTestRunner())
+            MPCFTestRunnerView(testrunner: fakeTestRunner())
         }
     }
 #endif

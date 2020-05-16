@@ -11,15 +11,14 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var proxy: MPCFProxy
+    @ObservedObject var runner: MPCFTestRunnerModel
     var body: some View {
         NavigationView {
             VStack {
-                MPCFProxyDisplay(proxy: proxy)
-                Divider()
-                Text("Span collection size: \(proxy.spanCollector.spanCollection.count)")
-                Divider()
+                MPCFProxyDisplay(advertiseAvailable: false, proxy: proxy)
                 VStack(alignment: .leading) {
-                    Text("Available Peers").font(.body)
+                    Text("Select from available peers to connect:")
+                        .font(.body)
                     List(proxy.peerList, id: \.peer) { peerstatus in
                         HStack {
                             MPCFPeerStatusDisplay(peerstatus: peerstatus)
@@ -28,23 +27,50 @@ struct ContentView: View {
                                     self.proxy.startSession(with: peerstatus.peer)
                                     runner.targetPeer = peerstatus.peer
                                 }
-
-                            NavigationLink(
-                                destination: TestRunnerView(
-                                    testrunner: self.proxy.proxyResponder as! MPCFTestRunnerModel),
-                                label: { Text("transmit") }
-                            )
-
                         }
                     }
                 }
+                Divider()
+                NavigationLink(
+                    destination: MPCFTestConfigurationDisplay(
+                        testConfig: self.runner.testconfig),
+                    label: {
+                        Text("Configure")
+                            .font(.headline)
+                            .padding(
+                                EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 4)
+                                    .stroke(lineWidth: 1)
+                            )
+                    }
+                )
+                Divider()
+                NavigationLink(
+                    destination: MPCFTestRunnerView(
+                        testrunner: self.proxy.proxyResponder as! MPCFTestRunnerModel),
+                    label: {
+                        Text("Transmit")
+                            .font(.headline)
+                            .padding(
+                                EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 4)
+                                    .stroke(lineWidth: 1)
+                            )
+                    }
+                )
+                Divider()
+                Text("Span collection size: \(proxy.spanCollector.spanCollection.count)")
             }
         }
     }
 }
 
 #if DEBUG
-    private func proxyWithRunner() -> MPCFProxy {
+    private func proxyWithRunner() -> (MPCFProxy, MPCFTestRunnerModel) {
         let collector = OTSimpleSpanCollector()
         let myself = MCPeerID(displayName: "me")
         let runner = MPCFTestRunnerModel(peer: myself, collector)
@@ -57,13 +83,13 @@ struct ContentView: View {
             reflectorconfig: false
         )
         me.proxyResponder = runner
-        return me
+        return (me, runner)
 
     }
 
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {
-            ContentView(proxy: proxyWithRunner())
+            ContentView(proxy: proxyWithRunner().0, runner: proxyWithRunner().1)
         }
     }
 #endif
