@@ -7,9 +7,26 @@
 //
 
 import Cocoa
+import MultipeerConnectivity
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+
+    let peerID: MCPeerID
+    let proxy: MPCFProxy
+    let runner: MPCFTestRunnerModel
+    let collector = OTSimpleSpanCollector()
+    override init() {
+        peerID = MCPeerID(displayName: Host.current().name ?? "unknown")
+        runner = MPCFTestRunnerModel(peer: peerID, collector)
+        proxy = MPCFProxy(
+            peerID,
+            collector: collector,
+            encrypt: .required,
+            reflectorconfig: false
+        )
+        proxy.proxyResponder = runner
+    }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application

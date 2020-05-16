@@ -8,54 +8,104 @@
 
 import SwiftUI
 
-struct ResultExportController: UIViewControllerRepresentable {
-    let fileToExport: URL
+#if os(iOS)
+    struct ResultExportController: UIViewControllerRepresentable {
+        let fileToExport: URL
 
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    func updateUIViewController(
-        _ uiViewController: UIDocumentPickerViewController,
-        context: UIViewControllerRepresentableContext<ResultExportController>
-    ) {
-        // Update the controller
-    }
-
-    func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
-        print("Making the picker")
-        let controller = UIDocumentPickerViewController.init(
-            url: fileToExport,
-            in: .exportToService
-        )
-        controller.delegate = context.coordinator
-        print("Setup the delegate \(context.coordinator)")
-
-        return controller
-    }
-
-    class Coordinator: NSObject, UIDocumentPickerDelegate {
-        var parent: ResultExportController
-
-        init(_ pickerController: ResultExportController) {
-            self.parent = pickerController
-            print("Setup a parent")
-            print("URL: \(String(describing: self.parent.fileToExport))")
+        func makeCoordinator() -> Coordinator {
+            Coordinator(self)
         }
 
-        func documentPicker(didPickDocumentsAt: [URL]) {
-            print("Selected a document: \(didPickDocumentsAt[0])")
+        func updateUIViewController(
+            _ uiViewController: UIDocumentPickerViewController,
+            context: UIViewControllerRepresentableContext<ResultExportController>
+        ) {
+            // Update the controller
         }
 
-        func documentPickerWasCancelled() {
-            print("Document picker was thrown away :(")
+        func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
+            print("Making the picker")
+            let controller = UIDocumentPickerViewController.init(
+                url: fileToExport,
+                in: .exportToService
+            )
+            controller.delegate = context.coordinator
+            print("Setup the delegate \(context.coordinator)")
+
+            return controller
         }
 
-        deinit {
-            print("Coordinator going away")
+        class Coordinator: NSObject, UIDocumentPickerDelegate {
+            var parent: ResultExportController
+
+            init(_ pickerController: ResultExportController) {
+                self.parent = pickerController
+                print("Setup a parent")
+                print("URL: \(String(describing: self.parent.fileToExport))")
+            }
+
+            func documentPicker(didPickDocumentsAt: [URL]) {
+                print("Selected a document: \(didPickDocumentsAt[0])")
+            }
+
+            func documentPickerWasCancelled() {
+                print("Document picker was thrown away :(")
+            }
+
+            deinit {
+                print("Coordinator going away")
+            }
         }
     }
-}
+#elseif os(macOS)
+    struct ResultExportController: NSViewControllerRepresentable {
+        let fileToExport: URL
+
+        //        func makeCoordinator() -> Coordinator {
+        //            Coordinator(self)
+        //        }
+
+        func updateNSViewController(
+            _ uiViewController: NSViewController,
+            context: NSViewControllerRepresentableContext<ResultExportController>
+        ) {
+            // Update the controller
+        }
+
+        func makeNSViewController(context: Context) -> NSViewController {
+            print("Making the picker")
+            let controller = NSViewController.init()
+            //        controller.delegate = context.coordinator
+            //        print("Setup the delegate \(context.coordinator)")
+
+            return controller
+        }
+        //
+        //        class Coordinator: NSObject  //, NSDocumentPickerDelegate
+        //        {
+        //            var parent: ResultExportController
+        //
+        //            init(_ pickerController: ResultExportController) {
+        //                self.parent = pickerController
+        //                print("Setup a parent")
+        //                print("URL: \(String(describing: self.parent.fileToExport))")
+        //            }
+        //
+        //            func documentPicker(didPickDocumentsAt: [URL]) {
+        //                print("Selected a document: \(didPickDocumentsAt[0])")
+        //            }
+        //
+        //            func documentPickerWasCancelled() {
+        //                print("Document picker was thrown away :(")
+        //            }
+        //
+        //            deinit {
+        //                print("Coordinator going away")
+        //            }
+        //        }
+    }
+
+#endif
 
 struct ResultExportView: View {
     let fileToExport: URL

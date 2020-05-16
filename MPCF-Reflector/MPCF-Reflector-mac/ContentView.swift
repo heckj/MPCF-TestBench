@@ -6,17 +6,26 @@
 //  Copyright © 2020 JFH Consulting. All rights reserved.
 //
 
+import MultipeerConnectivity
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var proxy: MPCFProxy
     var body: some View {
-        Text("Hello, World!")
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        VStack {
+            MPCFProxyDisplay(advertiseAvailable: true, proxy: proxy)
+            Divider()
+            MPCFProxyPeerDisplay(proxy: proxy)
+            Divider()
+            Text("Span collection size: \(proxy.spanCollector.spanCollection.count)")
+            Divider()
+            MPCFReflectorStatus(reflector: proxy.proxyResponder as! MPCFReflectorModel)
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(proxy: MPCFProxy(MCPeerID(displayName: "xpeer")))
     }
 }

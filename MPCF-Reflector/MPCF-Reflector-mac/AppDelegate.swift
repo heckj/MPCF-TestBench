@@ -22,7 +22,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
         reflector = MPCFProxy(peerID)
-        let contentView = ContentView()
+        guard let reflector = reflector else {
+            fatalError()
+        }
+        let contentView = ContentView(proxy: reflector)
 
         // Create the window and set the content view. 
         window = NSWindow(
