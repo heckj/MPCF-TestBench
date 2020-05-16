@@ -72,16 +72,15 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         // in our manifest against future responses
         for _ in 0...self.testconfig.number {
             self.sendAndRecordTransmission()
-//            DispatchQueue.main.asyncAfter(deadline: .now() + self.testconfig.delay) {
-//
-//            }
         }
     }
 
-    // kind of stupid that this is a Double, but that's what using a slider
-    // in SwiftUI appears to require, so changing here
-    //@Published var numberOfTransmissionsToSend: Double = 1  // 1, 10, 100
-    //@Published var transmissionDelay: Double = 0  // in seconds
+    func resultData() throws -> Data {
+        print("Generating data from results")
+        let data = try encoder.encode(self.reportsReceived)
+        print("Data size returned: \(data.count) bytes")
+        return data
+    }
 
     // collection of information about data transmissions
     private var xmitLedger: [TransmissionIdentifier: RoundTripXmitReport?] = [:] {

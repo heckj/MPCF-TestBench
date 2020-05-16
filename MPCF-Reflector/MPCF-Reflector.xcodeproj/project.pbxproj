@@ -19,6 +19,12 @@
 		1A5CCDAD2456096000B0D964 /* Future in Frameworks */ = {isa = PBXBuildFile; productRef = 1A5CCDAC2456096000B0D964 /* Future */; };
 		1A5CCDAF2456096900B0D964 /* Future in Frameworks */ = {isa = PBXBuildFile; productRef = 1A5CCDAE2456096900B0D964 /* Future */; };
 		1A5CCDB12456097000B0D964 /* Future in Frameworks */ = {isa = PBXBuildFile; productRef = 1A5CCDB02456097000B0D964 /* Future */; };
+		1A664F5A24708850005AE6EA /* ResultExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A664F5924708850005AE6EA /* ResultExportView.swift */; };
+		1A664F5B24708850005AE6EA /* ResultExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A664F5924708850005AE6EA /* ResultExportView.swift */; };
+		1A664F5C24708851005AE6EA /* ResultExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A664F5924708850005AE6EA /* ResultExportView.swift */; };
+		1A664F5D24708851005AE6EA /* ResultExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A664F5924708850005AE6EA /* ResultExportView.swift */; };
+		1A664F5E24708851005AE6EA /* ResultExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A664F5924708850005AE6EA /* ResultExportView.swift */; };
+		1A664F5F24708851005AE6EA /* ResultExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A664F5924708850005AE6EA /* ResultExportView.swift */; };
 		1A9C78CF244BA32E003EBF9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9C78CE244BA32E003EBF9A /* AppDelegate.swift */; };
 		1A9C78D1244BA32E003EBF9A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9C78D0244BA32E003EBF9A /* ContentView.swift */; };
 		1A9C78D3244BA330003EBF9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A9C78D2244BA330003EBF9A /* Assets.xcassets */; };
@@ -308,6 +314,7 @@
 		1A475AA52443B8C6004A6ACD /* MPCFProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFProxy.swift; sourceTree = "<group>"; };
 		1A475AA82443DB23004A6ACD /* MPCFPeerStatusDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCFPeerStatusDisplay.swift; sourceTree = "<group>"; };
 		1A61A192245E212C00EDECA7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		1A664F5924708850005AE6EA /* ResultExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultExportView.swift; sourceTree = "<group>"; };
 		1A9C78CC244BA32E003EBF9A /* MPCF-Reflector-mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MPCF-Reflector-mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A9C78CE244BA32E003EBF9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A9C78D0244BA32E003EBF9A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -770,6 +777,7 @@
 				1AC79162245F767500BC938A /* MPCFReflectorStatus.swift */,
 				1AD25FBE245F45EE00D3C1A4 /* ProgressBar.swift */,
 				1AD25FC4245F467000D3C1A4 /* ProgressCircle.swift */,
+				1A664F5924708850005AE6EA /* ResultExportView.swift */,
 			);
 			path = SwiftUIComponents;
 			sourceTree = "<group>";
@@ -1343,6 +1351,7 @@
 				1A475AAA2443DB23004A6ACD /* MPCFPeerStatusDisplay.swift in Sources */,
 				1AC79156245F650600BC938A /* RoundTripXmitReport.swift in Sources */,
 				1A475A8A2443B7BB004A6ACD /* ContentView.swift in Sources */,
+				1A664F5A24708850005AE6EA /* ResultExportView.swift in Sources */,
 				1AE51463245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1AC0243B246CD3D6006B1CD1 /* MPCFTestConfigurationDisplay.swift in Sources */,
 				1A29D5A9244A826B00A8584E /* ReflectorEnvelope.swift in Sources */,
@@ -1379,6 +1388,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A9C78D1244BA32E003EBF9A /* ContentView.swift in Sources */,
+				1A664F5B24708850005AE6EA /* ResultExportView.swift in Sources */,
 				1AC79157245F654B00BC938A /* RoundTripXmitReport.swift in Sources */,
 				1A9C78CF244BA32E003EBF9A /* AppDelegate.swift in Sources */,
 				1AD87F9924688FD00026B4A7 /* SessionProxy.swift in Sources */,
@@ -1422,6 +1432,7 @@
 			files = (
 				1AE51465245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1AD25FC1245F45EE00D3C1A4 /* ProgressBar.swift in Sources */,
+				1A664F5C24708851005AE6EA /* ResultExportView.swift in Sources */,
 				1AC79158245F654C00BC938A /* RoundTripXmitReport.swift in Sources */,
 				1AD25FB5245F3E4000D3C1A4 /* MPCFTestControl.swift in Sources */,
 				1AB1627A246B893D00FFC99F /* MCPeerAdvertizingStatus.swift in Sources */,
@@ -1465,6 +1476,7 @@
 			files = (
 				1AE51466245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1AD25FC2245F45EE00D3C1A4 /* ProgressBar.swift in Sources */,
+				1A664F5D24708851005AE6EA /* ResultExportView.swift in Sources */,
 				1AC79159245F654D00BC938A /* RoundTripXmitReport.swift in Sources */,
 				1AD25FB6245F3E4000D3C1A4 /* MPCFTestControl.swift in Sources */,
 				1AB1627B246B893D00FFC99F /* MCPeerAdvertizingStatus.swift in Sources */,
@@ -1516,6 +1528,7 @@
 			files = (
 				1AE51467245E3036009C2AF1 /* TransmissionIdentifier.swift in Sources */,
 				1AD25FC3245F45EE00D3C1A4 /* ProgressBar.swift in Sources */,
+				1A664F5E24708851005AE6EA /* ResultExportView.swift in Sources */,
 				1AC7915A245F654E00BC938A /* RoundTripXmitReport.swift in Sources */,
 				1AD25FB7245F3E4000D3C1A4 /* MPCFTestControl.swift in Sources */,
 				1AB1627C246B893D00FFC99F /* MCPeerAdvertizingStatus.swift in Sources */,
@@ -1559,6 +1572,7 @@
 			files = (
 				1AE5146D245E3118009C2AF1 /* MPCFReflectorModel.swift in Sources */,
 				1AE5146F245E3118009C2AF1 /* ReflectorEnvelope.swift in Sources */,
+				1A664F5F24708851005AE6EA /* ResultExportView.swift in Sources */,
 				1AFA5C6C2467343400235B93 /* MPCFTestStatus.swift in Sources */,
 				1AE51461245E2F70009C2AF1 /* ReflectorEnvelopeTests.swift in Sources */,
 				1AB1627D246B893D00FFC99F /* MCPeerAdvertizingStatus.swift in Sources */,

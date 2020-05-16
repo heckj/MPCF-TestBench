@@ -19,17 +19,45 @@ struct MPCFTestRunnerView: View {
         testrunner.sendTransmissions()
     }
 
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+
+    func exportURL() -> URL {
+        let filename = getDocumentsDirectory().appendingPathComponent("output.mpcftestjson")
+        do {
+            let data = try testrunner.resultData()
+            try data.write(to: filename, options: .atomicWrite)
+        } catch {
+            // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
+            print(error)
+        }
+        print(filename)
+        return filename
+    }
+
     var body: some View {
-        VStack {
-            MPCFSessionDisplay(session: testrunner.sessionProxy)
-            if self.targetSelected() {
-                Divider()
-                Button(action: runTest) {
-                    Text("RUN")
+        NavigationView {
+            VStack {
+                MPCFSessionDisplay(session: testrunner.sessionProxy)
+                if self.targetSelected() {
+                    Divider()
+                    Button(action: runTest) {
+                        Text("RUN")
+                    }
+                    .padding()
                 }
+                NavigationLink(
+                    destination: ResultExportView(fileToExport: self.exportURL()),
+                    label: {
+                        Text("export data")
+                            .padding()
+                    }
+                )
+                Divider()
+                MPCFTestStatus(testRunnerModel: testrunner)
             }
-            Divider()
-            MPCFTestStatus(testRunnerModel: testrunner)
         }
     }
 }

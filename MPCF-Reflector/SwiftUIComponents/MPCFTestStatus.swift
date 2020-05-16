@@ -21,10 +21,10 @@ struct MPCFTestStatus: View {
     func targetPeerDefined() -> Bool {
         self.testRunnerModel.targetPeer != nil
     }
+
     @ObservedObject var testRunnerModel: MPCFTestRunnerModel
     var body: some View {
         VStack(alignment: .leading) {
-
             if targetPeerDefined() {
                 Text("Target: ").font(.headline)
                     + Text("\(testRunnerModel.targetPeer?.displayName ?? "???")")
@@ -75,14 +75,21 @@ struct MPCFTestStatus: View {
                 }
             }.animation(.default)
             Divider()
-            Text("Summary").font(.headline)
             VStack {
+                Text("Summary")
+                    .font(.headline)
+                    .padding(
+                        EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 4)
+                            .stroke(lineWidth: 1)
+                    )
                 Text("Average: \(testRunnerModel.summary.average, specifier: "%.2f")")
                 Text("StdDev: \(testRunnerModel.summary.stddev, specifier: "%.2f")")
                 Text("Max: \(testRunnerModel.summary.max, specifier: "%.2f")")
             }
         }
-
     }
 }
 
