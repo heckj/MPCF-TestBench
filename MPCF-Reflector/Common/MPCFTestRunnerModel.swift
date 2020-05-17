@@ -13,6 +13,7 @@ import OpenTelemetryModels
 /// Handles the automatic reactions to Multipeer traffic - accepting invitations and responding to any data sent.
 class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
+    private var serialQ = DispatchQueue(label: "serialized runner access")
     // this represents the span matching the MCSession being active
     // it's created when the runner invites another peer and events appended
     // as they happen to the delegate.
@@ -126,21 +127,28 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             sessionSendSpan?.finish()
             spanCollector.collectSpan(sessionSendSpan)
 
-            // record that we sent the transmission
-            transmissions.append(xmitId)
+            serialQ.async {
+                // record that we sent the transmission
+                DispatchQueue.main.async {
+                    self.transmissions.append(xmitId)
+                }
+                // record that we sent it, and the span to close it later...
+                self.transmissionSpans[xmitId] = xmitSpan
+                // clear out the ledger entry for this transmission ID in case it exists
+                // (in general, it shouldn't)
+                self.xmitLedger[xmitId] = nil
+            }
+
             print("Sent transmission: \(xmitId)")
-            // record that we sent it, and the span to close it later...
-            transmissionSpans[xmitId] = xmitSpan
-            // clear out the ledger entry for this transmission ID in case it exists
-            // (in general, it shouldn't)
-            xmitLedger[xmitId] = nil
         } catch {
             // TODO: perhaps share notifications of any errors on sending..
             print("Error attempting to encode and send data: ", error)
             DispatchQueue.main.async {
                 self.errorList.append(error.localizedDescription)
             }
-            xmitLedger[xmitId] = nil
+            serialQ.async {
+                self.xmitLedger[xmitId] = nil
+            }
         }
     }
 
@@ -247,37 +255,42 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         // when we're receiving data, it's generally because we've had it reflected back to
         // us from a corresponding reflector. This is the point at which we can mark a signal
         // as complete from having been sent "there and back".
-        do {
-            let transmissionFinished = Date()
-            let foo = try decoder.decode(ReflectorEnvelope.self, from: data)
-            let xmitId = foo.id
-            if var xmitSpan = transmissionSpans[xmitId] {
-                let report = RoundTripXmitReport(
-                    sequenceNumber: xmitId.sequenceNumber,
-                    start: xmitSpan.startDate(),
-                    end: transmissionFinished,
-                    dataSize: data.count
-                )
-                xmitLedger[xmitId] = report
-                xmitSpan.finish(end: transmissionFinished)
-                spanCollector.collectSpan(xmitSpan)
-                DispatchQueue.main.async {
-                    self.reportsReceived.append(report)
-                    self.transmissionSpans[xmitId] = nil
-                    self.numberOfTransmissionsRecvd += 1
+        serialQ.async {
+            do {
+                let transmissionFinished = Date()
+                let foo = try self.decoder.decode(ReflectorEnvelope.self, from: data)
+                let xmitId = foo.id
+                print("Received reflection: \(xmitId)")
+                if var xmitSpan = self.transmissionSpans[xmitId] {
+                    let report = RoundTripXmitReport(
+                        sequenceNumber: xmitId.sequenceNumber,
+                        start: xmitSpan.startDate(),
+                        end: transmissionFinished,
+                        dataSize: data.count
+                    )
+
+                    self.xmitLedger[xmitId] = report
+                    xmitSpan.finish(end: transmissionFinished)
+                    self.spanCollector.collectSpan(xmitSpan)
+                    DispatchQueue.main.async {
+                        self.reportsReceived.append(report)
+                        self.transmissionSpans[xmitId] = nil
+                        self.numberOfTransmissionsRecvd += 1
+                    }
+
+                } else {
+                    let msgString = "Unable to look up a transmission from: \(xmitId)."
+                    print(msgString)
+                    DispatchQueue.main.async {
+                        self.errorList.append(msgString)
+                    }
                 }
 
-            } else {
-                let msgString = "Unable to look up a transmission from: \(xmitId)."
-                print(msgString)
+            } catch {
+                print("Error while working with received data: ", error)
                 DispatchQueue.main.async {
-                    self.errorList.append(msgString)
+                    self.errorList.append(error.localizedDescription)
                 }
-            }
-        } catch {
-            print("Error while working with received data: ", error)
-            DispatchQueue.main.async {
-                self.errorList.append(error.localizedDescription)
             }
         }
     }
@@ -302,7 +315,9 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             // add an attribute of the current peer
             recvDataSpan.setTag("peerID", peerID.displayName)
             // add it into our collection, referenced by Peer
-            dataSpans[peerID] = recvDataSpan
+            DispatchQueue.main.async {
+                self.dataSpans[peerID] = recvDataSpan
+            }
         }
     }
 
@@ -320,7 +335,9 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             // send it on the collector
             spanCollector.collectSpan(recvDataSpan)
             // clear it from our temp collection
-            dataSpans[peerID] = nil
+            serialQ.async {
+                self.dataSpans[peerID] = nil
+            }
         }
 
     }
