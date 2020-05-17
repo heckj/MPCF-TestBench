@@ -9,7 +9,7 @@
 import MultipeerConnectivity
 import SwiftUI
 
-struct ContentView: View {
+struct MPCFRunnerMainView: View {
     @ObservedObject var proxy: MPCFProxy
     @ObservedObject var runner: MPCFTestRunnerModel
     var body: some View {
@@ -87,9 +87,9 @@ struct ContentView: View {
 
     }
 
-    struct ContentView_Previews: PreviewProvider {
+    struct MPCFRunnerMainView_Previews: PreviewProvider {
         static var previews: some View {
-            ContentView(proxy: proxyWithRunner().0, runner: proxyWithRunner().1)
+            MPCFRunnerMainView(proxy: proxyWithRunner().0, runner: proxyWithRunner().1)
         }
     }
 #endif

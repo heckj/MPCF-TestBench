@@ -25,7 +25,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard let reflector = reflector else {
             fatalError()
         }
-        let contentView = ContentView(proxy: reflector)
+        let contentView = MPCFReflectorMainView(proxy: reflector)
 
         // Create the window and set the content view. 
         window = NSWindow(

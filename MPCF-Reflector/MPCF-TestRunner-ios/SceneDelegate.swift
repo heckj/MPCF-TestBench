@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
         // Create the SwiftUI view that provides the window contents.
-        let contentView = ContentView(proxy: appDelegate.proxy, runner: appDelegate.runner)
+        let contentView = MPCFRunnerMainView(proxy: appDelegate.proxy, runner: appDelegate.runner)
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

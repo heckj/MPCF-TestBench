@@ -57,13 +57,26 @@ import SwiftUI
             }
         }
     }
+#elseif os(tvOS)
+    struct ResultExportController: UIViewControllerRepresentable {
+        let fileToExport: URL
+
+        func updateUIViewController(
+            _ uiViewController: UIViewController,
+            context: UIViewControllerRepresentableContext<ResultExportController>
+        ) {
+            // Update the controller
+        }
+
+        func makeUIViewController(context: Context) -> UIViewController {
+            print("Making the picker")
+            let controller = UIViewController.init()
+            return controller
+        }
+    }
 #elseif os(macOS)
     struct ResultExportController: NSViewControllerRepresentable {
         let fileToExport: URL
-
-        //        func makeCoordinator() -> Coordinator {
-        //            Coordinator(self)
-        //        }
 
         func updateNSViewController(
             _ uiViewController: NSViewController,
@@ -75,36 +88,10 @@ import SwiftUI
         func makeNSViewController(context: Context) -> NSViewController {
             print("Making the picker")
             let controller = NSViewController.init()
-            //        controller.delegate = context.coordinator
-            //        print("Setup the delegate \(context.coordinator)")
 
             return controller
         }
-        //
-        //        class Coordinator: NSObject  //, NSDocumentPickerDelegate
-        //        {
-        //            var parent: ResultExportController
-        //
-        //            init(_ pickerController: ResultExportController) {
-        //                self.parent = pickerController
-        //                print("Setup a parent")
-        //                print("URL: \(String(describing: self.parent.fileToExport))")
-        //            }
-        //
-        //            func documentPicker(didPickDocumentsAt: [URL]) {
-        //                print("Selected a document: \(didPickDocumentsAt[0])")
-        //            }
-        //
-        //            func documentPickerWasCancelled() {
-        //                print("Document picker was thrown away :(")
-        //            }
-        //
-        //            deinit {
-        //                print("Coordinator going away")
-        //            }
-        //        }
     }
-
 #endif
 
 struct ResultExportView: View {

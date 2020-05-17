@@ -9,7 +9,7 @@
 import MultipeerConnectivity
 import SwiftUI
 
-struct ContentView: View {
+struct MPCFReflectorMainView: View {
     @ObservedObject var proxy: MPCFProxy
     var body: some View {
         VStack {
@@ -24,8 +24,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct MPCFReflectorMainView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(proxy: MPCFProxy(MCPeerID(displayName: "xpeer")))
+        MPCFReflectorMainView(proxy: MPCFProxy(MCPeerID(displayName: "xpeer")))
     }
 }
