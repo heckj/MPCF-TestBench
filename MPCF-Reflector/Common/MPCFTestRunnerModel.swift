@@ -6,6 +6,7 @@
 //  Copyright © 2020 JFH Consulting. All rights reserved.
 //
 
+import Combine
 import Foundation
 import MultipeerConnectivity
 import OpenTelemetryModels
@@ -13,7 +14,8 @@ import OpenTelemetryModels
 /// Handles the automatic reactions to Multipeer traffic - accepting invitations and responding to any data sent.
 class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
-    private var serialQ = DispatchQueue(label: "serialized runner access")
+    private var serialQ = DispatchQueue(label: "serialized runner data access")
+    private var sendQ = DispatchQueue(label: "transmission sender")
     // this represents the span matching the MCSession being active
     // it's created when the runner invites another peer and events appended
     // as they happen to the delegate.
@@ -41,6 +43,8 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
+
+    private var transmissionPublisher: AnyCancellable?
 
     // MARK: Initializers
 
@@ -71,9 +75,60 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     func sendTransmissions() {
         // initialize the data, send it, and record it
         // in our manifest against future responses
-        for _ in 0...self.testconfig.number {
-            self.sendAndRecordTransmission()
-        }
+        let transmissionSequence = 0...self.testconfig.number
+        let msDelay = Int(self.testconfig.delay * 1000)
+        transmissionPublisher = transmissionSequence
+            .publisher
+            .receive(on: sendQ)
+            .delay(for: DispatchQueue.SchedulerTimeType.Stride(DispatchTimeInterval.microseconds(msDelay)), scheduler: sendQ)
+            .sink(receiveValue: { intValue in
+                guard let targetPeer = self.targetPeer else {
+                    // do nothing to send data if there's no target identified
+                    // or not session defined
+                    return
+                }
+                let xmitId = TransmissionIdentifier(traceName: "xmit")
+                let envelope = ReflectorEnvelope(id: xmitId, size: self.testconfig.payloadSize)
+                var xmitSpan: OpenTelemetry.Span?
+                do {
+
+                    xmitSpan = self.currentSessionSpan?.createChildSpan(name: "data xmit")
+
+                    // encode, and wrap it in a span
+                    var encodespan = xmitSpan?.createChildSpan(name: "encode")
+                    let rawdata = try self.encoder.encode(envelope)
+                    encodespan?.finish()
+                    self.spanCollector.collectSpan(encodespan)
+
+                    // send, and wrap it in a span
+                    var sessionSendSpan = xmitSpan?.createChildSpan(name: "session.send")
+                    try self.session.send(rawdata, toPeers: [targetPeer], with: .reliable)
+                    sessionSendSpan?.finish()
+                    self.spanCollector.collectSpan(sessionSendSpan)
+
+                    self.serialQ.async {
+                        // clear out the ledger entry for this transmission ID in case it exists
+                        // (in general, it shouldn't)
+                        self.xmitLedger[xmitId] = nil
+                        // record that we sent the transmission
+                        DispatchQueue.main.async {
+                            self.transmissions.append(xmitId)
+                        }
+                        // record that we sent it, and the span to close it later...
+                        self.transmissionSpans[xmitId] = xmitSpan
+                    }
+                    print("Sent transmission: \(xmitId)")
+                } catch {
+                    // TODO: perhaps share notifications of any errors on sending..
+                    print("Error attempting to encode and send data: ", error)
+                    DispatchQueue.main.async {
+                        self.errorList.append(error.localizedDescription)
+                    }
+                    self.serialQ.async {
+                        self.xmitLedger[xmitId] = nil
+                    }
+                }
+            })
     }
 
     func resultData() throws -> Data {
@@ -100,56 +155,6 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     @Published var reportsReceived: [RoundTripXmitReport] = []
     var summary: XmitSummary {
         XmitSummary(reportsReceived)
-    }
-
-    private func sendAndRecordTransmission() {
-        guard let targetPeer = targetPeer else {
-            // do nothing to send data if there's no target identified
-            // or not session defined
-            return
-        }
-        let xmitId = TransmissionIdentifier(traceName: "xmit")
-        let envelope = ReflectorEnvelope(id: xmitId, size: self.testconfig.payloadSize)
-        var xmitSpan: OpenTelemetry.Span?
-        do {
-
-            xmitSpan = currentSessionSpan?.createChildSpan(name: "data xmit")
-
-            // encode, and wrap it in a span
-            var encodespan = xmitSpan?.createChildSpan(name: "encode")
-            let rawdata = try encoder.encode(envelope)
-            encodespan?.finish()
-            spanCollector.collectSpan(encodespan)
-
-            // send, and wrap it in a span
-            var sessionSendSpan = xmitSpan?.createChildSpan(name: "session.send")
-            try session.send(rawdata, toPeers: [targetPeer], with: .reliable)
-            sessionSendSpan?.finish()
-            spanCollector.collectSpan(sessionSendSpan)
-
-            serialQ.async {
-                // record that we sent the transmission
-                DispatchQueue.main.async {
-                    self.transmissions.append(xmitId)
-                }
-                // record that we sent it, and the span to close it later...
-                self.transmissionSpans[xmitId] = xmitSpan
-                // clear out the ledger entry for this transmission ID in case it exists
-                // (in general, it shouldn't)
-                self.xmitLedger[xmitId] = nil
-            }
-
-            print("Sent transmission: \(xmitId)")
-        } catch {
-            // TODO: perhaps share notifications of any errors on sending..
-            print("Error attempting to encode and send data: ", error)
-            DispatchQueue.main.async {
-                self.errorList.append(error.localizedDescription)
-            }
-            serialQ.async {
-                self.xmitLedger[xmitId] = nil
-            }
-        }
     }
 
     func terminateSessionAndCollectSpan() {
