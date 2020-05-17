@@ -11,16 +11,13 @@ import PreviewBackground
 import SwiftUI
 
 struct MPCFProxyDisplay: View {
+    let advertiseAvailable: Bool
     @ObservedObject var proxy: MPCFProxy
-    // proxy has a .peerList -> MCPeerStatus
-    // .encryptionPreferences
-    // proxy.active is Bool
-    // $proxy
+
     var body: some View {
         VStack {
-            VStack {
-                Text(proxy.peerID.displayName).font(.largeTitle)
-
+            Text(proxy.peerID.displayName).font(.headline)
+            if advertiseAvailable {
                 HStack {
                     if proxy.active {
                         Text("Deactivate advertising").foregroundColor(.red)
@@ -34,8 +31,8 @@ struct MPCFProxyDisplay: View {
                             .stroke(lineWidth: 2)
                             .foregroundColor(proxy.active ? .green : .gray)
                     )
-                MPCFSessionDisplay(session: proxy.proxyResponder?.sessionProxy ?? SessionProxy())
             }
+            MPCFSessionDisplay(session: proxy.proxyResponder?.sessionProxy ?? SessionProxy())
         }
     }
 }
@@ -58,7 +55,7 @@ struct MPCFProxyDisplay: View {
                     PreviewBackground {
                         VStack(alignment: .leading) {
                             MPCFProxyDisplay(
-                                proxy: proxyWithTwoPeers())
+                                advertiseAvailable: true, proxy: proxyWithTwoPeers())
                         }
                     }
                     .environment(\.colorScheme, colorScheme)

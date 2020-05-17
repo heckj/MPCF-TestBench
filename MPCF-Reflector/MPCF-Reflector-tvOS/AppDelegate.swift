@@ -15,18 +15,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    let peerID = MCPeerID(displayName: UIDevice.current.name)
-    var reflector: MPCFProxy?
+    let peerID: MCPeerID
+    let proxy: MPCFProxy
+    override init() {
+        peerID = MCPeerID(displayName: UIDevice.current.name)
+        proxy = MPCFProxy(peerID)
+    }
 
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
 
-        reflector = MPCFProxy(peerID)
-
         // Create the SwiftUI view that provides the window contents.
-        let contentView = ContentView()
+        let contentView = MPCFReflectorMainView(proxy: proxy)
 
         // Use a UIHostingController as window root view controller.
         let window = UIWindow(frame: UIScreen.main.bounds)

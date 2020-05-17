@@ -77,3 +77,33 @@ struct XmitSummary {
         }
     }
 }
+
+extension XmitSummary: Encodable {
+    enum CodingKeys: String, CodingKey {
+        case count
+        case average
+        case median
+        case max
+        case stddev
+
+        case ntile90
+        case ntile95
+        case ntile99
+        case ntile999
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(count, forKey: .count)
+        try container.encode(average, forKey: .average)
+        try container.encode(median, forKey: .median)
+        try container.encode(max, forKey: .max)
+
+        try container.encode(stddev, forKey: .stddev)
+        try container.encode(ntile90, forKey: .ntile90)
+        try container.encode(ntile95, forKey: .ntile95)
+        try container.encode(ntile99, forKey: .ntile99)
+        try container.encode(ntile999, forKey: .ntile999)
+    }
+
+}

@@ -10,7 +10,7 @@ import Foundation
 import MultipeerConnectivity
 
 // local, codable mirror to import MultipeerConnectivity.MCSessionSendDataMode
-enum TransportMode: UInt, Codable, CustomStringConvertible {
+enum TransportMode: UInt, Codable, CaseIterable, Identifiable, CustomStringConvertible {
     var description: String {
         switch self {
         case .reliable:
@@ -22,6 +22,15 @@ enum TransportMode: UInt, Codable, CustomStringConvertible {
 
     case unreliable = 0
     case reliable = 1
+
+    //    var name: String {
+    //        return "\(self)"
+    //        //        .map {
+    //        //            $0.isUppercase ? " \($0)" : "\($0)"
+    //        //        }.joined().capitalized
+    //    }
+
+    var id: TransportMode { self }
 }
 
 struct TransmissionIdentifier: Identifiable, Hashable, Codable, Comparable {

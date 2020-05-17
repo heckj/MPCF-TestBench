@@ -22,12 +22,13 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
     // mechanisms for reflecting the internal session state to UI
     var sessionProxy: SessionProxy = SessionProxy()
+    var testconfig: MPCFTestConfig = MPCFTestConfig("New test")
     @Published var errorList: [String] = []
 
     @Published var numberOfTransmissionsSent: Int = 0
     @Published var numberOfTransmissionsRecvd: Int = 0
     @Published var numberOfResourcesRecvd: Int = 0
-    @Published var dataSize: ReflectorEnvelope.PayloadSize = .x1k
+    //@Published var dataSize: ReflectorEnvelope.PayloadSize = .x1k
     @Published var transmissions: [TransmissionIdentifier] = []
 
     private var spanCollector: OTSpanCollector
@@ -66,31 +67,20 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     // MARK: State based intializers & SwiftUI exported data views
     @Published var targetPeer: MCPeerID?
 
-    @Published var active = false {
-        didSet {
-            if active {
-                print("Toggled active, starting")
-                // compare to the count we have - if we need more
-                if Int(numberOfTransmissionsToSend) > xmitLedger.count {
-                    // initialize the data, send it, and record it
-                    // in our manifest against future responses
-                    for _ in 0...(Int(numberOfTransmissionsToSend) - xmitLedger.count) {
-                        sendAndRecordTransmission()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + transmissionDelay) {
-                            // your code here
-                        }
-                    }
-                }
-            } else {
-                print("Toggled inactive, stopping")
-            }
+    func sendTransmissions() {
+        // initialize the data, send it, and record it
+        // in our manifest against future responses
+        for _ in 0...self.testconfig.number {
+            self.sendAndRecordTransmission()
         }
     }
 
-    // kind of stupid that this is a Double, but that's what using a slider
-    // in SwiftUI appears to require, so changing here
-    @Published var numberOfTransmissionsToSend: Double = 1  // 1, 10, 100
-    @Published var transmissionDelay: Double = 0  // in seconds
+    func resultData() throws -> Data {
+        print("Generating data from results")
+        let data = try encoder.encode(self.reportsReceived)
+        print("Data size returned: \(data.count) bytes")
+        return data
+    }
 
     // collection of information about data transmissions
     private var xmitLedger: [TransmissionIdentifier: RoundTripXmitReport?] = [:] {
@@ -118,7 +108,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             return
         }
         let xmitId = TransmissionIdentifier(traceName: "xmit")
-        let envelope = ReflectorEnvelope(id: xmitId, size: self.dataSize)
+        let envelope = ReflectorEnvelope(id: xmitId, size: self.testconfig.payloadSize)
         var xmitSpan: OpenTelemetry.Span?
         do {
 

@@ -20,3 +20,32 @@ struct RoundTripXmitReport: Hashable {
         return Double(dataSize) * 2 / duration
     }
 }
+
+extension RoundTripXmitReport: Codable {
+    enum CodingKeys: String, CodingKey {
+        case num
+        case start
+        case end
+        case datasize
+
+        case bandwidth
+    }
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        sequenceNumber = try values.decode(UInt.self, forKey: .num)
+        start = try values.decode(Date.self, forKey: .start)
+        end = try values.decode(Date.self, forKey: .end)
+        dataSize = try values.decode(Int.self, forKey: .datasize)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(sequenceNumber, forKey: .num)
+        try container.encode(start, forKey: .start)
+        try container.encode(end, forKey: .end)
+        try container.encode(dataSize, forKey: .datasize)
+
+        try container.encode(bandwidth, forKey: .bandwidth)
+    }
+
+}
