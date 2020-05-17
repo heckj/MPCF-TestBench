@@ -50,6 +50,17 @@ struct MPCFTestRunnerView: View {
                 }
                 NavigationLink(
                     destination: ResultExportView(fileToExport: self.exportURL()),
+                    // NOTE(heckj) - using a method for this ends up being strange -
+                    // the resulting method gets called repeatedly as the view is
+                    // updated, and since I have it generating the output file to
+                    // provide the URL, it's getting invoked repeatedly. I probably
+                    // need to refactor this whole thing to stash the URL as local
+                    // @State here in the view, and update it when I need it, rather
+                    // than letting the view hierarchy trigger the update implicitly.
+                    //
+                    // That said, the target view is complete crap to use - my attempt
+                    // to wrap a file export picker with a UIViewRepresentable ends
+                    // up bring pretty sub-par, and useless on macOS to boot.
                     label: {
                         Text("export data")
                             .padding()
