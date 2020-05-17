@@ -100,6 +100,7 @@ struct ResultExportView: View {
         NavigationView {
             ResultExportController(fileToExport: fileToExport)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

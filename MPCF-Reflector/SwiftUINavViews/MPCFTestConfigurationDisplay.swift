@@ -40,6 +40,8 @@ struct MPCFTestConfigurationDisplay: View {
         0.100,
         0.500,
         1.0,
+        2.0,
+        5.0,
     ]
     var body: some View {
         NavigationView {
@@ -75,6 +77,7 @@ struct MPCFTestConfigurationDisplay: View {
             }
             .navigationBarTitle("Test Configuration")
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

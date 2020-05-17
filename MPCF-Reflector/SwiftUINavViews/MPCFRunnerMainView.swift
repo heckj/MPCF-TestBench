@@ -69,6 +69,7 @@ struct MPCFRunnerMainView: View {
                 Text("Span collection size: \(proxy.spanCollector.spanCollection.count)")
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

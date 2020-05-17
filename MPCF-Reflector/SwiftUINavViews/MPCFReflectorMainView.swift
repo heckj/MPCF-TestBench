@@ -24,6 +24,7 @@ struct MPCFReflectorMainView: View {
             }
             .navigationBarTitle("MPCF Reflector")
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

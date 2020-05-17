@@ -70,6 +70,7 @@ struct MPCFTestRunnerView: View {
                 MPCFTestStatus(testRunnerModel: testrunner)
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
