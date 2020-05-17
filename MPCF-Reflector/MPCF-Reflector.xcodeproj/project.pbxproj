@@ -603,10 +603,11 @@
 		1A49585C2470E46000AB28B0 /* SwiftUINavViews */ = {
 			isa = PBXGroup;
 			children = (
-				1AC79170245F90F300BC938A /* MPCFTestRunnerView.swift */,
-				1AC0243A246CD3D6006B1CD1 /* MPCFTestConfigurationDisplay.swift */,
-				1A9C78D0244BA32E003EBF9A /* MPCFReflectorMainView.swift */,
 				1AB3ECAE24564851006BB25D /* MPCFRunnerMainView.swift */,
+				1AC0243A246CD3D6006B1CD1 /* MPCFTestConfigurationDisplay.swift */,
+				1AC79170245F90F300BC938A /* MPCFTestRunnerView.swift */,
+				1A664F5924708850005AE6EA /* ResultExportView.swift */,
+				1A9C78D0244BA32E003EBF9A /* MPCFReflectorMainView.swift */,
 			);
 			path = SwiftUINavViews;
 			sourceTree = "<group>";
@@ -781,7 +782,6 @@
 				1AC79162245F767500BC938A /* MPCFReflectorStatus.swift */,
 				1AD25FBE245F45EE00D3C1A4 /* ProgressBar.swift */,
 				1AD25FC4245F467000D3C1A4 /* ProgressCircle.swift */,
-				1A664F5924708850005AE6EA /* ResultExportView.swift */,
 			);
 			path = SwiftUIComponents;
 			sourceTree = "<group>";

@@ -16,25 +16,23 @@ struct MPCFProxyDisplay: View {
 
     var body: some View {
         VStack {
-            VStack {
-                Text(proxy.peerID.displayName).font(.largeTitle)
-                if advertiseAvailable {
-                    HStack {
-                        if proxy.active {
-                            Text("Deactivate advertising").foregroundColor(.red)
-                        } else {
-                            Text("Activate advertising").foregroundColor(.green)
-                        }
-                        Toggle("active", isOn: $proxy.active).labelsHidden()
-                    }.padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(lineWidth: 2)
-                                .foregroundColor(proxy.active ? .green : .gray)
-                        )
-                }
-                MPCFSessionDisplay(session: proxy.proxyResponder?.sessionProxy ?? SessionProxy())
+            Text(proxy.peerID.displayName).font(.headline)
+            if advertiseAvailable {
+                HStack {
+                    if proxy.active {
+                        Text("Deactivate advertising").foregroundColor(.red)
+                    } else {
+                        Text("Activate advertising").foregroundColor(.green)
+                    }
+                    Toggle("active", isOn: $proxy.active).labelsHidden()
+                }.padding()
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(lineWidth: 2)
+                            .foregroundColor(proxy.active ? .green : .gray)
+                    )
             }
+            MPCFSessionDisplay(session: proxy.proxyResponder?.sessionProxy ?? SessionProxy())
         }
     }
 }

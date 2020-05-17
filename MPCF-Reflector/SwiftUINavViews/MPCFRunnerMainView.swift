@@ -16,6 +16,7 @@ struct MPCFRunnerMainView: View {
         NavigationView {
             VStack {
                 MPCFProxyDisplay(advertiseAvailable: false, proxy: proxy)
+                    .navigationBarTitle("MPCF Test Runner")
                 VStack(alignment: .leading) {
                     Text("Select from available peers to connect:")
                         .font(.body)

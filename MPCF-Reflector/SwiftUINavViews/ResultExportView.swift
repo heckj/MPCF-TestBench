@@ -97,7 +97,9 @@ import SwiftUI
 struct ResultExportView: View {
     let fileToExport: URL
     var body: some View {
-        ResultExportController(fileToExport: fileToExport)
+        NavigationView {
+            ResultExportController(fileToExport: fileToExport)
+        }
     }
 }
 
@@ -114,6 +116,7 @@ struct ResultExportView: View {
         print(filename)
         return filename
     }
+
     struct ResultExportView_Previews: PreviewProvider {
         static var previews: some View {
             func filePicked(_ url: URL) {

@@ -12,14 +12,17 @@ import SwiftUI
 struct MPCFReflectorMainView: View {
     @ObservedObject var proxy: MPCFProxy
     var body: some View {
-        VStack {
-            MPCFProxyDisplay(advertiseAvailable: true, proxy: proxy)
-            Divider()
-            MPCFProxyPeerDisplay(proxy: proxy)
-            Divider()
-            Text("Span collection size: \(proxy.spanCollector.spanCollection.count)")
-            Divider()
-            MPCFReflectorStatus(reflector: proxy.proxyResponder as! MPCFReflectorModel)
+        NavigationView {
+            VStack {
+                MPCFProxyDisplay(advertiseAvailable: true, proxy: proxy)
+                Divider()
+                MPCFProxyPeerDisplay(proxy: proxy)
+                Divider()
+                Text("Span collection size: \(proxy.spanCollector.spanCollection.count)")
+                Divider()
+                MPCFReflectorStatus(reflector: proxy.proxyResponder as! MPCFReflectorModel)
+            }
+            .navigationBarTitle("MPCF Reflector")
         }
     }
 }

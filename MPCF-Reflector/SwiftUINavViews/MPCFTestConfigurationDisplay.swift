@@ -74,34 +74,6 @@ struct MPCFTestConfigurationDisplay: View {
                 }
             }
             .navigationBarTitle("Test Configuration")
-
-            //            NavigationLink(destination: Text("Second View")) {
-            //                Text("Hello, World!")
-            //            }
-
-            //            Divider()
-            //            HStack {
-            //                Text("Sent         ").font(.headline)
-            //                ProgressBar(
-            //                    value: Double(testRunnerModel.numberOfTransmissionsSent),
-            //                    maxValue: testRunnerModel.numberOfTransmissionsToSend
-            //                ).animation(.default)
-            //            }.padding(
-            //                EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
-            //            )
-            //
-            //            Divider()
-            //            HStack {
-            //                Text("Received").font(.headline)
-            //                ProgressBar(
-            //                    value: Double(testRunnerModel.numberOfTransmissionsRecvd),
-            //                    maxValue:
-            //                        testRunnerModel.numberOfTransmissionsToSend
-            //                ).animation(.default)
-            //            }.padding(
-            //                EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
-            //            )
-            //            Divider()
         }
     }
 }
