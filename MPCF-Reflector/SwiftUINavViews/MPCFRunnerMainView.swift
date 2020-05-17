@@ -17,20 +17,22 @@ struct MPCFRunnerMainView: View {
             VStack {
                 MPCFProxyDisplay(advertiseAvailable: false, proxy: proxy)
                     .navigationBarTitle("MPCF Test Runner")
-                VStack(alignment: .leading) {
-                    Text("Select from available peers to connect:")
-                        .font(.body)
-                    List(proxy.peerList, id: \.peer) { peerstatus in
-                        HStack {
-                            MPCFPeerStatusDisplay(peerstatus: peerstatus)
-                                .onTapGesture {
-                                    let runner = self.proxy.proxyResponder as! MPCFTestRunnerModel
-                                    self.proxy.startSession(with: peerstatus.peer)
-                                    runner.targetPeer = peerstatus.peer
-                                }
+                #if os(macOS) || os(iOS)
+                    VStack(alignment: .leading) {
+                        Text("Select from available peers to connect:")
+                            .font(.body)
+                        List(proxy.peerList, id: \.peer) { peerstatus in
+                            HStack {
+                                MPCFPeerStatusDisplay(peerstatus: peerstatus)
+                                    .onTapGesture {
+                                        let runner = self.proxy.proxyResponder as! MPCFTestRunnerModel
+                                        self.proxy.startSession(with: peerstatus.peer)
+                                        runner.targetPeer = peerstatus.peer
+                                    }
+                            }
                         }
                     }
-                }
+                #endif
                 Divider()
                 NavigationLink(
                     destination: MPCFTestConfigurationDisplay(
