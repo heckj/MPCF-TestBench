@@ -13,11 +13,16 @@ import OpenTelemetryModels
 
 class OTSimpleSpanCollector: NSObject, OTSpanCollector, ObservableObject {
 
+    private var serialQ = DispatchQueue(label: "serialized collector access")
     @Published var spanCollection: [OpenTelemetry.Span] = []
 
     func collectSpan(_ span: OpenTelemetry.Span?) {
-        if let span = span {
-            spanCollection.append(span)
+        serialQ.async {
+            if let span = span {
+                DispatchQueue.main.async {
+                    self.spanCollection.append(span)
+                }
+            }
         }
     }
 
