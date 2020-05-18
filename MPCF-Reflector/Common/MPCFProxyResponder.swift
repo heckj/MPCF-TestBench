@@ -31,7 +31,6 @@ protocol MPCFProxyResponder: MCNearbyServiceAdvertiserDelegate, MCSessionDelegat
 
     // data transmissions reflection
     var numberOfTransmissionsRecvd: Int { get set }
-    var numberOfResourcesRecvd: Int { get set }
     var transmissions: [TransmissionIdentifier] { get set }
 
 }
