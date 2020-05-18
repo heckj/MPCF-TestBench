@@ -10,7 +10,15 @@ import MultipeerConnectivity
 import SwiftUI
 
 struct MPCFReflectorMainView: View {
+
     @ObservedObject var proxy: MPCFProxy
+
+    #if os(iOS)
+        let navStyle = StackNavigationViewStyle()
+    #else
+        let navStyle = DefaultNavigationViewStyle()
+    #endif
+
     var body: some View {
         NavigationView {
             VStack {
@@ -24,7 +32,7 @@ struct MPCFReflectorMainView: View {
             }
             .navigationBarTitle("MPCF Reflector")
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .navigationViewStyle(navStyle)
     }
 }
 

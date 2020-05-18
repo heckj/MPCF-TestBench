@@ -12,6 +12,13 @@ import SwiftUI
 struct MPCFRunnerMainView: View {
     @ObservedObject var proxy: MPCFProxy
     @ObservedObject var runner: MPCFTestRunnerModel
+
+    #if os(iOS)
+        let navStyle = StackNavigationViewStyle()
+    #else
+        let navStyle = DefaultNavigationViewStyle()
+    #endif
+
     var body: some View {
         NavigationView {
             VStack {
@@ -69,7 +76,7 @@ struct MPCFRunnerMainView: View {
                 Text("Span collection size: \(proxy.spanCollector.spanCollection.count)")
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .navigationViewStyle(navStyle)
     }
 }
 
