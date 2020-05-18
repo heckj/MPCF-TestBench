@@ -28,11 +28,11 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     var testconfig: MPCFTestConfig = MPCFTestConfig("New test")
     @Published var errorList: [String] = []
 
-    @Published var numberOfTransmissionsSent: Int = 0
-    @Published var numberOfTransmissionsRecvd: Int = 0
-    @Published var numberOfResourcesRecvd: Int = 0
-    //@Published var dataSize: ReflectorEnvelope.PayloadSize = .x1k
     @Published var transmissions: [TransmissionIdentifier] = []
+
+    // collection of information about data transmissions
+    private var xmitLedger: [TransmissionIdentifier: RoundTripXmitReport?] = [:]
+    @Published var numberOfTransmissionsRecvd: Int = 0
 
     private var spanCollector: OTSpanCollector
     // local temp collection to track spans between starting and finishing recv resource
@@ -136,27 +136,6 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         let data = try encoder.encode(self.reportsReceived)
         print("Data size returned: \(data.count) bytes")
         return data
-    }
-
-    // collection of information about data transmissions
-    private var xmitLedger: [TransmissionIdentifier: RoundTripXmitReport?] = [:] {
-        didSet {
-            DispatchQueue.main.async {
-                // FIXME(heckj):
-                // this little bit of cleverness was really stupid. Don't
-                // follow this example - when you're receiving back 10,000
-                // values, getting the keys and sorting them, as well as processing
-                // this closure in general as updates are happening, ends up
-                // consuming the CPU for the simulator entirely - and no visual
-                // updates propagate. Bad joe - crappy design.
-                self.transmissions = self.xmitLedger.keys.sorted()
-                self.numberOfTransmissionsSent = self.xmitLedger.count
-                self.numberOfTransmissionsRecvd =
-                    self.xmitLedger.compactMap {
-                        $0.value
-                    }.count
-            }
-        }
     }
 
     @Published var reportsReceived: [RoundTripXmitReport] = []
@@ -286,7 +265,6 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
                     self.spanCollector.collectSpan(xmitSpan)
                     DispatchQueue.main.async {
                         self.reportsReceived.append(report)
-                        self.transmissionSpans[xmitId] = nil
                         self.numberOfTransmissionsRecvd += 1
                     }
 

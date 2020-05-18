@@ -42,7 +42,7 @@ struct MPCFTestStatus: View {
             HStack {
                 Text("Sent         ").font(.headline)
                 ProgressBar(
-                    value: Double(testRunnerModel.numberOfTransmissionsSent),
+                    value: Double(testRunnerModel.transmissions.count),
                     maxValue: Double(testRunnerModel.testconfig.number)
                 ).animation(.default)
             }.padding(
@@ -99,10 +99,8 @@ struct MPCFTestStatus: View {
         let me = MPCFTestRunnerModel(peer: myself, OTSimpleSpanCollector())
         me.targetPeer = MCPeerID(displayName: "livePeer")
         me.testconfig.number = 100
-        // record that we've sent 35
-        me.numberOfTransmissionsSent = 35
-        // record that we've received 20
-        me.numberOfTransmissionsRecvd = 20
+        // record that we've received 15
+        me.numberOfTransmissionsRecvd = 15
         for num in 1...20 {
             me.reportsReceived.append(
                 RoundTripXmitReport(
