@@ -11,6 +11,13 @@ import SwiftUI
 
 struct MPCFTestRunnerView: View {
     @ObservedObject var testrunner: MPCFTestRunnerModel
+
+    #if os(iOS)
+        let navStyle = StackNavigationViewStyle()
+    #else
+        let navStyle = DefaultNavigationViewStyle()
+    #endif
+
     func targetSelected() -> Bool {
         testrunner.targetPeer != nil
     }
@@ -70,7 +77,7 @@ struct MPCFTestRunnerView: View {
                 MPCFTestStatus(testRunnerModel: testrunner)
             }
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .navigationViewStyle(navStyle)
     }
 }
 

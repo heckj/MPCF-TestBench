@@ -96,12 +96,22 @@ import SwiftUI
 
 struct ResultExportView: View {
     let fileToExport: URL
+
+    #if os(iOS)
+        let navStyle = StackNavigationViewStyle()
+    #else
+        let navStyle = DefaultNavigationViewStyle()
+    #endif
+
     var body: some View {
         NavigationView {
             ResultExportController(fileToExport: fileToExport)
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .navigationViewStyle(
+            navStyle
+        )
     }
+
 }
 
 #if DEBUG

@@ -22,6 +22,13 @@ import SwiftUI
 
 struct MPCFTestConfigurationDisplay: View {
     @ObservedObject var testConfig: MPCFTestConfig
+
+    #if os(iOS)
+        let navStyle = StackNavigationViewStyle()
+    #else
+        let navStyle = DefaultNavigationViewStyle()
+    #endif
+
     let modes = TransportMode.allCases
     let sendSizes = [
         UInt(1),
@@ -77,7 +84,7 @@ struct MPCFTestConfigurationDisplay: View {
             }
             .navigationBarTitle("Test Configuration")
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        .navigationViewStyle(navStyle)
     }
 }
 
