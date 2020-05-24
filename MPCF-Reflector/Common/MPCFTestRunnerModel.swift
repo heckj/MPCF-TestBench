@@ -72,6 +72,17 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     // MARK: State based intializers & SwiftUI exported data views
     @Published var targetPeer: MCPeerID?
 
+    func reset() {
+        DispatchQueue.main.async {
+            self.errorList = []
+            self.transmissions = []
+            self.xmitLedger = [:]
+
+            self.dataSpans = [:]
+            self.transmissionSpans = [:]
+        }
+    }
+
     func sendTransmissions() {
         // initialize the data, send it, and record it
         // in our manifest against future responses
