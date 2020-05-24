@@ -74,6 +74,22 @@ struct MPCFRunnerMainView: View {
                 )
                 Divider()
                 Text("Span collection size: \(proxy.spanCollector.spanCollection.count)")
+                Divider()
+                Button(
+                    action: {
+                        self.runner.reset()
+                    },
+                    label: {
+                        Text("reset")
+                            .font(.headline)
+                            .padding(
+                                EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 4)
+                                    .stroke(lineWidth: 1)
+                            )
+                    })
             }
         }
         .navigationViewStyle(navStyle)
