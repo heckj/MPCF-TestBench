@@ -11,7 +11,6 @@ import PreviewBackground
 import SwiftUI
 
 struct MPCFReflectorStatus: View {
-
     @ObservedObject var reflector: MPCFReflectorModel
     var body: some View {
         VStack(alignment: .leading) {
@@ -35,12 +34,13 @@ struct MPCFReflectorStatus: View {
                 ).overlay(
                     RoundedRectangle(cornerRadius: 3)
                         .fill(
-                            Color.init(
+                            Color(
                                 Color.RGBColorSpace.sRGB,
                                 red: 1.0,
                                 green: 0.1,
                                 blue: 0.1,
-                                opacity: 0.3)
+                                opacity: 0.3
+                            )
                         )
                 )
             }.animation(.default)
@@ -52,7 +52,7 @@ struct MPCFReflectorStatus: View {
     private func fakeReflector() -> MPCFReflectorModel {
         let thispeer = MCPeerID(displayName: "thisPeer")
         let me = MPCFReflectorModel(peer: thispeer, OTSimpleSpanCollector())
-        for _ in 1...30 {
+        for _ in 1 ... 30 {
             me.transmissions.append(TransmissionIdentifier(traceName: "foo"))
         }
         me.errorList.append("oops - something bad")

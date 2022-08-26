@@ -12,14 +12,13 @@ import SwiftUI
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
     // @IBOutlet var window: NSWindow! <- storyboard setup mechanism
     // SwiftUI template uses: var window: NSWindow!
     var window: NSWindow?
     let peerID = MCPeerID(displayName: Host.current().name ?? "some mac")
     var reflector: MPCFProxy?
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    func applicationDidFinishLaunching(_: Notification) {
         // Create the SwiftUI view that provides the window contents.
         reflector = MPCFProxy(peerID)
         guard let reflector = reflector else {
@@ -27,11 +26,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         let contentView = MPCFReflectorMainView(proxy: reflector)
 
-        // Create the window and set the content view. 
+        // Create the window and set the content view.
         window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 480, height: 300),
             styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
-            backing: .buffered, defer: false)
+            backing: .buffered, defer: false
+        )
         guard let window = window else {
             return
         }
@@ -41,8 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.makeKeyAndOrderFront(nil)
     }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
+    func applicationWillTerminate(_: Notification) {
         // Insert code here to tear down your application
     }
-
 }

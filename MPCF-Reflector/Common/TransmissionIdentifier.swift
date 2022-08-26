@@ -34,7 +34,6 @@ enum TransportMode: UInt, Codable, CaseIterable, Identifiable, CustomStringConve
 }
 
 struct TransmissionIdentifier: Identifiable, Hashable, Codable, Comparable {
-
     /// comparable conformance.
     static func < (lhs: TransmissionIdentifier, rhs: TransmissionIdentifier) -> Bool {
         lhs.sequenceNumber < rhs.sequenceNumber
@@ -54,13 +53,13 @@ struct TransmissionIdentifier: Identifiable, Hashable, Codable, Comparable {
     }
 
     init(traceName: String, transport: TransportMode = .reliable) {
-        self.id = UUID()
+        id = UUID()
         self.transport = transport
         self.traceName = traceName
         sequenceNumber = TransmissionIdentifier.nextSequenceNumber()
     }
 
-    static private var internalSequenceNum: UInt = 0
+    private static var internalSequenceNum: UInt = 0
     /// increments the sequence number for tracking repeated iterations of the same envelope.
     private static func nextSequenceNumber() -> UInt {
         TransmissionIdentifier.internalSequenceNum += 1

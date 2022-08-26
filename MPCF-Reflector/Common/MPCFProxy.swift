@@ -16,7 +16,6 @@ import OpenTelemetryModels
 /// I'm additionally making it an Observable object to be able to expose the information about
 /// it's state via SwiftUI.
 class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
-
     let serviceType = "mpcf-reflector"
     var peerID: MCPeerID
     var advertiser: MCNearbyServiceAdvertiser?
@@ -33,20 +32,21 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
             peerList = internalPeerStatusDict.values.sorted()
         }
     }
+
     @Published var peerList: [MCPeerAdvertizingStatus] = []
     @Published var encryptionPreferences: MCEncryptionPreference
     @Published var errorList: [String] = []
 
     // place to stash all the completed spans...
-    //@Published var spans: [OpenTelemetry.Span] = []
+    // @Published var spans: [OpenTelemetry.Span] = []
     @Published var active = false {
         didSet {
             if active {
                 print("Toggled active, starting")
-                self.startAdvertising()
+                startAdvertising()
             } else {
                 print("Toggled inactive, stopping")
-                self.stopAdvertising()
+                stopAdvertising()
             }
         }
     }
@@ -59,29 +59,27 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
     ) {
         self.peerID = peerID
         if let collector = collector {
-            self.spanCollector = collector
+            spanCollector = collector
         } else {
-            self.spanCollector = OTSimpleSpanCollector()
+            spanCollector = OTSimpleSpanCollector()
         }
-        self.encryptionPreferences = encrypt
-        self.browser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
-        self.browsingSpan = OpenTelemetry.Span.start(name: "MCNearbyServiceBrowser")
+        encryptionPreferences = encrypt
+        browser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
+        browsingSpan = OpenTelemetry.Span.start(name: "MCNearbyServiceBrowser")
         super.init()
         if reflectorconfig {
             proxyResponder = MPCFReflectorModel(peer: peerID, collector)
         }
-        self.browser.delegate = self
-        self.browser.startBrowsingForPeers()
+        browser.delegate = self
+        browser.startBrowsingForPeers()
     }
 
-    deinit {
-
-    }
+    deinit {}
 
     func terminateBrowsing() {
-        self.browser.stopBrowsingForPeers()
-        self.browsingSpan.finish()
-        spanCollector.collectSpan(self.browsingSpan)
+        browser.stopBrowsingForPeers()
+        browsingSpan.finish()
+        spanCollector.collectSpan(browsingSpan)
     }
 
     /// I could pass the session and advertising delegate in through here...
@@ -89,7 +87,8 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
         advertiser = MCNearbyServiceAdvertiser(
             peer: peerID,
             discoveryInfo: nil,
-            serviceType: serviceType)
+            serviceType: serviceType
+        )
         advertiser?.delegate = proxyResponder
         // create a new Span to reference the advertising - this will also be the parent
         // span to any events or sessions... I hope
@@ -107,7 +106,7 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
         }
         currentSpan.finish()
         spanCollector.collectSpan(currentSpan)
-        self.advertisingSpan = nil
+        advertisingSpan = nil
     }
 
     func startSession(with peerID: MCPeerID) {
@@ -117,21 +116,22 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
         }
         // if we have an avertising span, let's append some events related to the browser on it.
         responder.currentSessionSpan = OpenTelemetry.Span.start(
-            name: "startSession", attr: [OpenTelemetry.Attribute("withPeerID", peerID.displayName)])
+            name: "startSession", attr: [OpenTelemetry.Attribute("withPeerID", peerID.displayName)]
+        )
 
         // to initiate an invite, you use the following on the MCNearbyServiceBrowser:
-        self.browser.invitePeer(peerID, to: responder.session, withContext: nil, timeout: 5.0)
+        browser.invitePeer(peerID, to: responder.session, withContext: nil, timeout: 5.0)
     }
 
     // MARK: MCNearbyServiceBrowserDelegate
 
     func browser(
-        _ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID,
+        _: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID,
         withDiscoveryInfo info: [String: String]?
     ) {
         print("found peer \(peerID.displayName) - adding")
         var attrList: [OpenTelemetry.Attribute] = [
-            OpenTelemetry.Attribute("peerID", peerID.displayName)
+            OpenTelemetry.Attribute("peerID", peerID.displayName),
         ]
         // grab all the info and convert it into things here too...
         if let info = info {
@@ -139,27 +139,27 @@ class MPCFProxy: NSObject, ObservableObject, MCNearbyServiceBrowserDelegate {
                 attrList.append(OpenTelemetry.Attribute(key, value))
             }
         }
-        self.browsingSpan.addEvent(OpenTelemetry.Event("foundPeer", attr: attrList))
+        browsingSpan.addEvent(OpenTelemetry.Event("foundPeer", attr: attrList))
 
         // add to the local peer list as well
         internalPeerStatusDict[peerID] = MCPeerAdvertizingStatus(peer: peerID, advertising: true)
     }
 
-    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+    func browser(_: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
         print("lost peer \(peerID.displayName) - marking disabled")
 
-        self.browsingSpan.addEvent(
+        browsingSpan.addEvent(
             OpenTelemetry.Event(
-                "lostPeer", attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
+                "lostPeer", attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]
+            ))
 
         // update the local peer list with the loss info
         internalPeerStatusDict[peerID] = MCPeerAdvertizingStatus(peer: peerID, advertising: false)
     }
 
-    func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
+    func browser(_: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
         print("failed to browse for peers: ", error)
-        self.browsingSpan.finish(withStatusCode: .internalError)
+        browsingSpan.finish(withStatusCode: .internalError)
         errorList.append(error.localizedDescription)
     }
-
 }

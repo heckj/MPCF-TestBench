@@ -89,7 +89,8 @@ struct MPCFRunnerMainView: View {
                                 RoundedRectangle(cornerRadius: 4)
                                     .stroke(lineWidth: 1)
                             )
-                    })
+                    }
+                )
             }
         }
         .navigationViewStyle(navStyle)
@@ -111,7 +112,6 @@ struct MPCFRunnerMainView: View {
         )
         me.proxyResponder = runner
         return (me, runner)
-
     }
 
     struct MPCFRunnerMainView_Previews: PreviewProvider {

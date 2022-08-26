@@ -36,6 +36,7 @@ struct MPCFProxyDisplay: View {
         }
     }
 }
+
 #if DEBUG
     private func proxyWithTwoPeers() -> MPCFProxy {
         let x = MPCFProxy(MCPeerID(displayName: "livePeer"))
@@ -55,7 +56,8 @@ struct MPCFProxyDisplay: View {
                     PreviewBackground {
                         VStack(alignment: .leading) {
                             MPCFProxyDisplay(
-                                advertiseAvailable: true, proxy: proxyWithTwoPeers())
+                                advertiseAvailable: true, proxy: proxyWithTwoPeers()
+                            )
                         }
                     }
                     .environment(\.colorScheme, colorScheme)

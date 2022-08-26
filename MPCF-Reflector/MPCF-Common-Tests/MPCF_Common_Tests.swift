@@ -9,7 +9,6 @@
 import XCTest
 
 class MPCF_Common_Tests: XCTestCase {
-
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -29,5 +28,4 @@ class MPCF_Common_Tests: XCTestCase {
     //            // Put the code you want to measure the time of here.
     //        }
     //    }
-
 }

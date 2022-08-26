@@ -13,7 +13,6 @@ import OpenTelemetryModels
 
 /// Handles the automatic reactions to Multipeer traffic - accepting invitations and responding to any data sent.
 class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
-
     private var serialQ = DispatchQueue(label: "serialized runner data access")
     private var sendQ = DispatchQueue(label: "transmission sender")
     // this represents the span matching the MCSession being active
@@ -24,8 +23,8 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     var me: MCPeerID
 
     // mechanisms for reflecting the internal session state to UI
-    var sessionProxy: SessionProxy = SessionProxy()
-    var testconfig: MPCFTestConfig = MPCFTestConfig("New test")
+    var sessionProxy: SessionProxy = .init()
+    var testconfig: MPCFTestConfig = .init("New test")
     @Published var errorList: [String] = []
 
     @Published var transmissions: [TransmissionIdentifier] = []
@@ -53,23 +52,23 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
         _ collector: OTSpanCollector? = nil,
         _ encryptpref: MCEncryptionPreference = .optional
     ) {
-        self.session = MCSession(
+        session = MCSession(
             peer: peer,
             securityIdentity: nil,
             encryptionPreference: encryptpref
         )
         if let collector = collector {
-            self.spanCollector = collector
+            spanCollector = collector
         } else {
-            self.spanCollector = OTNoOpSpanCollector()
+            spanCollector = OTNoOpSpanCollector()
         }
-        self.me = peer
+        me = peer
         super.init()
-        self.session.delegate = self
-
+        session.delegate = self
     }
 
     // MARK: State based intializers & SwiftUI exported data views
+
     @Published var targetPeer: MCPeerID?
 
     func reset() {
@@ -86,13 +85,13 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     func sendTransmissions() {
         // initialize the data, send it, and record it
         // in our manifest against future responses
-        let transmissionSequence = 0...self.testconfig.number
-        let msDelay = Int(self.testconfig.delay * 1000)
+        let transmissionSequence = 0 ... testconfig.number
+        let msDelay = Int(testconfig.delay * 1000)
         transmissionPublisher = transmissionSequence
             .publisher
             .receive(on: sendQ)
             .delay(for: DispatchQueue.SchedulerTimeType.Stride(DispatchTimeInterval.microseconds(msDelay)), scheduler: sendQ)
-            .sink(receiveValue: { intValue in
+            .sink(receiveValue: { _ in
                 guard let targetPeer = self.targetPeer else {
                     // do nothing to send data if there's no target identified
                     // or not session defined
@@ -102,7 +101,6 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
                 let envelope = ReflectorEnvelope(id: xmitId, size: self.testconfig.payloadSize)
                 var xmitSpan: OpenTelemetry.Span?
                 do {
-
                     xmitSpan = self.currentSessionSpan?.createChildSpan(name: "data xmit")
 
                     // encode, and wrap it in a span
@@ -144,7 +142,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
 
     func resultData() throws -> Data {
         print("Generating data from results")
-        let data = try encoder.encode(self.reportsReceived)
+        let data = try encoder.encode(reportsReceived)
         print("Data size returned: \(data.count) bytes")
         return data
     }
@@ -166,8 +164,8 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     // MARK: MCNearbyServiceAdvertiserDelegate
 
     func advertiser(
-        _ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID,
-        withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void
+        _: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID,
+        withContext _: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void
     ) {
         // we received an invitation - which we can respond with an MCSession and affirmation to join
 
@@ -177,16 +175,16 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             sessionSpan.addEvent(
                 OpenTelemetry.Event(
                     "didReceiveInvitationFromPeer",
-                    attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
+                    attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]
+                ))
         }
         // even if we start the invite, we have to also accept the invitation to complete the handshake
-        invitationHandler(true, self.session)
+        invitationHandler(true, session)
     }
 
     // MARK: MCSessionDelegate methods
 
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-
         switch state {
         case MCSessionState.connected:
             DispatchQueue.main.async {
@@ -200,7 +198,8 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
                 sessionSpan.addEvent(
                     OpenTelemetry.Event(
                         "sessionConnected",
-                        attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
+                        attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]
+                    ))
             }
 
         case MCSessionState.connecting:
@@ -214,7 +213,8 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
                 sessionSpan.addEvent(
                     OpenTelemetry.Event(
                         "sessionConnecting",
-                        attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
+                        attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]
+                    ))
             }
 
         case MCSessionState.notConnected:
@@ -227,7 +227,8 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
                 sessionSpan.addEvent(
                     OpenTelemetry.Event(
                         "sessionNotConnected",
-                        attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
+                        attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]
+                    ))
             }
 
         @unknown default:
@@ -236,7 +237,7 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     }
 
     func session(
-        _ session: MCSession,
+        _: MCSession,
         didReceiveCertificate certificate: [Any]?,
         fromPeer peerID: MCPeerID,
         certificateHandler: @escaping (Bool) -> Void
@@ -246,14 +247,15 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
             sessionSpan.addEvent(
                 OpenTelemetry.Event(
                     "didReceiveCertificate",
-                    attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]))
+                    attr: [OpenTelemetry.Attribute("peerID", peerID.displayName)]
+                ))
             // not sure if this is needed - I think we may have made a local copy here...
             // so this updates the local collection of spans with our updated version
         }
         certificateHandler(true)
     }
 
-    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+    func session(_: MCSession, didReceive data: Data, fromPeer _: MCPeerID) {
         // when we're receiving data, it's generally because we've had it reflected back to
         // us from a corresponding reflector. This is the point at which we can mark a signal
         // as complete from having been sent "there and back".
@@ -297,18 +299,16 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     }
 
     func session(
-        _ session: MCSession, didReceive stream: InputStream, withName streamName: String,
-        fromPeer peerID: MCPeerID
+        _: MCSession, didReceive _: InputStream, withName _: String,
+        fromPeer _: MCPeerID
     ) {
-
         // DO NOTHING - no stream receipt support
     }
 
     func session(
-        _ session: MCSession, didStartReceivingResourceWithName resourceName: String,
-        fromPeer peerID: MCPeerID, with progress: Progress
+        _: MCSession, didStartReceivingResourceWithName resourceName: String,
+        fromPeer peerID: MCPeerID, with _: Progress
     ) {
-
         print("starting receiving resource: \(resourceName)")
         // event in the session span?
         if let sessionSpan = currentSessionSpan {
@@ -323,10 +323,9 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
     }
 
     func session(
-        _ session: MCSession, didFinishReceivingResourceWithName resourceName: String,
-        fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?
+        _: MCSession, didFinishReceivingResourceWithName resourceName: String,
+        fromPeer peerID: MCPeerID, at _: URL?, withError _: Error?
     ) {
-
         // localURL is a temporarily file with the resource in it
         print("finished receiving resource: \(resourceName)")
 
@@ -340,7 +339,5 @@ class MPCFTestRunnerModel: NSObject, ObservableObject, MPCFProxyResponder {
                 self.dataSpans[peerID] = nil
             }
         }
-
     }
-
 }

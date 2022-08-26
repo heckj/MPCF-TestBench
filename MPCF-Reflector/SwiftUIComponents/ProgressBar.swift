@@ -79,7 +79,6 @@ struct ProgressBar: View {
                         Capsule()
                             .foregroundColor(self.defaultBackgroundColor())
                     }
-
                 }
 
                 Capsule()

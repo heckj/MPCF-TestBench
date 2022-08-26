@@ -14,7 +14,7 @@ import SwiftUI
     /// proxy the navigationBarTitle into macOS, as it otherwise doesn't exist, to allow for
     /// simpler code reuse.
     extension View {
-        func navigationBarTitle(_ title: String) -> some View {
+        func navigationBarTitle(_: String) -> some View {
             self
         }
     }
@@ -65,7 +65,7 @@ struct MPCFTestConfigurationDisplay: View {
                     }
                     Picker("delay between transmissions: ", selection: $testConfig.delay) {
                         ForEach(delayChoices, id: \.self) { delay in
-                            Text("\(delay*1000, specifier: "%.0f") ms").tag(delay)
+                            Text("\(delay * 1000, specifier: "%.0f") ms").tag(delay)
                         }
                     }
                 }

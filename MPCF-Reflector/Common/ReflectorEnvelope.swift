@@ -10,7 +10,6 @@ import Foundation
 
 /// A codable envelope for sample data to be transmitted and recorded for responses while testing.
 struct ReflectorEnvelope: Codable {
-
     let id: TransmissionIdentifier
     let payload: Data
 
@@ -30,6 +29,7 @@ struct ReflectorEnvelope: Codable {
                 $0.isUppercase ? " \($0)" : "\($0)"
             }.joined().capitalized
         }
+
         var id: PayloadSize { self }
     }
 
@@ -42,21 +42,21 @@ struct ReflectorEnvelope: Codable {
         self.id = id
         switch size {
         case .x1:
-            self.payload = Data(count: Int(PayloadSize.x1.rawValue))
+            payload = Data(count: Int(PayloadSize.x1.rawValue))
         case .x10:
-            self.payload = Data(count: Int(PayloadSize.x10.rawValue))
+            payload = Data(count: Int(PayloadSize.x10.rawValue))
         case .x100:
-            self.payload = Data(count: Int(PayloadSize.x100.rawValue))
+            payload = Data(count: Int(PayloadSize.x100.rawValue))
         case .x1k:
-            self.payload = Data(count: Int(PayloadSize.x1k.rawValue))
+            payload = Data(count: Int(PayloadSize.x1k.rawValue))
         case .x2k:
-            self.payload = Data(count: Int(PayloadSize.x10k.rawValue))
+            payload = Data(count: Int(PayloadSize.x10k.rawValue))
         case .x4k:
-            self.payload = Data(count: Int(PayloadSize.x4k.rawValue))
+            payload = Data(count: Int(PayloadSize.x4k.rawValue))
         case .x10k:
-            self.payload = Data(count: Int(PayloadSize.x10k.rawValue))
+            payload = Data(count: Int(PayloadSize.x10k.rawValue))
         case .x1M:
-            self.payload = Data(count: Int(PayloadSize.x1M.rawValue))
+            payload = Data(count: Int(PayloadSize.x1M.rawValue))
         }
     }
 }

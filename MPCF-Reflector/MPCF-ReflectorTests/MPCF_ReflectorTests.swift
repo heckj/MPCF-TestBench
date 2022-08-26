@@ -11,7 +11,6 @@ import XCTest
 @testable import MPCF_Reflector
 
 class MPCF_ReflectorTests: XCTestCase {
-
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -19,5 +18,4 @@ class MPCF_ReflectorTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
 }

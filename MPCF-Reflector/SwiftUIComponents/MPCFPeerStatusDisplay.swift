@@ -37,10 +37,12 @@ struct MPCFPeerStatusDisplay: View {
                         VStack(alignment: .leading) {
                             MPCFPeerStatusDisplay(
                                 peerstatus: MCPeerAdvertizingStatus(
-                                    peer: MCPeerID(displayName: "livePeer"), advertising: true))
+                                    peer: MCPeerID(displayName: "livePeer"), advertising: true
+                                ))
                             MPCFPeerStatusDisplay(
                                 peerstatus: MCPeerAdvertizingStatus(
-                                    peer: MCPeerID(displayName: "deadPeer"), advertising: false))
+                                    peer: MCPeerID(displayName: "deadPeer"), advertising: false
+                                ))
                         }
                     }
                     .environment(\.colorScheme, colorScheme)

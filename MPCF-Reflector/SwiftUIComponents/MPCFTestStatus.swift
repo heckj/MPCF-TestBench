@@ -11,7 +11,6 @@ import PreviewBackground
 import SwiftUI
 
 struct MPCFTestStatus: View {
-
     private let df = DateFormatter()
     private func stringFromDate(_ date: Date) -> String {
         df.dateFormat = "M-dd H:m:ss.SSSS"
@@ -19,7 +18,7 @@ struct MPCFTestStatus: View {
     }
 
     func targetPeerDefined() -> Bool {
-        self.testRunnerModel.targetPeer != nil
+        testRunnerModel.targetPeer != nil
     }
 
     @ObservedObject var testRunnerModel: MPCFTestRunnerModel
@@ -36,7 +35,6 @@ struct MPCFTestStatus: View {
                     .padding(
                         EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
                     )
-
             }
             Divider()
             HStack {
@@ -101,7 +99,7 @@ struct MPCFTestStatus: View {
         me.testconfig.number = 100
         // record that we've received 15
         me.numberOfTransmissionsRecvd = 15
-        for num in 1...20 {
+        for num in 1 ... 20 {
             me.reportsReceived.append(
                 RoundTripXmitReport(
                     sequenceNumber: UInt(num),

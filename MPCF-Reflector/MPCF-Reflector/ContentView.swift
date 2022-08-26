@@ -24,7 +24,8 @@ struct ContentView: View {
                 reflector.peerList, id: \.peer,
                 rowContent: { ps in
                     MPCFPeerDisplay(peerstatus: ps)
-                })
+                }
+            )
         }
     }
 }

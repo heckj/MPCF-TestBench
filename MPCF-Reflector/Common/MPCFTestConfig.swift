@@ -59,5 +59,4 @@ final class MPCFTestConfig: ObservableObject, Codable {
         try container.encode(number, forKey: .number)
         try container.encode(delay, forKey: .delay)
     }
-
 }

@@ -12,7 +12,6 @@ import OpenTelemetryModels
 // something that allows me to collect, and later transfer, a bunch of spans...
 
 class OTSimpleSpanCollector: NSObject, OTSpanCollector, ObservableObject {
-
     private var serialQ = DispatchQueue(label: "serialized collector access")
     @Published var spanCollection: [OpenTelemetry.Span] = []
 
@@ -25,5 +24,4 @@ class OTSimpleSpanCollector: NSObject, OTSpanCollector, ObservableObject {
             }
         }
     }
-
 }

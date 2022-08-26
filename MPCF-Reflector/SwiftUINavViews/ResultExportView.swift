@@ -17,15 +17,15 @@ import SwiftUI
         }
 
         func updateUIViewController(
-            _ uiViewController: UIDocumentPickerViewController,
-            context: UIViewControllerRepresentableContext<ResultExportController>
+            _: UIDocumentPickerViewController,
+            context _: UIViewControllerRepresentableContext<ResultExportController>
         ) {
             // Update the controller
         }
 
         func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
             print("Making the picker")
-            let controller = UIDocumentPickerViewController.init(
+            let controller = UIDocumentPickerViewController(
                 url: fileToExport,
                 in: .exportToService
             )
@@ -39,9 +39,9 @@ import SwiftUI
             var parent: ResultExportController
 
             init(_ pickerController: ResultExportController) {
-                self.parent = pickerController
+                parent = pickerController
                 print("Setup a parent")
-                print("URL: \(String(describing: self.parent.fileToExport))")
+                print("URL: \(String(describing: parent.fileToExport))")
             }
 
             func documentPicker(didPickDocumentsAt: [URL]) {
@@ -57,37 +57,39 @@ import SwiftUI
             }
         }
     }
+
 #elseif os(tvOS)
     struct ResultExportController: UIViewControllerRepresentable {
         let fileToExport: URL
 
         func updateUIViewController(
-            _ uiViewController: UIViewController,
-            context: UIViewControllerRepresentableContext<ResultExportController>
+            _: UIViewController,
+            context _: UIViewControllerRepresentableContext<ResultExportController>
         ) {
             // Update the controller
         }
 
-        func makeUIViewController(context: Context) -> UIViewController {
+        func makeUIViewController(context _: Context) -> UIViewController {
             print("Making the picker")
-            let controller = UIViewController.init()
+            let controller = UIViewController()
             return controller
         }
     }
+
 #elseif os(macOS)
     struct ResultExportController: NSViewControllerRepresentable {
         let fileToExport: URL
 
         func updateNSViewController(
-            _ uiViewController: NSViewController,
-            context: NSViewControllerRepresentableContext<ResultExportController>
+            _: NSViewController,
+            context _: NSViewControllerRepresentableContext<ResultExportController>
         ) {
             // Update the controller
         }
 
-        func makeNSViewController(context: Context) -> NSViewController {
+        func makeNSViewController(context _: Context) -> NSViewController {
             print("Making the picker")
-            let controller = NSViewController.init()
+            let controller = NSViewController()
 
             return controller
         }
@@ -111,7 +113,6 @@ struct ResultExportView: View {
             navStyle
         )
     }
-
 }
 
 #if DEBUG
@@ -135,7 +136,7 @@ struct ResultExportView: View {
             }
             return
                 ResultExportView(fileToExport: dummyURL())
-                .aspectRatio(3 / 2, contentMode: .fit)
+                    .aspectRatio(3 / 2, contentMode: .fit)
         }
     }
 #endif

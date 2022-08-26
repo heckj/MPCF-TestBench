@@ -14,13 +14,12 @@ import OpenTelemetryModels
 /// otherwise it's really only available as callbacks to the MCSessionDelegate.
 enum MPCFSessionState: String, Codable {
     case notConnected = "not connected"
-    case connecting = "connecting"
-    case connected = "connected"
+    case connecting
+    case connected
 }
 
 /// protocol description for a trace-enabled MPCF Proxy responder.
 protocol MPCFProxyResponder: MCNearbyServiceAdvertiserDelegate, MCSessionDelegate {
-
     // configuration control
     var currentSessionSpan: OpenTelemetry.Span? { get set }
     var session: MCSession { get }
@@ -32,5 +31,4 @@ protocol MPCFProxyResponder: MCNearbyServiceAdvertiserDelegate, MCSessionDelegat
     // data transmissions reflection
     var numberOfTransmissionsRecvd: Int { get set }
     var transmissions: [TransmissionIdentifier] { get set }
-
 }

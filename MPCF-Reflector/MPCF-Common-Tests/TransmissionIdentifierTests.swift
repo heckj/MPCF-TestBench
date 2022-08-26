@@ -9,7 +9,6 @@
 import XCTest
 
 class TransmissionIdentifierTests: XCTestCase {
-
     override func setUpWithError() throws {
         TransmissionIdentifier.resetSequence()
     }
@@ -20,7 +19,5 @@ class TransmissionIdentifierTests: XCTestCase {
 
         XCTAssertEqual(first.sequenceNumber, 1)
         XCTAssertEqual(second.sequenceNumber, 2)
-
     }
-
 }

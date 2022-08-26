@@ -11,7 +11,6 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     let peerID: MCPeerID
     let reflector: MPCFReflectorProxy
     override init() {
@@ -21,28 +20,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: Lifecycle
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
+    func applicationWillEnterForeground(_: UIApplication) {
         print("applicationWillEnterForeground")
     }
-    func applicationDidBecomeActive(_ application: UIApplication) {
+
+    func applicationDidBecomeActive(_: UIApplication) {
         print("applicationDidBecomeActive")
     }
 
-    func applicationWillResignActive(_ application: UIApplication) {
+    func applicationWillResignActive(_: UIApplication) {
         print("applicationWillResignActive")
     }
-    func applicationDidEnterBackground(_ application: UIApplication) {
+
+    func applicationDidEnterBackground(_: UIApplication) {
         print("applicationDidEnterBackground")
     }
-    func applicationWillTerminate(_ application: UIApplication) {
+
+    func applicationWillTerminate(_: UIApplication) {
         print("applicationWillTerminate")
     }
 
     // MARK: Launching
 
     func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+        _: UIApplication,
+        didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         // Override point for customization after application launch.
         return true
@@ -51,28 +53,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: UISceneSession Lifecycle
 
     func application(
-        _ application: UIApplication,
+        _: UIApplication,
         configurationForConnecting connectingSceneSession: UISceneSession,
-        options: UIScene.ConnectionOptions
+        options _: UIScene.ConnectionOptions
     ) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
         return UISceneConfiguration(
-            name: "Default Configuration", sessionRole: connectingSceneSession.role)
+            name: "Default Configuration", sessionRole: connectingSceneSession.role
+        )
     }
 
     func application(
-        _ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>
+        _: UIApplication, didDiscardSceneSessions _: Set<UISceneSession>
     ) {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
 }
 
 extension AppDelegate: MCSessionDelegate {
-    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+    func session(_: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
         case MCSessionState.connected:
             print("Connected: \(peerID.displayName)")
@@ -87,29 +89,28 @@ extension AppDelegate: MCSessionDelegate {
         }
     }
 
-    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+    func session(_: MCSession, didReceive _: Data, fromPeer _: MCPeerID) {
         print("received data")
     }
 
     func session(
-        _ session: MCSession, didReceive stream: InputStream, withName streamName: String,
-        fromPeer peerID: MCPeerID
+        _: MCSession, didReceive _: InputStream, withName _: String,
+        fromPeer _: MCPeerID
     ) {
         print("received stream")
     }
 
     func session(
-        _ session: MCSession, didStartReceivingResourceWithName resourceName: String,
-        fromPeer peerID: MCPeerID, with progress: Progress
+        _: MCSession, didStartReceivingResourceWithName resourceName: String,
+        fromPeer _: MCPeerID, with _: Progress
     ) {
         print("starting receiving resource: \(resourceName)")
     }
 
     func session(
-        _ session: MCSession, didFinishReceivingResourceWithName resourceName: String,
-        fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?
+        _: MCSession, didFinishReceivingResourceWithName resourceName: String,
+        fromPeer _: MCPeerID, at _: URL?, withError _: Error?
     ) {
         print("finished receiving resource: \(resourceName)")
     }
-
 }

@@ -10,7 +10,6 @@ import MultipeerConnectivity
 import SwiftUI
 
 struct MPCFReflectorMainView: View {
-
     @ObservedObject var proxy: MPCFProxy
 
     #if os(iOS)

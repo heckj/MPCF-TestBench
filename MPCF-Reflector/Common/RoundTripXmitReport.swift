@@ -30,6 +30,7 @@ extension RoundTripXmitReport: Codable {
 
         case bandwidth
     }
+
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         sequenceNumber = try values.decode(UInt.self, forKey: .num)
@@ -47,5 +48,4 @@ extension RoundTripXmitReport: Codable {
 
         try container.encode(bandwidth, forKey: .bandwidth)
     }
-
 }

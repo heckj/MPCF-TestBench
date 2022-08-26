@@ -12,9 +12,6 @@ import OpenTelemetryModels
 // something that allows me to collect, and later transfer, a bunch of spans...
 
 class OTNoOpSpanCollector: NSObject, OTSpanCollector {
-
     var spanCollection: [OpenTelemetry.Span] = []
-    func collectSpan(_ span: OpenTelemetry.Span?) {
-    }
-
+    func collectSpan(_: OpenTelemetry.Span?) {}
 }
